@@ -1,0 +1,257 @@
+/* Fire & Security — Phase 5 widgets */
+
+bms-fire-zone, bms-fire-detector, bms-evacuation-map,
+bms-camera-tile, bms-gas-sensor, bms-intrusion-zone { display: block; }
+
+/* ── Fire zone ────────────────────────────────────────────────────── */
+.bms-fire-zone {
+  display: grid;
+  gap: 10px;
+}
+.bms-fire-zone-status {
+  padding: 14px 16px;
+  border-radius: var(--bms-radius-sm);
+  border-left: 4px solid var(--bms-divider);
+  background: var(--bms-surface-2);
+}
+.bms-fire-zone-status.st-normal    { border-left-color: rgb(110, 210, 140); }
+.bms-fire-zone-status.st-pre-alarm { border-left-color: rgb(255, 200, 110); background: rgb(255, 200, 110 / 0.06); }
+.bms-fire-zone-status.st-alarm {
+  border-left-color: rgb(240, 70, 60);
+  background: rgb(240, 70, 60 / 0.10);
+  animation: bms-fire-blink 1s ease-in-out infinite;
+}
+@keyframes bms-fire-blink {
+  50% { background: rgb(240, 70, 60 / 0.22); }
+}
+.bms-fire-zone-status.st-fault    { border-left-color: rgb(255, 200, 110); }
+.bms-fire-zone-status.st-test     { border-left-color: rgb(180, 140, 220); background: rgb(180, 140, 220 / 0.06); }
+.bms-fire-zone-num {
+  font-family: var(--bms-font-mono);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ── Fire detector ────────────────────────────────────────────────── */
+.bms-detector {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-sm);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-detector-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  background: var(--bms-surface-2);
+  border: 1px solid var(--bms-border);
+}
+.bms-detector.st-alarm .bms-detector-icon {
+  background: rgb(240, 70, 60 / 0.18);
+  border-color: rgb(240, 70, 60);
+  color: rgb(240, 70, 60);
+  animation: bms-fire-blink 0.8s ease-in-out infinite;
+}
+.bms-detector.st-fault .bms-detector-icon {
+  background: rgb(255, 200, 110 / 0.18);
+  border-color: rgb(255, 200, 110);
+  color: rgb(255, 200, 110);
+}
+.bms-detector.st-dirty .bms-detector-icon { color: rgb(180, 140, 100); }
+.bms-detector.st-disabled { opacity: 0.5; }
+
+/* ── Evacuation map ───────────────────────────────────────────────── */
+.bms-evac {
+  display: grid;
+  gap: 12px;
+  padding: var(--bms-pad-lg);
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-md);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-evac svg { width: 100%; display: block; }
+.bms-evac-route { stroke: rgb(110, 210, 140); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.bms-evac-route.is-blocked { stroke: rgb(240, 70, 60); stroke-dasharray: 4 4; }
+.bms-evac-exit {
+  fill: rgb(110, 210, 140);
+  filter: drop-shadow(0 0 6px rgb(110, 210, 140 / 0.7));
+}
+.bms-evac-alarm-icon {
+  fill: rgb(240, 70, 60);
+  filter: drop-shadow(0 0 8px rgb(240, 70, 60));
+  animation: bms-fire-blink 0.9s ease-in-out infinite;
+}
+
+/* ── Camera tile ──────────────────────────────────────────────────── */
+.bms-cam {
+  display: grid;
+  gap: 8px;
+}
+.bms-cam-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--bms-radius-sm);
+  background:
+    repeating-linear-gradient(45deg,
+      rgb(20, 20, 30) 0 8px, rgb(15, 15, 22) 8px 16px);
+  overflow: hidden;
+  border: 1px solid var(--bms-border);
+}
+.bms-cam-screen.is-offline {
+  background: var(--bms-surface-2);
+}
+.bms-cam-screen.is-offline::after {
+  content: "OFFLINE";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--bms-text-faint);
+  font-family: var(--bms-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+}
+.bms-cam-screen.is-online::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 80% at 30% 50%, rgb(120, 180, 220 / 0.18) 0%, transparent 60%),
+    radial-gradient(50% 70% at 70% 60%, rgb(120, 200, 140 / 0.12) 0%, transparent 60%);
+}
+.bms-cam-overlay {
+  position: absolute;
+  inset: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  font-family: var(--bms-font-mono);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.bms-cam-rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.bms-cam-rec::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgb(240, 70, 60);
+  animation: bms-cam-rec-blink 1.2s ease-in-out infinite;
+  box-shadow: 0 0 6px rgb(240, 70, 60);
+}
+@keyframes bms-cam-rec-blink { 50% { opacity: 0.3; } }
+.bms-cam-motion {
+  background: rgb(255, 200, 110);
+  color: #000;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+/* ── Gas sensor ───────────────────────────────────────────────────── */
+.bms-gas {
+  display: grid;
+  gap: 12px;
+}
+.bms-gas-bar {
+  position: relative;
+  height: 26px;
+  border-radius: var(--bms-radius-sm);
+  background: linear-gradient(90deg,
+    rgb(110, 210, 140) 0%,
+    rgb(255, 200, 110) 60%,
+    rgb(240, 70, 60) 100%);
+  border: 1px solid var(--bms-border);
+  overflow: hidden;
+}
+.bms-gas-bar-mask {
+  position: absolute;
+  inset: 0 0 0 0;
+  background: var(--bms-surface-2);
+  transition: left var(--bms-norm) var(--bms-ease);
+}
+.bms-gas-threshold {
+  position: absolute;
+  top: -4px; bottom: -4px;
+  width: 2px;
+  background: var(--bms-text);
+}
+.bms-gas-value {
+  font-family: var(--bms-font-mono);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ── Intrusion zone ───────────────────────────────────────────────── */
+.bms-intrusion {
+  display: grid;
+  gap: 12px;
+}
+.bms-intrusion-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bms-intrusion-shield {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--bms-surface-2);
+  font-size: 22px;
+  border: 1.5px solid var(--bms-border);
+}
+.bms-intrusion.st-armed .bms-intrusion-shield {
+  background: rgb(110, 210, 140 / 0.18);
+  border-color: rgb(110, 210, 140);
+  color: rgb(110, 210, 140);
+}
+.bms-intrusion.st-violated .bms-intrusion-shield {
+  background: rgb(240, 70, 60 / 0.18);
+  border-color: rgb(240, 70, 60);
+  color: rgb(240, 70, 60);
+  animation: bms-fire-blink 0.8s ease-in-out infinite;
+}
+.bms-intrusion-sensors {
+  display: grid;
+  gap: 4px;
+}
+.bms-intrusion-sensor {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  font-size: 12px;
+}
+.bms-intrusion-sensor .name { font-weight: 500; }
+.bms-intrusion-sensor .state {
+  font-family: var(--bms-font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--bms-text-muted);
+}
+.bms-intrusion-sensor.is-violated .state { color: rgb(240, 70, 60); }

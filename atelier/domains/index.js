@@ -36,6 +36,12 @@ import './power/bms-energy-flow.js';
 import './safety/bms-alarm-row.js';
 import './safety/bms-access-event.js';
 import './safety/bms-leak-indicator.js';
+import './safety/bms-fire-zone.js';
+import './safety/bms-fire-detector.js';
+import './safety/bms-evacuation-map.js';
+import './safety/bms-camera-tile.js';
+import './safety/bms-gas-sensor.js';
+import './safety/bms-intrusion-zone.js';
 
 import './shades/bms-shade-tile.js';
 import './shades/bms-shade-group.js';

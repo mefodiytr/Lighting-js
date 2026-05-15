@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Fire &amp; Security</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .section { margin-bottom: 36px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bms-text-muted); margin-bottom: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 16px; }
+    .stack { display: grid; gap: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fire &amp; Security — Phase 5</h1>
+    <div class="controls"><label>Theme <select id="theme"></select></label></div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Fire zones</div>
+    <div class="grid-3">
+      <bms-fire-zone label="Зона 1 · 4 этаж север" state="normal" detector-count="32" active-detectors="0" last-alarm="—"></bms-fire-zone>
+      <bms-fire-zone label="Зона 2 · 4 этаж юг" state="pre-alarm" detector-count="28" active-detectors="1" last-alarm="14:23"></bms-fire-zone>
+      <bms-fire-zone label="Зона 3 · подвал архив" state="alarm" detector-count="18" active-detectors="3" last-alarm="14:38"></bms-fire-zone>
+      <bms-fire-zone label="Зона 4 · парковка" state="fault" detector-count="42" active-detectors="0" last-alarm="вчера"></bms-fire-zone>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Detectors</div>
+    <div class="stack">
+      <bms-fire-detector label="Дымовой 4.12" kind="smoke" state="normal" address="1.012"></bms-fire-detector>
+      <bms-fire-detector label="Тепловой кухня" kind="heat" state="normal" address="1.024"></bms-fire-detector>
+      <bms-fire-detector label="Кнопка ИПР коридор 4-1" kind="manual" state="alarm" address="2.005"></bms-fire-detector>
+      <bms-fire-detector label="Спринклер архив-1" kind="sprinkler-flow" state="alarm" address="3.014"></bms-fire-detector>
+      <bms-fire-detector label="Дымовой серверная" kind="smoke" state="dirty" address="1.001"></bms-fire-detector>
+      <bms-fire-detector label="Линейный балкон" kind="beam" state="fault" address="4.002"></bms-fire-detector>
+      <bms-fire-detector label="CO гараж" kind="co" state="normal" address="5.001"></bms-fire-detector>
+      <bms-fire-detector label="Комбинированный лоджия" kind="combined" state="disabled" address="1.099"></bms-fire-detector>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Evacuation map (live during fire)</div>
+    <bms-evacuation-map
+      label="План эвакуации"
+      floor="4 этаж · сценарий «пожар в архиве»"
+      exits='[
+        {"x":3,"y":50,"label":"Лестница A"},
+        {"x":97,"y":50,"label":"Лестница B"}
+      ]'
+      routes='[
+        {"points":[[15,25],[10,25],[10,50],[3,50]]},
+        {"points":[[50,25],[40,25],[15,25],[10,25],[10,50],[3,50]]},
+        {"points":[[85,25],[90,25],[90,50],[97,50]]},
+        {"points":[[15,75],[10,75],[10,50],[3,50]]},
+        {"points":[[50,75],[85,75],[90,75],[90,50],[97,50]],"blocked":true},
+        {"points":[[85,75],[90,75],[90,50],[97,50]]}
+      ]'
+      alarms='[
+        {"x":50,"y":80,"label":"очаг архив"}
+      ]'></bms-evacuation-map>
+  </div>
+
+  <div class="section">
+    <div class="section-title">CCTV cameras</div>
+    <div class="grid-3">
+      <bms-camera-tile label="Холл 1 этаж" kind="ptz" online recording camera-id="CAM-001" fps="25" resolution="1920×1080"></bms-camera-tile>
+      <bms-camera-tile label="Серверная" kind="fixed" online recording motion camera-id="CAM-014" fps="25" resolution="3840×2160"></bms-camera-tile>
+      <bms-camera-tile label="Парковка въезд" kind="dome" online recording camera-id="CAM-021" fps="15" resolution="1920×1080"></bms-camera-tile>
+      <bms-camera-tile label="Коридор 4-юг" kind="fixed" camera-id="CAM-042" resolution="—" fps="—"></bms-camera-tile>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Gas sensors</div>
+    <div class="grid-3">
+      <bms-gas-sensor label="CO парковка ур. -2" gas="CO" value="18"></bms-gas-sensor>
+      <bms-gas-sensor label="CH₄ котельная" gas="CH4" value="6"></bms-gas-sensor>
+      <bms-gas-sensor label="CO₂ open space" gas="CO2" value="1380" state="warning"></bms-gas-sensor>
+      <bms-gas-sensor label="H₂S сепаратор" gas="H2S" value="22" state="critical"></bms-gas-sensor>
+      <bms-gas-sensor label="O₂ кладовая" gas="O2" value="20.1"></bms-gas-sensor>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Intrusion zones</div>
+    <div class="grid-2">
+      <bms-intrusion-zone label="Серверная (3-Б)" state="armed" last-event="14:08 · постановка на охрану"
+        sensors='[
+          {"id":"d1","label":"Дверь главная","kind":"door"},
+          {"id":"p1","label":"PIR центр","kind":"pir"},
+          {"id":"g1","label":"Стекло","kind":"glass"}
+        ]'></bms-intrusion-zone>
+      <bms-intrusion-zone label="Архив подвал" state="violated" last-event="14:22 · нарушение PIR"
+        sensors='[
+          {"id":"d1","label":"Дверь архива","kind":"door"},
+          {"id":"p1","label":"PIR коридор","kind":"pir","violated":true},
+          {"id":"p2","label":"PIR хранилище","kind":"pir"}
+        ]'></bms-intrusion-zone>
+      <bms-intrusion-zone label="Касса этаж 1" state="disarmed" last-event="08:15 · снятие с охраны"
+        sensors='[
+          {"id":"d1","label":"Дверь","kind":"door"},
+          {"id":"v1","label":"Вибро датчик сейфа","kind":"shock"}
+        ]'></bms-intrusion-zone>
+      <bms-intrusion-zone label="Периметр главный вход" state="troubled" last-event="09:42 · авария лучевого датчика"
+        sensors='[
+          {"id":"b1","label":"Лучевой A","kind":"beam"},
+          {"id":"b2","label":"Лучевой B","kind":"beam","violated":true}
+        ]'></bms-intrusion-zone>
+    </div>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>
