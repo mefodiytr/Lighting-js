@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Shades</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bms-text-muted); margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Shades & Blinds — L1 domain</h1>
+    <div class="controls"><label>Theme <select id="theme"></select></label></div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Single shades — interactive</div>
+    <div class="grid">
+      <bms-shade-tile label="Гостиная — восток" position="60"></bms-shade-tile>
+      <bms-shade-tile label="Гостиная — юг" position="20"></bms-shade-tile>
+      <bms-shade-tile label="Кабинет" position="100"></bms-shade-tile>
+      <bms-shade-tile label="Спальня" position="0"></bms-shade-tile>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Vertical drag slider</div>
+    <div class="grid">
+      <bms-shade-slider label="Перетащите вверх/вниз" position="50"></bms-shade-slider>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Venetian blinds — position + tilt</div>
+    <div class="grid">
+      <bms-blind-tile label="Переговорка" position="70" tilt="45"></bms-blind-tile>
+      <bms-blind-tile label="Кабинет директора" position="100" tilt="0"></bms-blind-tile>
+      <bms-blind-tile label="Шоурум" position="50" tilt="80"></bms-blind-tile>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Shade group with bulk command</div>
+    <bms-shade-group id="grp" label="Восточный фасад · 4 этаж"
+      shades='[
+        {"id":"e1","label":"Каб. 401","position":80},
+        {"id":"e2","label":"Каб. 402","position":80},
+        {"id":"e3","label":"Каб. 403","position":60},
+        {"id":"e4","label":"Каб. 404","position":80},
+        {"id":"e5","label":"Каб. 405","position":40}
+      ]'></bms-shade-group>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sun tracker + schedule</div>
+    <div class="grid">
+      <bms-sun-tracker id="sun" label="Положение солнца" hour="11.5" elevation="42" azimuth="156" recommended-position="40"></bms-sun-tracker>
+      <bms-shade-schedule label="Будний день — восточный фасад"
+        hours='[100,100,100,100,100,80,40,20,10,15,30,50,60,60,50,40,40,50,70,90,100,100,100,100]'></bms-shade-schedule>
+    </div>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+
+    // Animate sun position
+    const sun = document.getElementById('sun');
+    let t = 11.5;
+    setInterval(() => {
+      t += 0.05;
+      if (t > 19) t = 6;
+      sun.setAttribute('hour', t.toFixed(2));
+      const elev = Math.max(0, Math.sin((t - 6) / 12 * Math.PI) * 60);
+      sun.setAttribute('elevation', elev.toFixed(0));
+      sun.setAttribute('azimuth', String(Math.round(90 + (t - 6) * 15)));
+    }, 400);
+  </script>
+</body>
+</html>

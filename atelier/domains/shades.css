@@ -1,0 +1,142 @@
+/* Shades / blinds L1 widgets */
+
+.bms-shade-tile {
+  display: grid;
+  gap: 12px;
+  min-width: 240px;
+}
+.bms-shade-visual {
+  position: relative;
+  height: 96px;
+  border-radius: var(--bms-radius-sm);
+  background:
+    linear-gradient(180deg,
+      rgb(var(--lr) var(--lg) var(--lb) / 0.22) 0%,
+      rgb(var(--cr) var(--cg) var(--cb) / 0.12) 100%);
+  border: 1px solid var(--bms-border);
+  overflow: hidden;
+}
+.bms-shade-fabric {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  background:
+    repeating-linear-gradient(0deg,
+      rgb(var(--dr) var(--dg) var(--db) / 0.92) 0 6px,
+      rgb(var(--dr) var(--dg) var(--db) / 0.78) 6px 12px);
+  border-bottom: 2px solid var(--bms-text);
+  transition: height var(--bms-slow) var(--bms-ease);
+}
+.bms-shade-rail {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--bms-text);
+}
+
+.bms-shade-group-list {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+}
+.bms-shade-group-row {
+  display: grid;
+  grid-template-columns: 1fr 80px auto;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 10px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  font-size: 13px;
+}
+.bms-shade-group-mini {
+  position: relative;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--bms-divider);
+  overflow: hidden;
+}
+.bms-shade-group-mini .fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg,
+    rgb(var(--dr) var(--dg) var(--db)),
+    rgb(var(--cr) var(--cg) var(--cb)));
+  transition: width var(--bms-norm) var(--bms-ease);
+}
+
+.bms-shade-slider {
+  display: grid;
+  gap: 12px;
+}
+.bms-shade-slider-vis {
+  position: relative;
+  height: 140px;
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+  overflow: hidden;
+  background: linear-gradient(180deg,
+    rgb(var(--lr) var(--lg) var(--lb) / 0.18) 0%,
+    transparent 100%);
+}
+
+.bms-blind-visual {
+  position: relative;
+  height: 96px;
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+  background: linear-gradient(180deg,
+    rgb(var(--lr) var(--lg) var(--lb) / 0.15) 0%,
+    transparent 100%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+}
+.bms-blind-slat {
+  flex: 1;
+  background: rgb(var(--dr) var(--dg) var(--db) / 0.85);
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform var(--bms-norm) var(--bms-ease);
+}
+
+.bms-sun-tracker {
+  display: grid;
+  gap: 12px;
+}
+.bms-sun-arc {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+}
+.bms-sun-arc svg { width: 100%; height: 100%; }
+.bms-sun-dot {
+  fill: rgb(255, 220, 120);
+  filter: drop-shadow(0 0 8px rgb(255, 220, 120 / 0.7));
+  transition: cx var(--bms-slow) var(--bms-ease), cy var(--bms-slow) var(--bms-ease);
+}
+
+.bms-shade-sched {
+  display: grid;
+  gap: 8px;
+}
+.bms-shade-sched-row {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 2px;
+  height: 28px;
+}
+.bms-shade-sched-cell {
+  background: var(--bms-divider);
+  border-radius: 2px;
+  position: relative;
+}
+.bms-shade-sched-cell .b {
+  position: absolute;
+  inset: 0 0 auto 0;
+  background: rgb(var(--cr) var(--cg) var(--cb));
+}
+
+bms-shade-tile, bms-shade-group, bms-shade-slider, bms-blind-tile,
+bms-sun-tracker, bms-shade-schedule { display: block; }

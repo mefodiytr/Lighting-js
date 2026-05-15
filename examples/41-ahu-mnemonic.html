@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — AHU mnemonic</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <link rel="stylesheet" href="../atelier/mnemonics/mnemonics.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    .theme-bar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .stack { display: grid; gap: 24px; }
+  </style>
+</head>
+<body>
+  <div class="theme-bar"><label>Theme <select id="theme"></select></label></div>
+
+  <div class="stack">
+    <bms-ahu-mnemonic id="ahu-1"
+      name="АХУ-1 · северное крыло"
+      tag="AHU-101"
+      supply-flow="3200"
+      return-flow="2900"
+      supply-temp="22.0"
+      outside-temp="-8.0"
+      return-temp="24.0"
+      return-co2="720"
+      filter-state="ok"
+      recuperator-eff="68"
+      cool-coil="off"
+      heat-coil="heating"
+      fan-speed="80"
+      return-fan-speed="75"></bms-ahu-mnemonic>
+
+    <bms-ahu-mnemonic id="ahu-2"
+      name="АХУ-3 · западное крыло"
+      tag="AHU-303"
+      supply-flow="2400"
+      return-flow="2200"
+      supply-temp="20.5"
+      outside-temp="-6.0"
+      return-temp="23.2"
+      return-co2="1180"
+      filter-state="replace"
+      recuperator-eff="62"
+      cool-coil="off"
+      heat-coil="heating"
+      fan-speed="65"
+      return-fan-speed="60"></bms-ahu-mnemonic>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+
+    // Live animation of supply temperature for AHU-1
+    const ahu = document.getElementById('ahu-1');
+    let t = 0;
+    setInterval(() => {
+      t++;
+      const sup = 22 + 0.6 * Math.sin(t / 5);
+      const flow = 3200 + 200 * Math.sin(t / 4);
+      ahu.setAttribute('supply-temp', sup.toFixed(1));
+      ahu.setAttribute('supply-flow', String(Math.round(flow)));
+    }, 1500);
+  </script>
+</body>
+</html>

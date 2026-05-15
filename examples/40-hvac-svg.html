@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — HVAC SVG primitives</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+    .cell { padding: 16px; border-radius: var(--bms-radius-md); background: var(--bms-surface); border: 1px solid var(--bms-border); display: grid; place-items: center; gap: 8px; min-height: 140px; }
+    .cell-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bms-text-muted); }
+    .cell-body { display: flex; align-items: center; gap: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HVAC SVG primitives</h1>
+    <div class="controls"><label>Theme <select id="theme"></select></label></div>
+  </header>
+
+  <div class="grid">
+    <div class="cell">
+      <div class="cell-title">bms-fan-icon</div>
+      <div class="cell-body">
+        <bms-fan-icon speed="80" accent="power-load" data-accent-value="80"></bms-fan-icon>
+        <bms-fan-icon speed="0"></bms-fan-icon>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-valve-icon</div>
+      <div class="cell-body">
+        <bms-valve-icon position="100" accent="hvac-temperature" data-accent-value="22"></bms-valve-icon>
+        <bms-valve-icon position="55"></bms-valve-icon>
+        <bms-valve-icon position="0"></bms-valve-icon>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-coil-icon</div>
+      <div class="cell-body" style="flex-direction: column;">
+        <bms-coil-icon mode="cooling"></bms-coil-icon>
+        <bms-coil-icon mode="heating"></bms-coil-icon>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-filter-icon</div>
+      <div class="cell-body">
+        <bms-filter-icon state="ok" clogged="20"></bms-filter-icon>
+        <bms-filter-icon state="warning" clogged="65"></bms-filter-icon>
+        <bms-filter-icon state="replace" clogged="92"></bms-filter-icon>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-duct-segment</div>
+      <div class="cell-body" style="flex-direction: column;">
+        <bms-duct-segment flow="80" direction="lr" label="приток 3200 м³/ч" accent="hvac-temperature" data-accent-value="22"></bms-duct-segment>
+        <bms-duct-segment flow="0" direction="lr" label="нет потока"></bms-duct-segment>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-pump-icon</div>
+      <div class="cell-body">
+        <bms-pump-icon speed="80" accent="hvac-temperature" data-accent-value="22"></bms-pump-icon>
+        <bms-pump-icon speed="0"></bms-pump-icon>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-sensor-pip</div>
+      <div class="cell-body" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+        <bms-sensor-pip kind="t" value="22.4" unit="°C" accent="hvac-temperature" data-accent-value="22"></bms-sensor-pip>
+        <bms-sensor-pip kind="q" value="1240" unit=" ppm" accent="hvac-co2" data-accent-value="1240" alarm></bms-sensor-pip>
+        <bms-sensor-pip kind="p" value="320" unit=" Pa" accent="power-load" data-accent-value="50"></bms-sensor-pip>
+        <bms-sensor-pip kind="f" value="3200" unit=" м³/ч" accent="hvac-temperature" data-accent-value="22"></bms-sensor-pip>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-heat-exchanger</div>
+      <div class="cell-body">
+        <bms-heat-exchanger efficiency="78" accent="hvac-temperature" data-accent-value="22"></bms-heat-exchanger>
+        <bms-heat-exchanger efficiency="0"></bms-heat-exchanger>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>

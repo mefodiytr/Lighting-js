@@ -10,6 +10,7 @@ import './accents/index.js';
 import './primitives/index.js';
 import './domains/index.js';
 import './composers/index.js';
+import './mnemonics/index.js';
 
 export { BmsElement } from './core/bms-element.js';
 export { defineWidget, registerAccent, resolveAccent, listWidgets, listAccents } from './core/registry.js';

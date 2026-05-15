@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Chiller mnemonic</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <link rel="stylesheet" href="../atelier/mnemonics/mnemonics.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    .theme-bar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .stack { display: grid; gap: 24px; }
+  </style>
+</head>
+<body>
+  <div class="theme-bar"><label>Theme <select id="theme"></select></label></div>
+
+  <div class="stack">
+    <bms-chiller-mnemonic
+      name="Чиллер №1"
+      tag="CH-101 · Carrier 30XA-602"
+      load="68"
+      cop="4.2"
+      mode="cooling"
+      in-temp="14.0"
+      out-temp="7.5"
+      cond-in="35.0"
+      cond-out="42.0"></bms-chiller-mnemonic>
+
+    <bms-chiller-mnemonic
+      name="Чиллер №2"
+      tag="CH-102 · Carrier 30XA-602"
+      load="0"
+      cop="—"
+      mode="standby"
+      in-temp="—"
+      out-temp="—"
+      cond-in="—"
+      cond-out="—"></bms-chiller-mnemonic>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>

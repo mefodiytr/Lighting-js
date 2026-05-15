@@ -1,0 +1,100 @@
+/* Mnemonic composers — full SVG process diagrams */
+
+.bms-mimic {
+  display: block;
+  padding: var(--bms-pad-lg);
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-md);
+  box-shadow: var(--bms-shadow-1);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-mimic-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.bms-mimic-title {
+  margin: 0;
+  font-family: var(--bms-font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.bms-mimic-stage {
+  position: relative;
+  background: var(--bms-bg);
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+  padding: 24px;
+  overflow-x: auto;
+}
+.bms-mimic-grid {
+  display: grid;
+  align-items: center;
+  position: relative;
+  min-width: 0;
+}
+.bms-mimic-cell {
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.bms-mimic-cell-label {
+  position: absolute;
+  bottom: -2px;
+  font-size: 10px;
+  color: var(--bms-text-muted);
+  font-family: var(--bms-font-mono);
+  white-space: nowrap;
+}
+.bms-mimic-connector {
+  height: 2px;
+  background: var(--bms-border);
+  position: relative;
+}
+.bms-mimic-connector.is-flowing::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg,
+    rgb(var(--cr) var(--cg) var(--cb)) 0 4px,
+    transparent 4px 12px);
+  animation: bms-conn-march 1.2s linear infinite;
+}
+@keyframes bms-conn-march { to { background-position: 24px 0; } }
+
+.bms-mimic-legend {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 11px;
+  color: var(--bms-text-muted);
+}
+.bms-mimic-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bms-mimic-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.bms-mimic-stat {
+  padding: 10px 14px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+}
+.bms-mimic-stat .l { font-size: 10px; color: var(--bms-text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.bms-mimic-stat .v { font-family: var(--bms-font-mono); font-size: 18px; font-weight: 600; margin-top: 2px; }
+
+bms-ahu-mnemonic, bms-chiller-mnemonic, bms-itp-mnemonic { display: block; }
