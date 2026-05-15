@@ -1,0 +1,21 @@
+/* Boudoir — cinematic dark, warm cream, deep velvet shadows */
+[data-theme="boudoir"] {
+  --bms-bg:           #0a0a0c;
+  --bms-surface:      linear-gradient(180deg, #16131a 0%, #0e0d12 100%);
+  --bms-surface-2:    linear-gradient(180deg, #1c1820 0%, #14111a 100%);
+  --bms-overlay:      rgba(0, 0, 0, 0.65);
+
+  --bms-text:         #efe9da;
+  --bms-text-muted:   rgba(239, 233, 218, 0.62);
+  --bms-text-faint:   rgba(239, 233, 218, 0.32);
+  --bms-text-inverse: #0a0a0c;
+
+  --bms-border:       rgba(255, 230, 200, 0.08);
+  --bms-divider:      rgba(255, 230, 200, 0.04);
+
+  --bms-shadow-1:     0 4px 12px rgba(0, 0, 0, 0.5);
+  --bms-shadow-2:     0 32px 80px rgba(0, 0, 0, 0.6);
+  --bms-blur:         16px;
+
+  --bms-font-display: 'Cormorant Garamond', Georgia, serif;
+}

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — chrome + accents</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 32px;
+      transition: background-color var(--bms-norm) var(--bms-ease),
+                  color var(--bms-norm) var(--bms-ease);
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 24px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--bms-font-display);
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .controls {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .controls > * { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+    select {
+      padding: 6px 10px;
+      border-radius: var(--bms-radius-sm);
+      border: 1px solid var(--bms-border);
+      background: var(--bms-surface);
+      color: var(--bms-text);
+      font: inherit;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .swatch {
+      border: 1px solid var(--bms-border);
+      border-radius: var(--bms-radius-md);
+      background: var(--bms-surface);
+      box-shadow: var(--bms-shadow-1);
+      overflow: hidden;
+      transition: transform var(--bms-fast) var(--bms-ease);
+    }
+    .swatch:hover { transform: translateY(-2px); box-shadow: var(--bms-shadow-2); }
+    .swatch-glow {
+      height: 80px;
+      background:
+        radial-gradient(120% 90% at 50% 30%,
+          rgb(var(--cr) var(--cg) var(--cb) / 0.55) 0%,
+          rgb(var(--dr) var(--dg) var(--db) / 0.25) 60%,
+          transparent 100%),
+        rgb(var(--dr) var(--dg) var(--db) / 0.08);
+    }
+    .swatch-meta {
+      padding: 12px 14px;
+      display: grid;
+      gap: 4px;
+    }
+    .swatch-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .swatch-value {
+      font-size: 12px;
+      color: var(--bms-text-muted);
+      font-family: var(--bms-font-mono);
+    }
+    .ribbon {
+      display: flex;
+      height: 56px;
+      border-radius: var(--bms-radius-md);
+      overflow: hidden;
+      border: 1px solid var(--bms-border);
+      margin-bottom: 24px;
+    }
+    .ribbon > div {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-family: var(--bms-font-mono);
+      color: rgb(var(--dr) var(--dg) var(--db));
+    }
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--bms-text-muted);
+      margin: 24px 0 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Atelier BMS — chrome &amp; accents</h1>
+    <div class="controls">
+      <label>Theme
+        <select id="theme"></select>
+      </label>
+      <label>Accent
+        <select id="accent"></select>
+      </label>
+    </div>
+  </header>
+
+  <p style="color: var(--bms-text-muted); margin-bottom: 24px;">
+    6 chrome themes × 10 accent systems. Each swatch shows the accent rendered as a glow against the current chrome.
+  </p>
+
+  <div class="section-title">Accent ribbon (full range, current accent)</div>
+  <div class="ribbon" id="ribbon"></div>
+
+  <div class="section-title">Discrete samples across all accents</div>
+  <div class="grid" id="grid"></div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme, listAccents, resolveAccent } from '../atelier/index.js';
+
+    const themeSel = document.getElementById('theme');
+    const accentSel = document.getElementById('accent');
+    const ribbon = document.getElementById('ribbon');
+    const grid = document.getElementById('grid');
+
+    for (const t of listThemes()) {
+      const o = document.createElement('option');
+      o.value = t; o.textContent = t;
+      themeSel.append(o);
+    }
+    themeSel.value = getTheme();
+    themeSel.addEventListener('change', () => setTheme(themeSel.value));
+
+    const accents = listAccents();
+    for (const a of accents) {
+      const o = document.createElement('option');
+      o.value = a.id; o.textContent = a.name;
+      accentSel.append(o);
+    }
+    accentSel.value = accents[0].id;
+
+    function renderRibbon() {
+      const accent = resolveAccent(accentSel.value);
+      ribbon.innerHTML = '';
+      const steps = 12;
+      const [min, max] = accent.range;
+      for (let i = 0; i < steps; i++) {
+        const v = accent.mode === 'discrete'
+          ? Math.round((i / (steps - 1)) * (accent.presets.length - 1))
+          : min + (i / (steps - 1)) * (max - min);
+        const cell = document.createElement('div');
+        const vars = accent.cssVars(v);
+        for (const [k, val] of Object.entries(vars)) cell.style.setProperty(k, val);
+        cell.style.background = `linear-gradient(180deg,
+          rgb(var(--cr) var(--cg) var(--cb) / 0.85) 0%,
+          rgb(var(--dr) var(--dg) var(--db) / 0.45) 100%)`;
+        cell.textContent = accent.mode === 'discrete'
+          ? (accent.presets[Math.round(v)]?.name || v)
+          : Math.round(v) + accent.unit;
+        ribbon.append(cell);
+      }
+    }
+
+    function renderGrid() {
+      grid.innerHTML = '';
+      for (const accent of accents) {
+        const mid = accent.mode === 'discrete'
+          ? Math.floor(accent.presets.length / 2)
+          : (accent.range[0] + accent.range[1]) / 2;
+        const sw = document.createElement('div');
+        sw.className = 'swatch';
+        const glow = document.createElement('div');
+        glow.className = 'swatch-glow';
+        const vars = accent.cssVars(mid);
+        for (const [k, val] of Object.entries(vars)) glow.style.setProperty(k, val);
+        const meta = document.createElement('div');
+        meta.className = 'swatch-meta';
+        meta.innerHTML = `<div class="swatch-name">${accent.name}</div>
+          <div class="swatch-value">${accent.id} · ${accent.range[0]}–${accent.range[1]}${accent.unit ? ' ' + accent.unit : ''}</div>`;
+        sw.append(glow, meta);
+        grid.append(sw);
+      }
+    }
+
+    accentSel.addEventListener('change', renderRibbon);
+    renderRibbon();
+    renderGrid();
+  </script>
+</body>
+</html>

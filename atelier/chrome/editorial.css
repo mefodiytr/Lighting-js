@@ -1,0 +1,22 @@
+/* Editorial — magazine cream, elegant restrained tones, serif accents */
+[data-theme="editorial"] {
+  --bms-bg:           #f5f0e6;
+  --bms-surface:      #ffffff;
+  --bms-surface-2:    #faf6ec;
+  --bms-overlay:      rgba(42, 38, 32, 0.50);
+
+  --bms-text:         #2a2620;
+  --bms-text-muted:   rgba(42, 38, 32, 0.62);
+  --bms-text-faint:   rgba(42, 38, 32, 0.38);
+  --bms-text-inverse: #faf6ec;
+
+  --bms-border:       rgba(42, 38, 32, 0.14);
+  --bms-divider:      rgba(42, 38, 32, 0.08);
+
+  --bms-shadow-1:     0 2px 8px rgba(80, 60, 30, 0.08);
+  --bms-shadow-2:     0 24px 60px rgba(80, 60, 30, 0.14);
+  --bms-blur:         12px;
+
+  --bms-font:         'Inter', system-ui, sans-serif;
+  --bms-font-display: 'Playfair Display', Georgia, serif;
+}

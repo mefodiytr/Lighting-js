@@ -1,0 +1,25 @@
+/**
+ * Atelier BMS — accent color system.
+ * @property registrations enable smooth interpolation between accent presets.
+ * Widgets read --cr/--cg/--cb (glow), --dr/--dg/--db (deep), --lr/--lg/--lb (light).
+ */
+
+@property --cr { syntax: '<number>'; inherits: true; initial-value: 230; }
+@property --cg { syntax: '<number>'; inherits: true; initial-value: 220; }
+@property --cb { syntax: '<number>'; inherits: true; initial-value: 200; }
+
+@property --dr { syntax: '<number>'; inherits: true; initial-value: 180; }
+@property --dg { syntax: '<number>'; inherits: true; initial-value: 160; }
+@property --db { syntax: '<number>'; inherits: true; initial-value: 130; }
+
+@property --lr { syntax: '<number>'; inherits: true; initial-value: 250; }
+@property --lg { syntax: '<number>'; inherits: true; initial-value: 245; }
+@property --lb { syntax: '<number>'; inherits: true; initial-value: 230; }
+
+:root {
+  --bms-accent:       rgb(var(--cr) var(--cg) var(--cb));
+  --bms-accent-deep:  rgb(var(--dr) var(--dg) var(--db));
+  --bms-accent-light: rgb(var(--lr) var(--lg) var(--lb));
+  --bms-accent-soft:  rgb(var(--cr) var(--cg) var(--cb) / 0.15);
+  --bms-accent-glow:  rgb(var(--cr) var(--cg) var(--cb) / 0.55);
+}

@@ -1,0 +1,27 @@
+/* Industrial — neo-brutalist, raw concrete + harsh black borders, no rounded corners */
+[data-theme="industrial"] {
+  --bms-bg:           #ece8e0;
+  --bms-surface:      #ffffff;
+  --bms-surface-2:    #f5f1e8;
+  --bms-overlay:      rgba(15, 15, 15, 0.55);
+
+  --bms-text:         #0a0a0a;
+  --bms-text-muted:   rgba(10, 10, 10, 0.65);
+  --bms-text-faint:   rgba(10, 10, 10, 0.40);
+  --bms-text-inverse: #ffffff;
+
+  --bms-border:       #0a0a0a;
+  --bms-divider:      rgba(10, 10, 10, 0.12);
+
+  --bms-shadow-1:     4px 4px 0 #0a0a0a;
+  --bms-shadow-2:     8px 8px 0 #0a0a0a;
+  --bms-blur:         0;
+
+  --bms-radius-sm: 0;
+  --bms-radius-md: 0;
+  --bms-radius-lg: 0;
+  --bms-radius-pill: 0;
+
+  --bms-font:         'Inter', system-ui, sans-serif;
+  --bms-font-display: 'Archivo Black', 'Inter', system-ui, sans-serif;
+}

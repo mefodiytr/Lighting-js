@@ -1,0 +1,33 @@
+/* HUD — heads-up display, phosphor green on near-black, monospace */
+[data-theme="hud"] {
+  --bms-bg:           #050a08;
+  --bms-surface:      rgba(10, 30, 22, 0.55);
+  --bms-surface-2:    rgba(20, 50, 40, 0.65);
+  --bms-overlay:      rgba(0, 8, 4, 0.75);
+
+  --bms-text:         #7cf0a8;
+  --bms-text-muted:   rgba(124, 240, 168, 0.62);
+  --bms-text-faint:   rgba(124, 240, 168, 0.30);
+  --bms-text-inverse: #050a08;
+
+  --bms-border:       rgba(124, 240, 168, 0.28);
+  --bms-divider:      rgba(124, 240, 168, 0.12);
+
+  --bms-shadow-1:     0 0 12px rgba(124, 240, 168, 0.15);
+  --bms-shadow-2:     0 0 48px rgba(124, 240, 168, 0.18);
+  --bms-blur:         4px;
+
+  --bms-radius-sm: 2px;
+  --bms-radius-md: 4px;
+  --bms-radius-lg: 6px;
+
+  --bms-font:         var(--bms-font-mono);
+  --bms-font-display: var(--bms-font-mono);
+}
+
+[data-theme="hud"] body {
+  background-image:
+    linear-gradient(rgba(124, 240, 168, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 240, 168, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}

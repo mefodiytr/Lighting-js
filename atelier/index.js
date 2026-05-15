@@ -1,7 +1,12 @@
 /**
  * Atelier BMS — public entry.
- * Importing this file auto-registers all widgets and side-effects (accent CSS, themes).
+ * Importing this file auto-registers all accents and (later) widgets.
+ * CSS must be loaded separately:
+ *   <link rel="stylesheet" href="atelier/chrome/index.css">
+ *   <link rel="stylesheet" href="atelier/accents/core.css">
  */
+
+import './accents/index.js';
 
 export { BmsElement } from './core/bms-element.js';
 export { defineWidget, registerAccent, resolveAccent, listWidgets, listAccents } from './core/registry.js';

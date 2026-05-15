@@ -1,0 +1,27 @@
+/* Clinical — medical/precision: cool slate, pure white, blue accents */
+[data-theme="clinical"] {
+  --bms-bg:           #f8fafc;
+  --bms-surface:      #ffffff;
+  --bms-surface-2:    #f1f5f9;
+  --bms-overlay:      rgba(15, 23, 42, 0.55);
+
+  --bms-text:         #0f172a;
+  --bms-text-muted:   #64748b;
+  --bms-text-faint:   #94a3b8;
+  --bms-text-inverse: #ffffff;
+
+  --bms-border:       #e2e8f0;
+  --bms-divider:      #f1f5f9;
+
+  --bms-shadow-1:     0 1px 3px rgba(15, 23, 42, 0.08);
+  --bms-shadow-2:     0 16px 48px rgba(15, 23, 42, 0.12);
+  --bms-blur:         8px;
+
+  --bms-radius-sm: 4px;
+  --bms-radius-md:  8px;
+  --bms-radius-lg: 12px;
+
+  --bms-font:         'Inter', system-ui, sans-serif;
+  --bms-font-display: var(--bms-font);
+  --bms-font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}

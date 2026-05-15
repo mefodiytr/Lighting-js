@@ -1,0 +1,21 @@
+/* Ivory Day — warm light, soft contrasts, comfortable for long-session use */
+[data-theme="ivory-day"] {
+  --bms-bg:           #f7f3eb;
+  --bms-surface:      #ffffff;
+  --bms-surface-2:    #fbf7ee;
+  --bms-overlay:      rgba(58, 53, 48, 0.50);
+
+  --bms-text:         #3a3530;
+  --bms-text-muted:   rgba(58, 53, 48, 0.60);
+  --bms-text-faint:   rgba(58, 53, 48, 0.35);
+  --bms-text-inverse: #ffffff;
+
+  --bms-border:       #e5dcc8;
+  --bms-divider:      rgba(58, 53, 48, 0.06);
+
+  --bms-shadow-1:     0 2px 8px rgba(80, 60, 30, 0.08);
+  --bms-shadow-2:     0 24px 60px rgba(80, 60, 30, 0.12);
+  --bms-blur:         12px;
+
+  --bms-font:         'Inter', system-ui, sans-serif;
+}

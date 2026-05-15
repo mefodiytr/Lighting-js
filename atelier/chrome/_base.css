@@ -1,0 +1,46 @@
+/**
+ * Atelier BMS — base design tokens.
+ * Themes override these via [data-theme="…"] selectors.
+ */
+:root {
+  --bms-font:         -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --bms-font-display: var(--bms-font);
+  --bms-font-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --bms-radius-sm: 6px;
+  --bms-radius-md: 12px;
+  --bms-radius-lg: 20px;
+  --bms-radius-pill: 999px;
+
+  --bms-pad-xs:  4px;
+  --bms-pad-sm:  8px;
+  --bms-pad-md: 12px;
+  --bms-pad-lg: 20px;
+  --bms-pad-xl: 32px;
+
+  --bms-fast: 120ms;
+  --bms-norm: 240ms;
+  --bms-slow: 480ms;
+  --bms-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* fallbacks before theme loads */
+  --bms-bg:                #0a0a0c;
+  --bms-surface:           #14141a;
+  --bms-surface-2:         #1a1a22;
+  --bms-overlay:           rgba(0, 0, 0, 0.6);
+  --bms-text:              #e8e6e0;
+  --bms-text-muted:        rgba(232, 230, 224, 0.6);
+  --bms-text-faint:        rgba(232, 230, 224, 0.35);
+  --bms-text-inverse:      #0a0a0c;
+  --bms-border:            rgba(255, 255, 255, 0.08);
+  --bms-divider:           rgba(255, 255, 255, 0.05);
+  --bms-shadow-1:          0 2px 6px rgba(0, 0, 0, 0.25);
+  --bms-shadow-2:          0 16px 48px rgba(0, 0, 0, 0.45);
+  --bms-blur:              16px;
+}
+
+html, body {
+  background: var(--bms-bg);
+  color: var(--bms-text);
+  font-family: var(--bms-font);
+}
