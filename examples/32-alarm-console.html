@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Alarm console</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <link rel="stylesheet" href="../atelier/composers/composers.css" />
+  <style>
+    body { margin: 0; min-height: 100vh; }
+    .theme-bar { position: fixed; top: 16px; right: 16px; z-index: 10; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="theme-bar">
+    <select id="theme"></select>
+  </div>
+
+  <bms-alarm-console id="console" filter="all"></bms-alarm-console>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+
+    const ALARMS = [
+      { id: 1, time: '14:23:08', severity: 'critical', location: 'ИТП-1 / Насос Р-2',
+        message: 'Авария насоса горячего водоснабжения — нет потока' },
+      { id: 2, time: '14:21:55', severity: 'alarm', location: 'АХУ-3 / Фильтр приточный',
+        message: 'Перепад давления выше уставки 250 Pa — требуется замена фильтра' },
+      { id: 3, time: '14:18:12', severity: 'warning', location: 'Чиллер-2 / Контур охлаждения',
+        message: 'Высокая температура конденсации (45.2°C)' },
+      { id: 4, time: '14:15:00', severity: 'warning', location: 'Этаж 4 / Кабинет 412',
+        message: 'Превышение CO₂: 1240 ppm — рекомендуется проветривание' },
+      { id: 5, time: '14:08:21', severity: 'alarm', location: 'Силовой щит ЩС-3',
+        message: 'Перегрузка фазы B (118% от номинала)' },
+      { id: 6, time: '13:58:44', severity: 'warning', location: 'Освещение / Зона B-7',
+        message: 'Драйвер DALI не отвечает (адрес 0x14)', ack: true },
+      { id: 7, time: '13:42:11', severity: 'critical', location: 'СКУД / Серверная',
+        message: 'Множественные неудачные попытки прохода (5 за 30 сек)', ack: true },
+      { id: 8, time: '13:28:55', severity: 'warning', location: 'ИТП-2 / Подача',
+        message: 'Температура подачи ниже уставки на 4°C' },
+      { id: 9, time: '12:45:30', severity: 'critical', location: 'Подвал / Архив',
+        message: 'Срабатывание датчика протечки' },
+      { id: 10, time: '12:12:08', severity: 'warning', location: 'Кровля / ВУ-1',
+        message: 'Вибрация вентилятора выше нормы (ISO 10816 / зона B)', ack: true },
+    ];
+
+    const c = document.getElementById('console');
+    c.setAttribute('alarms', JSON.stringify(ALARMS));
+    c.addEventListener('acknowledge', (e) => {
+      console.log('acknowledged', e.detail);
+      const next = ALARMS.map((a) => a.id === e.detail.id ? { ...a, ack: true } : a);
+      c.setAttribute('alarms', JSON.stringify(next));
+    });
+  </script>
+</body>
+</html>

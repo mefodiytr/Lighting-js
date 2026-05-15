@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Energy dashboard</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <link rel="stylesheet" href="../atelier/composers/composers.css" />
+  <style>
+    body { margin: 0; min-height: 100vh; }
+    .theme-bar { position: fixed; top: 16px; right: 16px; z-index: 10; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="theme-bar">
+    <select id="theme"></select>
+  </div>
+
+  <bms-energy-dashboard id="dash"
+    grid="12.6"
+    load="92.0"
+    pv="38.4"
+    battery="2.8"
+    soc="78"
+    pv-trend="[0,0,4,12,22,30,38,42,46,48,46,42,38,32,26,18,10,4,0,0]"
+    load-trend="[64,68,72,78,82,86,88,90,92,90,88,86,84,80,78,76,72,68,64,60]"></bms-energy-dashboard>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+
+    // Animate energy flow over time
+    const dash = document.getElementById('dash');
+    let t = 0;
+    setInterval(() => {
+      t += 1;
+      const pv = 38 + 6 * Math.sin(t / 8);
+      const load = 92 + 4 * Math.sin(t / 5);
+      const battery = 2.8 + 1.5 * Math.sin(t / 9);
+      const grid = load - pv - battery;
+      dash.setAttribute('pv', pv.toFixed(1));
+      dash.setAttribute('load', load.toFixed(1));
+      dash.setAttribute('battery', battery.toFixed(1));
+      dash.setAttribute('grid', grid.toFixed(1));
+    }, 1500);
+  </script>
+</body>
+</html>

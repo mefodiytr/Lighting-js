@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Equipment detail (Chiller)</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <link rel="stylesheet" href="../atelier/composers/composers.css" />
+  <style>
+    body { margin: 0; min-height: 100vh; }
+    .theme-bar { position: fixed; top: 16px; right: 16px; z-index: 10; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="theme-bar">
+    <select id="theme"></select>
+  </div>
+
+  <bms-equipment-detail
+    name="Чиллер №1"
+    tag="CH-101 · Карвер 270XL"
+    status="ok"
+    mode="режим охлаждения"
+    value="68"
+    unit="%"
+    accent="power-load"
+    trend='[42,45,52,58,62,68,72,70,68,65,64,68,72,75,72,68,66,68,71,73,72,70,68,67,68]'
+    stats='[
+      {"label":"COP","value":"4.2","unit":""},
+      {"label":"Подача","value":"7.5","unit":"°C"},
+      {"label":"Обратка","value":"14.0","unit":"°C"},
+      {"label":"Расход","value":"42","unit":"м³/ч"},
+      {"label":"Часы наработки","value":"18342","unit":"ч"},
+      {"label":"Эл. мощность","value":"81.6","unit":"kW"}
+    ]'></bms-equipment-detail>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>

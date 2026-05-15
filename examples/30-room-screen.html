@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Room screen</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <link rel="stylesheet" href="../atelier/composers/composers.css" />
+  <style>
+    body { margin: 0; min-height: 100vh; }
+    .theme-bar { position: fixed; top: 16px; right: 16px; z-index: 10; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .mini-plan { margin: 32px; }
+  </style>
+</head>
+<body>
+  <div class="theme-bar">
+    <select id="theme"></select>
+  </div>
+
+  <bms-room-screen
+    room="Переговорная «Гранат»"
+    occupancy="occupied"
+    active-scene="Вечер"
+    temperature="22.3"
+    co2="720"></bms-room-screen>
+
+  <div class="mini-plan">
+    <bms-floor-plan-mini
+      label="План этажа · 4-й этаж"
+      floor="4F"
+      hotspots='[
+        {"id":"r401","x":15,"y":25,"label":"Каб. 401","status":"ok"},
+        {"id":"r402","x":15,"y":55,"label":"Каб. 402","status":"warning"},
+        {"id":"open","x":50,"y":40,"label":"Open space","status":"ok"},
+        {"id":"srv","x":82,"y":25,"label":"Серверная","status":"ok"},
+        {"id":"mtg","x":15,"y":85,"label":"Гранат","status":"ok"},
+        {"id":"cafe","x":50,"y":85,"label":"Кафе","status":"alarm"},
+        {"id":"itp","x":82,"y":85,"label":"ИТП","status":"warning"}
+      ]'></bms-floor-plan-mini>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>
