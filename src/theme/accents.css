@@ -1,0 +1,65 @@
+/* ============================================================
+   ACCENTS — registered numeric channels for smooth interpolation
+   --------------------------------------------------------------
+   Третья ось дизайна, ортогональная теме и варианту. Используется,
+   когда виджет должен отображать «цвет управляемого света» (текущая
+   CCT или цвет RGB-лампы) на любом из 6 chrome-тем.
+
+   `@property` объявления делают переменные ИНТЕРПОЛИРУЕМЫМИ — без
+   них CSS не умеет плавно тянуть rgb(а→b). Все 9 каналов разбиты
+   на 3 stop'а:
+     glow  = основной цвет (--cr/--cg/--cb)
+     deep  = насыщенный/тёмный (--dr/--dg/--db)
+     light = светлый highlight (--lr/--lg/--lb)
+
+   Меняется значениями из accents.ts (см. AccentPreset).
+   Дефолт — Amber 2700K, чтобы виджеты выглядели «тёпло» вне контекста.
+
+   Применение:
+   <html data-theme="cinematic-dark" style="--cr: 255; --cg: 180; --cb: 90; ...">
+   ============================================================ */
+
+@property --cr { syntax: '<number>'; inherits: true; initial-value: 255; }
+@property --cg { syntax: '<number>'; inherits: true; initial-value: 180; }
+@property --cb { syntax: '<number>'; inherits: true; initial-value:  90; }
+
+@property --dr { syntax: '<number>'; inherits: true; initial-value: 220; }
+@property --dg { syntax: '<number>'; inherits: true; initial-value: 140; }
+@property --db { syntax: '<number>'; inherits: true; initial-value:  60; }
+
+@property --lr { syntax: '<number>'; inherits: true; initial-value: 255; }
+@property --lg { syntax: '<number>'; inherits: true; initial-value: 220; }
+@property --lb { syntax: '<number>'; inherits: true; initial-value: 150; }
+
+/* Общая длительность tween'а accent'ов. Каждая тема может
+   переопределить через --accent-tween. */
+:root { --accent-tween: 700ms cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* Применяется на любой элемент, который должен анимировать accent.
+   Подкласс — для перехода между preset'ами, иначе при первом рендере
+   браузер моргнёт от initial-value. */
+.accent-animated {
+  transition:
+    --cr var(--accent-tween),
+    --cg var(--accent-tween),
+    --cb var(--accent-tween),
+    --dr var(--accent-tween),
+    --dg var(--accent-tween),
+    --db var(--accent-tween),
+    --lr var(--accent-tween),
+    --lg var(--accent-tween),
+    --lb var(--accent-tween);
+}
+
+/* Семантические алиасы — короче в виджетах */
+:root {
+  --accent-rgb:       var(--cr) var(--cg) var(--cb);
+  --accent-deep-rgb:  var(--dr) var(--dg) var(--db);
+  --accent-light-rgb: var(--lr) var(--lg) var(--lb);
+}
+
+/* Fallback для браузеров без @property (Firefox &lt; 128, старые WebView):
+   функционально работает, но переходы будут step-wise. */
+@supports not (background: paint(something)) {
+  .accent-animated { transition: none; }
+}
