@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — L0 primitives</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header {
+      display: flex;
+      gap: 24px;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--bms-font-display);
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .controls { margin-left: auto; display: flex; gap: 16px; align-items: center; font-size: 13px; }
+    select {
+      padding: 6px 10px;
+      border-radius: var(--bms-radius-sm);
+      border: 1px solid var(--bms-border);
+      background: var(--bms-surface);
+      color: var(--bms-text);
+      font: inherit;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .cell {
+      padding: 24px;
+      border-radius: var(--bms-radius-md);
+      background: var(--bms-surface);
+      border: 1px solid var(--bms-border);
+      box-shadow: var(--bms-shadow-1);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 200px;
+    }
+    .cell-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--bms-text-muted);
+    }
+    .cell-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>L0 Primitives — 10 Shadow-DOM widgets</h1>
+    <div class="controls">
+      <label>Theme <select id="theme"></select></label>
+      <label>Accent <select id="accent"></select></label>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="cell">
+      <div class="cell-title">bms-glass-switch</div>
+      <div class="cell-body">
+        <bms-glass-switch label="Спальня — свет" checked accent="lighting-cct" value="3200"></bms-glass-switch>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-card-toggle</div>
+      <div class="cell-body">
+        <bms-card-toggle label="Кухня" checked accent="lighting-cct" value="2700" caption="100% · 2700K"></bms-card-toggle>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-horizontal-slider</div>
+      <div class="cell-body">
+        <bms-horizontal-slider label="Яркость" value="68" min="0" max="100" unit="%" accent="lighting-cct" data-accent-value="3200"></bms-horizontal-slider>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-vertical-slider</div>
+      <div class="cell-body">
+        <bms-vertical-slider label="Фейдер" value="55" min="0" max="100" unit="%" accent="hvac-temperature" data-accent-value="22"></bms-vertical-slider>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-radial-knob</div>
+      <div class="cell-body">
+        <bms-radial-knob label="Уставка" value="22" min="16" max="30" step="0.5" unit="°C" accent="hvac-temperature"></bms-radial-knob>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-segmented</div>
+      <div class="cell-body">
+        <bms-segmented value="auto"
+          options='["off","auto","heat","cool"]'
+          accent="hvac-temperature" data-accent-value="22"></bms-segmented>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-gauge-ro</div>
+      <div class="cell-body">
+        <bms-gauge-ro label="Нагрузка" value="68" min="0" max="100" unit="%" accent="power-load"></bms-gauge-ro>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-sparkline</div>
+      <div class="cell-body">
+        <bms-sparkline id="spark" accent="hvac-temperature" data-accent-value="22"
+          data="[20.2,20.4,20.8,21.5,22.2,22.4,22.1,21.9,21.5,21.0,21.3,22.0,22.4,22.7,22.5]"></bms-sparkline>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-status-dot</div>
+      <div class="cell-body" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+        <bms-status-dot status="ok" label="Чиллер №1"></bms-status-dot>
+        <bms-status-dot status="warning" label="Приточка АХУ-3" pulsing></bms-status-dot>
+        <bms-status-dot status="alarm" label="ИТП насос 2" pulsing></bms-status-dot>
+        <bms-status-dot status="critical" label="Пожарная" pulsing></bms-status-dot>
+        <bms-status-dot status="offline" label="Этаж 4 контроллер"></bms-status-dot>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-title">bms-big-number</div>
+      <div class="cell-body">
+        <bms-big-number label="Потребление" value="142.6" unit=" kW" trend="up" delta="+8.2 vs hour" accent="power-load" data-accent-value="68"></bms-big-number>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme, listAccents, setAccent } from '../atelier/index.js';
+
+    const themeSel = document.getElementById('theme');
+    const accentSel = document.getElementById('accent');
+
+    for (const t of listThemes()) {
+      const o = document.createElement('option');
+      o.value = t; o.textContent = t;
+      themeSel.append(o);
+    }
+    themeSel.value = getTheme();
+    themeSel.addEventListener('change', () => setTheme(themeSel.value));
+
+    accentSel.append(new Option('— per-widget —', ''));
+    for (const a of listAccents()) accentSel.append(new Option(a.name, a.id));
+    accentSel.addEventListener('change', () => {
+      if (!accentSel.value) return;
+      for (const el of document.querySelectorAll('[accent]')) {
+        el.setAttribute('accent', accentSel.value);
+      }
+    });
+  </script>
+</body>
+</html>
