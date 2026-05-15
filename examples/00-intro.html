@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — intro</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, -apple-system, sans-serif; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #0a0a0c;
+      color: #e8e6e0;
+      display: grid;
+      place-items: center;
+      padding: 48px;
+    }
+    .card {
+      max-width: 640px;
+      padding: 32px;
+      border: 1px solid #2a2a2e;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #14141a 0%, #0e0e12 100%);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; letter-spacing: -0.02em; }
+    p { margin: 0 0 16px; opacity: 0.7; line-height: 1.5; }
+    code { background: #1c1c22; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    .status {
+      margin-top: 24px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: ui-monospace, monospace;
+    }
+    .ok    { background: #14241a; color: #7cd99c; border: 1px solid #1f3a26; }
+    .fail  { background: #2a1414; color: #e08080; border: 1px solid #4a1f1f; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Atelier BMS</h1>
+    <p>Pure-JS Web Components library for Building Management Systems.<br/>
+       30 widgets in Phase 1, scaling to ~500 across HVAC, lighting, shades, power, security, fire.</p>
+    <p>Foundation loaded: <code>BmsElement</code>, <code>registry</code>, <code>drag-engine</code>, <code>theme-bus</code>.</p>
+    <div id="status" class="status">…booting</div>
+  </div>
+
+  <script type="module">
+    import {
+      BmsElement,
+      defineWidget,
+      listWidgets,
+      listAccents,
+      setTheme,
+      getTheme,
+      makeDragger,
+      tokens,
+    } from '../atelier/index.js';
+
+    const status = document.getElementById('status');
+    const checks = [
+      ['BmsElement is class', typeof BmsElement === 'function'],
+      ['defineWidget exported', typeof defineWidget === 'function'],
+      ['theme-bus works', (setTheme('boudoir'), getTheme() === 'boudoir')],
+      ['makeDragger exported', typeof makeDragger === 'function'],
+      ['tokens loaded', tokens.normal === 240],
+      ['registry empty (no widgets yet)', listWidgets().length === 0],
+      ['accents empty (no accents yet)', listAccents().length === 0],
+    ];
+    const failed = checks.filter(([, ok]) => !ok);
+    if (failed.length === 0) {
+      status.className = 'status ok';
+      status.textContent = `OK — Phase 0 foundation verified (${checks.length} checks)`;
+    } else {
+      status.className = 'status fail';
+      status.textContent = `FAIL — ${failed.map(([m]) => m).join(', ')}`;
+    }
+  </script>
+</body>
+</html>
