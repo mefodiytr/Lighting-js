@@ -1,0 +1,82 @@
+/* ============================================================
+   THEME: cupertino
+   iOS/iPadOS Human Interface Guidelines. SF-style sans,
+   frosted blur, segmented controls, мягкая палитра, узнаваемый
+   iOS-blue accent. Подходит для iOS-PWA и пользователей,
+   привыкших к Apple Home.
+   ============================================================ */
+
+:root[data-theme='cupertino'] {
+  /* ─── Surface / ink (system grouped background) ─── */
+  --color-bg-base: #f2f2f7;
+  --color-bg-elevated: #ffffff;
+  --color-bg-card-from: rgba(255, 255, 255, 0.78);
+  --color-bg-card-to: rgba(255, 255, 255, 0.78);
+  --color-border-subtle: rgba(60, 60, 67, 0.12);
+  --color-border-strong: rgba(60, 60, 67, 0.29);
+
+  /* ─── Text ─── */
+  --color-text-primary: #000000;
+  --color-text-secondary: rgba(60, 60, 67, 0.85);
+  --color-text-muted: rgba(60, 60, 67, 0.6);
+  --color-text-dim: rgba(60, 60, 67, 0.3);
+  --color-text-faint: rgba(60, 60, 67, 0.18);
+
+  /* ─── Accent (system blue) ─── */
+  --color-accent: #007aff;
+  --color-accent-strong: #0a84ff;
+  --color-accent-deep: #0040dd;
+  --color-glow-warm-rgb: 0 122 255;
+  --color-glow-hot-rgb: 10 132 255;
+
+  /* ─── Functional ─── */
+  --color-state-on: #34c759;            /* iOS green для switch */
+  --color-state-off: rgba(120, 120, 128, 0.16);
+  --color-state-danger: #ff3b30;
+  --color-state-ok: #34c759;
+
+  /* ─── Typography ─── */
+  --font-display: -apple-system, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+  --font-body: -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-feature-display: normal;
+  --letter-spacing-mono: 0;
+  --letter-spacing-eyebrow: 0.05em;
+
+  /* ─── Motion (iOS spring) ─── */
+  --motion-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-spring-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --motion-ease-out-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-instant: 150ms;
+  --duration-fast: 250ms;
+  --duration-base: 350ms;
+  --duration-slow: 500ms;
+  --duration-luxe: 800ms;
+
+  /* ─── Radii (continuous iOS corners) ─── */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  /* ─── Elevation ─── */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-press-inset: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  --shadow-glow-on: 0 0 0 3px rgba(0, 122, 255, 0.2);
+  --shadow-glow-soft: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* ─── Focus ─── */
+  --ring-color: var(--color-accent);
+  --ring-width: 2px;
+  --ring-offset: 2px;
+
+  /* ─── Grain ─── */
+  --grain-opacity: 0;
+  --grain-blend: normal;
+
+  /* ─── Frosted blur — фирменная фича Cupertino ─── */
+  --backdrop-blur: 30px;
+  --backdrop-saturation: 180%;
+}

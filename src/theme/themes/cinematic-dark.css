@@ -1,0 +1,76 @@
+/* ============================================================
+   THEME: cinematic-dark
+   Премиум-апартаменты, бутик-отели. Драматический свет,
+   тёплая бронза, бархатная глубина. Источник — atelier showcase.
+   ============================================================ */
+
+:root[data-theme='cinematic-dark'] {
+  /* ─── Surface / ink ─── */
+  --color-bg-base: #050404;
+  --color-bg-elevated: #0a0908;
+  --color-bg-card-from: rgba(30, 24, 18, 0.6);
+  --color-bg-card-to: rgba(18, 14, 10, 0.4);
+  --color-border-subtle: rgba(120, 95, 65, 0.12);
+  --color-border-strong: rgba(212, 167, 106, 0.5);
+
+  /* ─── Text ─── */
+  --color-text-primary: #f5ead8;
+  --color-text-secondary: #e8d8bc;
+  --color-text-muted: #8a7a64;
+  --color-text-dim: #5a4a36;
+  --color-text-faint: #3a2e22;
+
+  /* ─── Accent (brass / glow) ─── */
+  --color-accent: #d4a76a;
+  --color-accent-strong: #e8c889;
+  --color-accent-deep: #8a6d3f;
+  --color-glow-warm-rgb: 255 165 80;
+  --color-glow-hot-rgb: 255 140 60;
+
+  /* ─── Functional ─── */
+  --color-state-on: var(--color-accent);
+  --color-state-off: var(--color-text-dim);
+  --color-state-danger: #c4543a;
+  --color-state-ok: #6a9a5a;
+
+  /* ─── Typography ─── */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --font-feature-display: "ss01";
+  --letter-spacing-mono: 0.05em;
+  --letter-spacing-eyebrow: 0.35em;
+
+  /* ─── Motion ─── */
+  --motion-spring: cubic-bezier(0.34, 1.5, 0.64, 1);
+  --motion-spring-soft: cubic-bezier(0.34, 1.2, 0.64, 1);
+  --motion-ease-out-soft: cubic-bezier(0.65, 0.05, 0.36, 1);
+  --duration-instant: 150ms;
+  --duration-fast: 350ms;
+  --duration-base: 500ms;
+  --duration-slow: 700ms;
+  --duration-luxe: 1100ms;
+
+  /* ─── Radii ─── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  /* ─── Elevation ─── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-press-inset: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  --shadow-glow-on: 0 0 32px rgba(255, 165, 80, 0.35), 0 0 64px rgba(255, 140, 60, 0.15);
+  --shadow-glow-soft: 0 0 24px rgba(255, 165, 80, 0.4);
+
+  /* ─── Focus ─── */
+  --ring-color: var(--color-accent);
+  --ring-width: 2px;
+  --ring-offset: 2px;
+
+  /* ─── Grain / atmosphere ─── */
+  --grain-opacity: 0.4;
+  --grain-blend: overlay;
+}

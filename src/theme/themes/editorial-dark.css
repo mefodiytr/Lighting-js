@@ -1,0 +1,77 @@
+/* ============================================================
+   THEME: editorial-dark
+   Журнальная вёрстка в тёмной палитре. Тонкая типографика,
+   золотые акценты, generous space. Близко к cinematic-dark,
+   но менее «материальная»: меньше теней, больше воздуха.
+   ============================================================ */
+
+:root[data-theme='editorial-dark'] {
+  /* ─── Surface / ink ─── */
+  --color-bg-base: #0c0a08;
+  --color-bg-elevated: #14110d;
+  --color-bg-card-from: rgba(28, 22, 16, 0.85);
+  --color-bg-card-to: rgba(20, 16, 12, 0.85);
+  --color-border-subtle: rgba(180, 150, 100, 0.08);
+  --color-border-strong: rgba(212, 175, 100, 0.4);
+
+  /* ─── Text ─── */
+  --color-text-primary: #f0e6d4;
+  --color-text-secondary: #d8c8aa;
+  --color-text-muted: #9a8a72;
+  --color-text-dim: #6a5a44;
+  --color-text-faint: #3e3424;
+
+  /* ─── Accent (gold) ─── */
+  --color-accent: #d4af6a;
+  --color-accent-strong: #f0c878;
+  --color-accent-deep: #8a6f3a;
+  --color-glow-warm-rgb: 240 200 120;
+  --color-glow-hot-rgb: 220 170 80;
+
+  /* ─── Functional ─── */
+  --color-state-on: var(--color-accent);
+  --color-state-off: var(--color-text-dim);
+  --color-state-danger: #c25a44;
+  --color-state-ok: #809a6a;
+
+  /* ─── Typography ─── */
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-body: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-feature-display: "ss01", "salt";
+  --letter-spacing-mono: 0.08em;
+  --letter-spacing-eyebrow: 0.4em;
+
+  /* ─── Motion ─── */
+  --motion-spring: cubic-bezier(0.3, 1.0, 0.5, 1);
+  --motion-spring-soft: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --motion-ease-out-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duration-instant: 200ms;
+  --duration-fast: 400ms;
+  --duration-base: 600ms;
+  --duration-slow: 800ms;
+  --duration-luxe: 1200ms;
+
+  /* ─── Radii (более прямоугольные, журнальные) ─── */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* ─── Elevation (мягче, без drama) ─── */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-press-inset: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-glow-on: 0 0 20px rgba(240, 200, 120, 0.25);
+  --shadow-glow-soft: 0 0 16px rgba(212, 175, 100, 0.3);
+
+  /* ─── Focus ─── */
+  --ring-color: var(--color-accent);
+  --ring-width: 1px;
+  --ring-offset: 3px;
+
+  /* ─── Grain (тоньше) ─── */
+  --grain-opacity: 0.2;
+  --grain-blend: overlay;
+}

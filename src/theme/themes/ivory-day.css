@@ -1,0 +1,77 @@
+/* ============================================================
+   THEME: ivory-day
+   Светлая контр-пара cinematic-dark. Молочный фон, бронзовый
+   акцент, тёплая типографика. Для дневного режима в
+   премиум-апартаментах без смены логики виджетов.
+   ============================================================ */
+
+:root[data-theme='ivory-day'] {
+  /* ─── Surface / ink ─── */
+  --color-bg-base: #faf5ec;
+  --color-bg-elevated: #ffffff;
+  --color-bg-card-from: #ffffff;
+  --color-bg-card-to: #f8f2e4;
+  --color-border-subtle: rgba(120, 95, 65, 0.15);
+  --color-border-strong: rgba(120, 85, 50, 0.35);
+
+  /* ─── Text ─── */
+  --color-text-primary: #1f1a14;
+  --color-text-secondary: #3a2e22;
+  --color-text-muted: #6a5a44;
+  --color-text-dim: #8a7a64;
+  --color-text-faint: #b8a890;
+
+  /* ─── Accent (та же бронза, что и в dark) ─── */
+  --color-accent: #b8895a;
+  --color-accent-strong: #8a6d3f;
+  --color-accent-deep: #5e4528;
+  --color-glow-warm-rgb: 220 150 70;
+  --color-glow-hot-rgb: 200 120 50;
+
+  /* ─── Functional ─── */
+  --color-state-on: var(--color-accent);
+  --color-state-off: #c8baa4;
+  --color-state-danger: #b04428;
+  --color-state-ok: #5a7a3a;
+
+  /* ─── Typography (зеркало cinematic-dark) ─── */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-feature-display: "ss01";
+  --letter-spacing-mono: 0.05em;
+  --letter-spacing-eyebrow: 0.35em;
+
+  /* ─── Motion (то же, что cinematic-dark — единая «походка») ─── */
+  --motion-spring: cubic-bezier(0.34, 1.5, 0.64, 1);
+  --motion-spring-soft: cubic-bezier(0.34, 1.2, 0.64, 1);
+  --motion-ease-out-soft: cubic-bezier(0.65, 0.05, 0.36, 1);
+  --duration-instant: 150ms;
+  --duration-fast: 350ms;
+  --duration-base: 500ms;
+  --duration-slow: 700ms;
+  --duration-luxe: 1100ms;
+
+  /* ─── Radii ─── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  /* ─── Elevation (мягкая, светлая) ─── */
+  --shadow-card: 0 2px 6px rgba(60, 40, 20, 0.08);
+  --shadow-press-inset: inset 0 1px 3px rgba(60, 40, 20, 0.1);
+  --shadow-glow-on: 0 0 24px rgba(220, 150, 70, 0.35);
+  --shadow-glow-soft: 0 0 16px rgba(184, 137, 90, 0.25);
+
+  /* ─── Focus ─── */
+  --ring-color: var(--color-accent-strong);
+  --ring-width: 2px;
+  --ring-offset: 2px;
+
+  /* ─── Grain ─── */
+  --grain-opacity: 0.15;
+  --grain-blend: multiply;
+}

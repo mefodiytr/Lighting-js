@@ -1,0 +1,81 @@
+/* ============================================================
+   THEME: neo-brutalism
+   B2B/MCS, инженерные дашборды. Толстые границы, чистые
+   primary, hard shadows со смещением, моноширинный текст,
+   никакого blur. Высокая контрастность.
+   ============================================================ */
+
+:root[data-theme='neo-brutalism'] {
+  /* ─── Surface / ink ─── */
+  --color-bg-base: #f4f0e6;
+  --color-bg-elevated: #ffffff;
+  --color-bg-card-from: #ffffff;
+  --color-bg-card-to: #ffffff;
+  --color-border-subtle: #000000;
+  --color-border-strong: #000000;
+
+  /* ─── Text ─── */
+  --color-text-primary: #000000;
+  --color-text-secondary: #1a1a1a;
+  --color-text-muted: #4a4a4a;
+  --color-text-dim: #6a6a6a;
+  --color-text-faint: #9a9a9a;
+
+  /* ─── Accent (чистый primary) ─── */
+  --color-accent: #ffd400;
+  --color-accent-strong: #ff8c00;
+  --color-accent-deep: #c46400;
+  --color-glow-warm-rgb: 255 212 0;
+  --color-glow-hot-rgb: 255 140 0;
+
+  /* ─── Functional ─── */
+  --color-state-on: var(--color-accent);
+  --color-state-off: #d4d0c4;
+  --color-state-danger: #ff3322;
+  --color-state-ok: #22cc55;
+
+  /* ─── Typography ─── */
+  --font-display: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-feature-display: normal;
+  --letter-spacing-mono: 0;
+  --letter-spacing-eyebrow: 0.1em;
+
+  /* ─── Motion (резкая, без spring) ─── */
+  --motion-spring: cubic-bezier(0.0, 0.0, 0.0, 1);
+  --motion-spring-soft: cubic-bezier(0.2, 0.0, 0.0, 1);
+  --motion-ease-out-soft: linear;
+  --duration-instant: 0ms;
+  --duration-fast: 100ms;
+  --duration-base: 150ms;
+  --duration-slow: 200ms;
+  --duration-luxe: 300ms;
+
+  /* ─── Radii (плоские углы) ─── */
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-pill: 0;
+
+  /* ─── Elevation (offset shadow, без blur) ─── */
+  --shadow-card: 6px 6px 0 0 #000000;
+  --shadow-press-inset: inset 4px 4px 0 0 rgba(0, 0, 0, 0.15);
+  --shadow-glow-on: 4px 4px 0 0 #000000;
+  --shadow-glow-soft: 2px 2px 0 0 #000000;
+
+  /* ─── Focus (толстый чёрный outline) ─── */
+  --ring-color: #000000;
+  --ring-width: 3px;
+  --ring-offset: 4px;
+
+  /* ─── Grain (отсутствует) ─── */
+  --grain-opacity: 0;
+  --grain-blend: normal;
+
+  /* ─── Brutalism-специфично: толщина границ ─── */
+  --border-width: 3px;
+  --border-width-thick: 4px;
+}

@@ -1,0 +1,77 @@
+/* ============================================================
+   THEME: material
+   Material Design 3 (Google). Бумага, elevation, ripple,
+   крупные tap-targets. Подходит для Android-PWA и
+   семейного жилья. По умолчанию используем «warm tonal».
+   ============================================================ */
+
+:root[data-theme='material'] {
+  /* ─── Surface / ink (tonal elevation) ─── */
+  --color-bg-base: #fef7ff;
+  --color-bg-elevated: #f7f2fa;
+  --color-bg-card-from: #ffffff;
+  --color-bg-card-to: #f7f2fa;
+  --color-border-subtle: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.14);
+
+  /* ─── Text (on-surface) ─── */
+  --color-text-primary: #1d1b20;
+  --color-text-secondary: #49454f;
+  --color-text-muted: #79747e;
+  --color-text-dim: #aaa4ad;
+  --color-text-faint: #cac4d0;
+
+  /* ─── Accent (primary purple, M3 default) ─── */
+  --color-accent: #6750a4;
+  --color-accent-strong: #4f378b;
+  --color-accent-deep: #21005d;
+  --color-glow-warm-rgb: 103 80 164;
+  --color-glow-hot-rgb: 79 55 139;
+
+  /* ─── Functional ─── */
+  --color-state-on: var(--color-accent);
+  --color-state-off: #cac4d0;
+  --color-state-danger: #ba1a1a;
+  --color-state-ok: #386a20;
+
+  /* ─── Typography (Roboto / system) ─── */
+  --font-display: 'Roboto', 'Inter', system-ui, sans-serif;
+  --font-body: 'Roboto', system-ui, sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
+  --font-feature-display: normal;
+  --letter-spacing-mono: 0;
+  --letter-spacing-eyebrow: 0.1em;
+
+  /* ─── Motion (M3 emphasized) ─── */
+  --motion-spring: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+  --motion-spring-soft: cubic-bezier(0.4, 0.0, 0.2, 1.0);
+  --motion-ease-out-soft: cubic-bezier(0.4, 0.0, 0.2, 1.0);
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  --duration-luxe: 700ms;
+
+  /* ─── Radii (M3 corners) ─── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* ─── Elevation (М3 уровни) ─── */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-press-inset: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-glow-on: 0 4px 8px rgba(103, 80, 164, 0.25);
+  --shadow-glow-soft: 0 2px 4px rgba(103, 80, 164, 0.15);
+
+  /* ─── Focus ─── */
+  --ring-color: var(--color-accent);
+  --ring-width: 2px;
+  --ring-offset: 2px;
+
+  /* ─── Grain ─── */
+  --grain-opacity: 0;
+  --grain-blend: normal;
+}
