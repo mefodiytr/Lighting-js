@@ -1,0 +1,305 @@
+/* HVAC extra widgets — Phase 3 depth (15 widgets) */
+
+/* ── Split AC variants ────────────────────────────────────────────── */
+.bms-ac-vis {
+  position: relative;
+  height: 80px;
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+  background: var(--bms-surface-2);
+  overflow: hidden;
+}
+.bms-ac-vis.is-running::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 80% at 50% 100%,
+    rgb(var(--cr) var(--cg) var(--cb) / 0.22) 0%,
+    transparent 70%);
+}
+.bms-ac-wall-shape {
+  position: absolute;
+  inset: 12px 16px;
+  border-radius: 10px 10px 4px 4px;
+  background: linear-gradient(180deg, var(--bms-surface) 0%, var(--bms-surface-2) 100%);
+  border: 1px solid var(--bms-border);
+}
+.bms-ac-wall-vents {
+  position: absolute;
+  inset: auto 0 -4px 0;
+  height: 8px;
+  background: repeating-linear-gradient(90deg,
+    var(--bms-border) 0 2px, transparent 2px 6px);
+}
+.bms-ac-flow {
+  position: absolute;
+  bottom: -4px; left: 50%;
+  width: 2px;
+  height: 18px;
+  background: linear-gradient(180deg,
+    rgb(var(--cr) var(--cg) var(--cb)) 0%, transparent 100%);
+  transform: translateX(-50%);
+  opacity: 0;
+  filter: drop-shadow(0 0 4px rgb(var(--cr) var(--cg) var(--cb) / 0.5));
+}
+.bms-ac-vis.is-running .bms-ac-flow { opacity: 1; animation: bms-ac-blow 1.6s ease-in-out infinite; }
+@keyframes bms-ac-blow {
+  50% { opacity: 0.3; transform: translate(-50%, 4px); }
+}
+
+.bms-ac-cassette-shape {
+  position: absolute;
+  inset: 14px;
+  border-radius: 6px;
+  border: 1px solid var(--bms-border);
+  background: var(--bms-surface);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 4px;
+}
+.bms-ac-cassette-vent {
+  background: repeating-linear-gradient(45deg,
+    var(--bms-border) 0 2px, transparent 2px 5px);
+  border-radius: 2px;
+}
+
+.bms-ac-duct-shape {
+  position: absolute;
+  inset: 18px 8px;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 8px;
+}
+.bms-ac-duct-unit {
+  border-radius: 4px;
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+}
+.bms-ac-duct-pipe {
+  border-radius: 4px;
+  background: var(--bms-surface-2);
+  border: 1px dashed var(--bms-border);
+  display: flex; align-items: center; padding: 0 8px;
+  font-family: var(--bms-font-mono);
+  font-size: 10px;
+  color: var(--bms-text-muted);
+}
+
+/* ── VRF zone ─────────────────────────────────────────────────────── */
+.bms-vrf-master {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 8px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  margin-bottom: 8px;
+}
+.bms-vrf-zones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 6px;
+}
+.bms-vrf-indoor {
+  padding: 8px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+  font-size: 12px;
+}
+.bms-vrf-indoor.is-running { border-color: rgb(var(--cr) var(--cg) var(--cb) / 0.5); }
+.bms-vrf-indoor .name { font-weight: 600; font-size: 12px; }
+.bms-vrf-indoor .meta { color: var(--bms-text-muted); font-size: 11px; font-family: var(--bms-font-mono); }
+
+/* ── Pump ─────────────────────────────────────────────────────────── */
+.bms-pump-tile {
+  display: grid;
+  gap: 12px;
+}
+.bms-pump-hero {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+}
+.bms-pump-kpis {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.bms-pump-kpi {
+  padding: 8px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+}
+.bms-pump-kpi .l { font-size: 10px; color: var(--bms-text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.bms-pump-kpi .v { font-family: var(--bms-font-mono); font-size: 16px; font-weight: 600; }
+
+/* ── Pump cascade ─────────────────────────────────────────────────── */
+.bms-cascade-list {
+  display: grid;
+  gap: 6px;
+}
+.bms-cascade-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  border-left: 3px solid transparent;
+}
+.bms-cascade-row.is-lead { border-left-color: rgb(var(--cr) var(--cg) var(--cb)); }
+.bms-cascade-row.is-fault { border-left-color: rgb(240, 70, 60); }
+.bms-cascade-row .name { font-weight: 600; font-size: 13px; }
+.bms-cascade-row .meta { font-family: var(--bms-font-mono); font-size: 11px; color: var(--bms-text-muted); }
+.bms-cascade-row .badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--bms-surface);
+}
+.bms-cascade-row.is-lead .badge { color: rgb(var(--cr) var(--cg) var(--cb)); }
+
+/* ── VFD ──────────────────────────────────────────────────────────── */
+.bms-vfd-display {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  padding: 12px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  align-items: center;
+}
+.bms-vfd-display .freq {
+  font-family: var(--bms-font-mono);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: rgb(var(--cr) var(--cg) var(--cb));
+}
+.bms-vfd-rotor {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bms-surface);
+  border: 1.5px solid var(--bms-border);
+  position: relative;
+}
+.bms-vfd-rotor::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: linear-gradient(45deg,
+    rgb(var(--cr) var(--cg) var(--cb)) 0%,
+    transparent 50%,
+    rgb(var(--cr) var(--cg) var(--cb)) 100%);
+  animation: bms-vfd-spin linear infinite;
+  animation-duration: var(--vfd-duration, 2s);
+}
+.is-stopped .bms-vfd-rotor::before { animation: none; opacity: 0.3; }
+@keyframes bms-vfd-spin { to { transform: rotate(360deg); } }
+
+/* ── Three-way valve ──────────────────────────────────────────────── */
+.bms-tway-svg { width: 100%; max-width: 240px; display: block; margin: 0 auto; }
+
+/* ── VAV ──────────────────────────────────────────────────────────── */
+.bms-vav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.bms-vav-cell {
+  padding: 8px 10px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+}
+.bms-vav-cell .l { font-size: 10px; color: var(--bms-text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.bms-vav-cell .v { font-family: var(--bms-font-mono); font-size: 16px; font-weight: 600; }
+
+/* ── Boiler ───────────────────────────────────────────────────────── */
+.bms-boiler-shape {
+  position: relative;
+  height: 90px;
+  border-radius: var(--bms-radius-sm);
+  background: var(--bms-surface-2);
+  border: 1px solid var(--bms-border);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 0 16px;
+}
+.bms-boiler-shape .pipes { display: flex; flex-direction: column; gap: 6px; }
+.bms-boiler-shape .pipe {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bms-divider);
+}
+.bms-boiler-shape .pipe.supply { background: linear-gradient(90deg, rgb(255, 130, 80) 0%, transparent 100%); }
+.bms-boiler-shape .pipe.return { background: linear-gradient(90deg, rgb(120, 180, 220) 0%, transparent 100%); }
+.bms-boiler-shape .flame {
+  font-size: 36px;
+  text-align: center;
+  filter: drop-shadow(0 0 12px rgb(255, 140, 60 / 0.7));
+  opacity: 0;
+  transition: opacity var(--bms-norm) var(--bms-ease);
+}
+.bms-boiler-shape.is-running .flame { opacity: 1; }
+
+/* ── Burner ───────────────────────────────────────────────────────── */
+.bms-burner-stages {
+  display: flex;
+  gap: 4px;
+  align-items: end;
+  height: 56px;
+  padding: 8px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+}
+.bms-burner-stage {
+  flex: 1;
+  background: var(--bms-divider);
+  border-radius: 3px;
+  transition: all var(--bms-norm) var(--bms-ease);
+}
+.bms-burner-stage.is-on {
+  background: linear-gradient(180deg,
+    rgb(var(--lr) var(--lg) var(--lb)) 0%,
+    rgb(var(--cr) var(--cg) var(--cb)) 100%);
+  box-shadow: 0 0 12px rgb(var(--cr) var(--cg) var(--cb) / 0.55);
+}
+
+/* ── Pressure tank ────────────────────────────────────────────────── */
+.bms-tank-svg { width: 100%; max-width: 140px; display: block; margin: 0 auto; }
+
+/* ── Heat meter ───────────────────────────────────────────────────── */
+.bms-heat-meter-hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  align-items: center;
+}
+.bms-heat-meter-hero .v {
+  font-family: var(--bms-font-mono);
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: rgb(var(--cr) var(--cg) var(--cb));
+}
+
+/* Display rules */
+bms-ac-wall, bms-ac-cassette, bms-ac-duct, bms-vrf-zone,
+bms-ahu-recovery, bms-ahu-humidified,
+bms-pump-tile, bms-pump-cascade, bms-vfd-tile, bms-three-way-valve,
+bms-vav-tile, bms-boiler-tile, bms-burner-tile, bms-pressure-tank, bms-heat-meter {
+  display: block;
+}

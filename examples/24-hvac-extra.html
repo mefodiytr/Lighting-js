@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — HVAC depth (Phase 3)</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .section { margin-bottom: 36px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bms-text-muted); margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HVAC depth — 15 виджетов Phase 3</h1>
+    <div class="controls"><label>Theme <select id="theme"></select></label></div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Сплит-кондиционеры</div>
+    <div class="grid">
+      <bms-ac-wall label="Кабинет 312" mode="cool" setpoint="22" actual="22.4" fan="3"></bms-ac-wall>
+      <bms-ac-cassette label="Open space — центр" mode="auto" setpoint="23" actual="22.8" fan="auto"></bms-ac-cassette>
+      <bms-ac-duct label="Конференц-зал" mode="cool" setpoint="20" actual="20.5" fan-percent="70" esp="280"></bms-ac-duct>
+      <bms-vrf-zone label="VRF этаж 5"
+        mode="cooling"
+        indoors='[
+          {"id":"v1","label":"Каб. 501","setpoint":22,"actual":22.4,"running":true},
+          {"id":"v2","label":"Каб. 502","setpoint":22,"actual":22.7,"running":true},
+          {"id":"v3","label":"Каб. 503","setpoint":24,"actual":23.8,"running":false},
+          {"id":"v4","label":"Серверная","setpoint":18,"actual":19.2,"running":true}
+        ]'></bms-vrf-zone>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Приточки с особенностями</div>
+    <div class="grid">
+      <bms-ahu-recovery label="АХУ-Rec-1" supply="22.0" return="24.0" outside="-8" flow="3200" recovery="72"></bms-ahu-recovery>
+      <bms-ahu-humidified label="АХУ-Hum-1" supply="22.5" flow="2800" humidity="42" humidity-setpoint="45" humidifier="active"></bms-ahu-humidified>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Насосы &amp; приводы</div>
+    <div class="grid">
+      <bms-pump-tile label="ЦН-1 отопление" mode="auto" speed="78" flow="42.5" pressure="320" hours="18342" electric-power="6.8"></bms-pump-tile>
+      <bms-pump-cascade label="Каскад ЦН-1 / ЦН-2"
+        strategy="rotation" lead-id="p1"
+        pumps='[
+          {"id":"p1","label":"ЦН-1","mode":"auto","speed":78,"hours":18342},
+          {"id":"p2","label":"ЦН-2","mode":"auto","speed":0,"hours":17890},
+          {"id":"p3","label":"ЦН-3","mode":"standby","speed":0,"hours":16245,"fault":false}
+        ]'></bms-pump-cascade>
+      <bms-vfd-tile label="VFD-101" freq="42.5" current="18.4" power="9.2" dc-voltage="540" motor-temp="58"></bms-vfd-tile>
+      <bms-vfd-tile label="VFD-102 (авария)" freq="0" current="0" power="0" dc-voltage="0" motor-temp="92" fault-code="F0042"></bms-vfd-tile>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Клапаны &amp; VAV</div>
+    <div class="grid">
+      <bms-three-way-valve label="3-х ход. V-201" position="40" a-label="ТО" b-label="байпас" c-label="отопление →"></bms-three-way-valve>
+      <bms-vav-tile label="VAV-зона 4.12" mode="cooling" setpoint="22" actual="22.5" damper-position="65" flow="420" flow-setpoint="450" reheat="0"></bms-vav-tile>
+      <bms-vav-tile label="VAV-зона 4.13" mode="heating" setpoint="23" actual="21.8" damper-position="40" flow="280" flow-setpoint="300" reheat="55"></bms-vav-tile>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Котельная</div>
+    <div class="grid">
+      <bms-boiler-tile label="Котёл №1" mode="heating" supply="78" return="62" pressure="2.45" modulation="68" fuel-rate="3.42" hours="12450"></bms-boiler-tile>
+      <bms-boiler-tile label="Котёл №2 (резерв)" mode="idle" supply="42" return="42" pressure="2.30" modulation="0" fuel-rate="0" hours="8230"></bms-boiler-tile>
+      <bms-burner-tile label="Горелка №1" stage="high" modulation="68" flame-current="42" hours="11890"></bms-burner-tile>
+      <bms-pressure-tank label="Расш. бак отопления" pressure="2.45" pre-charge="1.50" max-pressure="6.00"></bms-pressure-tank>
+      <bms-heat-meter label="Теплосчётчик Главный" energy="142850.34" power-now="68.4" flow="3.2" supply="78.2" return="62.5" unit="Gcal"></bms-heat-meter>
+    </div>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>
