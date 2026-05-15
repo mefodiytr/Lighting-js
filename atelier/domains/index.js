@@ -28,6 +28,16 @@ import './lighting/bms-zone-dimmer.js';
 import './lighting/bms-scene-card.js';
 import './lighting/bms-rgb-picker.js';
 import './lighting/bms-schedule-row.js';
+import './lighting/bms-dali-driver.js';
+import './lighting/bms-dali-group.js';
+import './lighting/bms-dali-line.js';
+import './lighting/bms-occupancy-sensor.js';
+import './lighting/bms-daylight-sensor.js';
+import './lighting/bms-emergency-lighting.js';
+import './lighting/bms-exit-sign.js';
+import './lighting/bms-rgbw-mixer.js';
+import './lighting/bms-luminaire-status.js';
+import './lighting/bms-cct-curve.js';
 
 import './power/bms-load-bar.js';
 import './power/bms-battery-soc.js';

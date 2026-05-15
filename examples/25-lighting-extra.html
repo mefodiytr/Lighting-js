@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Lighting depth (Phase 6)</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .section { margin-bottom: 36px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bms-text-muted); margin-bottom: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .stack { display: grid; gap: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Lighting depth — 10 виджетов Phase 6</h1>
+    <div class="controls"><label>Theme <select id="theme"></select></label></div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">DALI bus / line · 64 устройства</div>
+    <bms-dali-line id="dali-line" label="Линия DALI · 4 этаж" line-id="L1.4" voltage="16.4" capacity="64"></bms-dali-line>
+  </div>
+
+  <div class="section">
+    <div class="section-title">DALI group + drivers</div>
+    <bms-dali-group label="Группа G3 — open space" group-id="3" level="75" cct="3500" members="14" on></bms-dali-group>
+    <div class="stack" style="margin-top: 12px;">
+      <bms-dali-driver label="Светильник 4.12 центр" address="12" level="200" cct="3500" group="3" state="ok"></bms-dali-driver>
+      <bms-dali-driver label="Светильник 4.13 центр" address="13" level="200" cct="3500" group="3" state="ok"></bms-dali-driver>
+      <bms-dali-driver label="Светильник 4.14 центр" address="14" level="180" cct="3500" group="3" state="ok"></bms-dali-driver>
+      <bms-dali-driver label="Светильник 4.15 окно" address="15" level="0" cct="3500" group="3" state="off"></bms-dali-driver>
+      <bms-dali-driver label="Светильник 4.16 окно" address="16" level="0" cct="3500" group="3" state="lamp-fail"></bms-dali-driver>
+      <bms-dali-driver label="Светильник 4.17 окно" address="17" level="0" cct="3500" group="3" state="disconnected"></bms-dali-driver>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sensors — occupancy &amp; daylight</div>
+    <div class="grid-3">
+      <bms-occupancy-sensor label="PIR кабинет 412" kind="pir_us" occupied last-motion="14:23:08" sensitivity="7" hold-time="600"></bms-occupancy-sensor>
+      <bms-occupancy-sensor label="PIR коридор 4" kind="pir" last-motion="13:54:22" sensitivity="6" hold-time="300"></bms-occupancy-sensor>
+      <bms-daylight-sensor id="lux1" label="Освещённость окно SW" kind="indoor" lux="4200" target-lux="500" recommendation="35"></bms-daylight-sensor>
+      <bms-daylight-sensor label="Внешний на крыше" kind="outdoor" lux="62000" target-lux="0" recommendation="0"></bms-daylight-sensor>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Emergency lighting</div>
+    <div class="grid-3">
+      <bms-emergency-lighting label="БПС-1 центральный" mode="normal" battery-soc="92" battery-autonomy-min="180" test-due="через 28 дн" lamps-total="86" lamps-fail="0"></bms-emergency-lighting>
+      <bms-emergency-lighting label="БПС-2 северное крыло" mode="emergency" battery-soc="68" battery-autonomy-min="120" test-due="—" lamps-total="42" lamps-fail="1"></bms-emergency-lighting>
+      <bms-emergency-lighting label="БПС-3 запад" mode="fault" battery-soc="12" battery-autonomy-min="20" test-due="3 дн" lamps-total="38" lamps-fail="4"></bms-emergency-lighting>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Exit signs</div>
+    <div class="grid-3">
+      <bms-exit-sign label="Табло 4-A лестница" direction="left" state="on" location="4 этаж · лест. A"></bms-exit-sign>
+      <bms-exit-sign label="Табло 4-B лестница" direction="right" state="on" location="4 этаж · лест. B"></bms-exit-sign>
+      <bms-exit-sign label="Табло 4-вверх" direction="up" state="maintenance" location="4 → 5 этаж"></bms-exit-sign>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">RGBW colour mixer</div>
+    <bms-rgbw-mixer label="Подсветка лобби" r="40" g="20" b="80" w="30" brightness="85"></bms-rgbw-mixer>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Luminaire service status</div>
+    <div class="grid-3">
+      <bms-luminaire-status label="Светильник 401-A" hours="18200" max-hours="50000" temperature="48" max-temp="85" power="36" lumens="3400" lumens-rated="3600" mode="running"></bms-luminaire-status>
+      <bms-luminaire-status label="Светильник 402-B (служебный)" hours="47800" max-hours="50000" temperature="62" max-temp="85" power="35" lumens="2900" lumens-rated="3600" mode="running"></bms-luminaire-status>
+      <bms-luminaire-status label="Светильник 403-C" hours="4200" max-hours="50000" temperature="92" max-temp="85" power="38" lumens="3500" lumens-rated="3600" mode="running"></bms-luminaire-status>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Human-Centric Lighting — CCT curve</div>
+    <bms-cct-curve id="curve" label="Суточный профиль офисной зоны"
+      hours='[2000,2000,2000,2000,2200,2700,3500,4500,5500,6000,6500,6500,6500,6500,6000,5500,5000,4500,3500,3000,2700,2500,2200,2000]'></bms-cct-curve>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+
+    // Fill DALI line with 64 driver states (mix of on/off/fault/empty)
+    const line = document.getElementById('dali-line');
+    const drivers = [];
+    for (let i = 0; i < 64; i++) {
+      if (Math.random() < 0.12) drivers.push(null);
+      else if (Math.random() < 0.08) drivers.push({ state: 'lamp-fail', level: 0 });
+      else if (Math.random() < 0.5) drivers.push({ state: 'ok', level: 50 + Math.floor(Math.random() * 200) });
+      else drivers.push({ state: 'off', level: 0 });
+    }
+    line.setAttribute('drivers', JSON.stringify(drivers));
+
+    // Animate CCT curve cursor
+    const curve = document.getElementById('curve');
+    let t = 7;
+    setInterval(() => {
+      t += 0.1;
+      if (t > 23.9) t = 5;
+      curve.setAttribute('current-hour', t.toFixed(2));
+    }, 500);
+
+    // Animate daylight lux
+    const lux = document.getElementById('lux1');
+    let tt = 0;
+    setInterval(() => {
+      tt++;
+      const v = 4200 + 1500 * Math.sin(tt / 6);
+      lux.setAttribute('lux', String(Math.round(v)));
+    }, 1200);
+  </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+/* Lighting depth — Phase 6 (10 widgets) */
+
+bms-dali-driver, bms-dali-group, bms-dali-line,
+bms-occupancy-sensor, bms-daylight-sensor,
+bms-emergency-lighting, bms-exit-sign,
+bms-rgbw-mixer, bms-luminaire-status, bms-cct-curve { display: block; }
+
+/* ── DALI driver row ──────────────────────────────────────────────── */
+.bms-dali {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-sm);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-dali-addr {
+  font-family: var(--bms-font-mono);
+  font-size: 11px;
+  color: var(--bms-text-muted);
+  padding: 4px 8px;
+  background: var(--bms-surface-2);
+  border-radius: 999px;
+  min-width: 32px;
+  text-align: center;
+}
+.bms-dali-lamp {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bms-divider);
+  position: relative;
+  transition: background var(--bms-norm) var(--bms-ease),
+              box-shadow var(--bms-norm) var(--bms-ease);
+}
+.bms-dali.st-on .bms-dali-lamp {
+  background: radial-gradient(circle at 30% 30%,
+    rgb(var(--lr) var(--lg) var(--lb)) 0%,
+    rgb(var(--cr) var(--cg) var(--cb)) 60%,
+    rgb(var(--dr) var(--dg) var(--db)) 100%);
+  box-shadow: 0 0 12px rgb(var(--cr) var(--cg) var(--cb) / 0.7);
+}
+.bms-dali.st-fail .bms-dali-lamp { background: rgb(240, 70, 60); }
+.bms-dali-meter {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bms-divider);
+  overflow: hidden;
+}
+.bms-dali-meter-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg,
+    rgb(var(--dr) var(--dg) var(--db)),
+    rgb(var(--cr) var(--cg) var(--cb)));
+  transition: width var(--bms-norm) var(--bms-ease);
+}
+.bms-dali-level {
+  font-family: var(--bms-font-mono);
+  font-size: 12px;
+  min-width: 40px;
+  text-align: right;
+}
+.bms-dali.st-fail { color: rgb(240, 70, 60); border-color: rgb(240, 70, 60 / 0.5); }
+
+/* ── DALI line/group cards ────────────────────────────────────────── */
+.bms-dali-bus {
+  display: grid;
+  gap: 12px;
+}
+.bms-dali-bus-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.bms-dali-bus-stat {
+  padding: 8px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  text-align: center;
+}
+.bms-dali-bus-stat .v {
+  font-family: var(--bms-font-mono);
+  font-size: 18px;
+  font-weight: 600;
+}
+.bms-dali-bus-stat .l { font-size: 10px; color: var(--bms-text-muted); }
+.bms-dali-bus-stat.st-ok    { color: rgb(110, 210, 140); }
+.bms-dali-bus-stat.st-fault { color: rgb(240, 70, 60); }
+.bms-dali-bus-grid {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 3px;
+}
+.bms-dali-bus-cell {
+  aspect-ratio: 1;
+  background: var(--bms-divider);
+  border-radius: 2px;
+  position: relative;
+}
+.bms-dali-bus-cell.is-on    { background: rgb(var(--cr) var(--cg) var(--cb)); box-shadow: 0 0 4px rgb(var(--cr) var(--cg) var(--cb) / 0.55); }
+.bms-dali-bus-cell.is-off   { background: var(--bms-surface-2); }
+.bms-dali-bus-cell.is-fault { background: rgb(240, 70, 60); }
+.bms-dali-bus-cell.is-empty { background: transparent; border: 1px dashed var(--bms-divider); }
+
+/* ── Occupancy ────────────────────────────────────────────────────── */
+.bms-occ {
+  display: grid;
+  gap: 12px;
+}
+.bms-occ-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  background: var(--bms-surface-2);
+  border: 1.5px solid var(--bms-border);
+  margin: 0 auto;
+  transition: all var(--bms-norm) var(--bms-ease);
+}
+.bms-occ.is-occupied .bms-occ-icon {
+  background: rgb(110, 210, 140 / 0.20);
+  border-color: rgb(110, 210, 140);
+  color: rgb(110, 210, 140);
+  animation: bms-occ-pulse 2s ease-in-out infinite;
+}
+@keyframes bms-occ-pulse {
+  50% { box-shadow: 0 0 16px rgb(110, 210, 140 / 0.5); }
+}
+
+/* ── Daylight ─────────────────────────────────────────────────────── */
+.bms-daylight {
+  display: grid;
+  gap: 12px;
+}
+.bms-daylight-bar {
+  position: relative;
+  height: 18px;
+  border-radius: var(--bms-radius-sm);
+  background: linear-gradient(90deg,
+    rgb(40, 50, 70) 0%,
+    rgb(80, 120, 160) 25%,
+    rgb(220, 200, 140) 60%,
+    rgb(255, 230, 130) 100%);
+  border: 1px solid var(--bms-border);
+}
+.bms-daylight-target {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--bms-text);
+}
+.bms-daylight-cursor {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 4px;
+  background: rgb(var(--cr) var(--cg) var(--cb));
+  box-shadow: 0 0 8px rgb(var(--cr) var(--cg) var(--cb));
+  transition: left var(--bms-norm) var(--bms-ease);
+}
+
+/* ── Emergency lighting ───────────────────────────────────────────── */
+.bms-emer {
+  display: grid;
+  gap: 12px;
+}
+.bms-emer-state {
+  padding: 14px;
+  border-radius: var(--bms-radius-sm);
+  border-left: 4px solid var(--bms-divider);
+  background: var(--bms-surface-2);
+}
+.bms-emer.st-normal .bms-emer-state    { border-left-color: rgb(110, 210, 140); }
+.bms-emer.st-test .bms-emer-state      { border-left-color: rgb(180, 140, 220); }
+.bms-emer.st-emergency .bms-emer-state {
+  border-left-color: rgb(240, 70, 60);
+  background: rgb(240, 70, 60 / 0.10);
+  animation: bms-emer-blink 1s ease-in-out infinite;
+}
+@keyframes bms-emer-blink { 50% { background: rgb(240, 70, 60 / 0.22); } }
+
+/* ── Exit sign ────────────────────────────────────────────────────── */
+.bms-exit-shape {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: linear-gradient(180deg, #0e2a18 0%, #061008 100%);
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+}
+.bms-exit-sign-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px;
+  background: rgb(60, 220, 140);
+  color: white;
+  font-family: var(--bms-font);
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  box-shadow: 0 0 30px rgb(60, 220, 140 / 0.6),
+              inset 0 0 12px rgba(255, 255, 255, 0.3);
+}
+.bms-exit.st-off .bms-exit-sign-box {
+  background: var(--bms-surface-2);
+  color: var(--bms-text-faint);
+  box-shadow: none;
+}
+.bms-exit.st-maintenance .bms-exit-sign-box {
+  background: rgb(255, 200, 110);
+  box-shadow: 0 0 24px rgb(255, 200, 110 / 0.5);
+}
+
+/* ── RGBW mixer ──────────────────────────────────────────────────── */
+.bms-rgbw {
+  display: grid;
+  gap: 14px;
+}
+.bms-rgbw-preview {
+  height: 80px;
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+  background: black;
+  position: relative;
+  overflow: hidden;
+  transition: background var(--bms-norm) var(--bms-ease);
+}
+.bms-rgbw-preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(50% 70% at 50% 50%,
+    rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+  pointer-events: none;
+}
+.bms-rgbw-channels {
+  display: grid;
+  gap: 8px;
+}
+.bms-rgbw-channel {
+  display: grid;
+  grid-template-columns: 24px 1fr 48px;
+  gap: 10px;
+  align-items: center;
+  font-family: var(--bms-font-mono);
+  font-size: 12px;
+}
+.bms-rgbw-channel input[type=range] {
+  width: 100%;
+  accent-color: var(--ch-color);
+}
+.bms-rgbw-channel .lbl {
+  font-weight: 700;
+  color: var(--ch-color);
+  text-align: center;
+}
+
+/* ── Luminaire status ─────────────────────────────────────────────── */
+.bms-lum-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px;
+}
+.bms-lum-stat {
+  padding: 10px 12px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+}
+.bms-lum-stat .v {
+  font-family: var(--bms-font-mono);
+  font-size: 18px;
+  font-weight: 600;
+}
+.bms-lum-stat .l {
+  font-size: 10px;
+  color: var(--bms-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.bms-lum-life {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bms-divider);
+  overflow: hidden;
+}
+.bms-lum-life-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, rgb(110, 210, 140), rgb(255, 200, 110), rgb(240, 70, 60));
+  transition: width var(--bms-norm) var(--bms-ease);
+}
+
+/* ── CCT curve ────────────────────────────────────────────────────── */
+.bms-cct-curve svg { width: 100%; display: block; }
