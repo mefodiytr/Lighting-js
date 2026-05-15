@@ -1,0 +1,91 @@
+/* Safety/Alarm L1 widgets */
+
+.bms-alarm {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px var(--bms-pad-lg);
+  background: var(--bms-surface);
+  border-left: 4px solid var(--bms-divider);
+  border-radius: var(--bms-radius-sm);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+  transition: background var(--bms-norm) var(--bms-ease),
+              border-color var(--bms-norm) var(--bms-ease);
+}
+.bms-alarm.sev-warning  { border-left-color: rgb(255, 200, 110); background: rgb(255, 200, 110 / 0.04); }
+.bms-alarm.sev-alarm    { border-left-color: rgb(255, 130, 70);  background: rgb(255, 130, 70 / 0.06); }
+.bms-alarm.sev-critical {
+  border-left-color: rgb(240, 70, 60);
+  background: rgb(240, 70, 60 / 0.08);
+  animation: bms-alarm-blink 1.4s ease-in-out infinite;
+}
+@keyframes bms-alarm-blink {
+  0%, 100% { background: rgb(240, 70, 60 / 0.08); }
+  50%      { background: rgb(240, 70, 60 / 0.16); }
+}
+.bms-alarm .time { font-family: var(--bms-font-mono); font-size: 12px; color: var(--bms-text-muted); }
+.bms-alarm .msg  { font-size: 13px; }
+.bms-alarm .loc  { font-size: 11px; color: var(--bms-text-muted); }
+.bms-alarm .ack-btn {
+  padding: 6px 12px;
+  border-radius: var(--bms-radius-sm);
+  background: transparent;
+  border: 1px solid var(--bms-border);
+  color: var(--bms-text);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background var(--bms-fast) var(--bms-ease);
+}
+.bms-alarm .ack-btn:hover { background: var(--bms-surface-2); }
+.bms-alarm.is-ack { opacity: 0.55; }
+.bms-alarm.is-ack .ack-btn { display: none; }
+
+.bms-access {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px var(--bms-pad-lg);
+  background: var(--bms-surface);
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-access .kind-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  background: var(--bms-surface-2);
+}
+.bms-access.kind-entry  .kind-icon { background: rgb(110, 210, 140 / 0.18); color: rgb(110, 210, 140); }
+.bms-access.kind-exit   .kind-icon { background: rgb(180, 220, 230 / 0.18); color: rgb(120, 180, 200); }
+.bms-access.kind-denied .kind-icon { background: rgb(240, 70, 60 / 0.18); color: rgb(240, 70, 60); }
+.bms-access .who { font-size: 13px; font-weight: 600; }
+.bms-access .meta { font-size: 11px; color: var(--bms-text-muted); }
+.bms-access .stamp { font-family: var(--bms-font-mono); font-size: 12px; color: var(--bms-text-muted); }
+
+.bms-leak {
+  display: grid;
+  gap: 10px;
+  min-width: 220px;
+}
+.bms-leak-icon {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto;
+}
+.bms-leak-icon svg { width: 100%; height: 100%; display: block; }
+.bms-leak.is-wet .bms-leak-icon svg { filter: drop-shadow(0 0 12px rgb(var(--cr) var(--cg) var(--cb) / 0.7)); }
+.bms-leak-state {
+  text-align: center;
+  font-family: var(--bms-font-mono);
+  font-size: 13px;
+}

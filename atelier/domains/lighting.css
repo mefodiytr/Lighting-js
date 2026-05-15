@@ -1,0 +1,127 @@
+/* Lighting L1 widgets */
+
+.bms-zone {
+  display: grid;
+  gap: 14px;
+  min-width: 260px;
+}
+.bms-zone-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bms-zone .lamp {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%,
+      rgb(var(--lr) var(--lg) var(--lb)) 0%,
+      rgb(var(--cr) var(--cg) var(--cb)) 60%,
+      rgb(var(--dr) var(--dg) var(--db)) 100%);
+  box-shadow: 0 0 16px rgb(var(--cr) var(--cg) var(--cb) / 0.7);
+  transition: opacity var(--bms-norm) var(--bms-ease);
+}
+.bms-zone.is-off .lamp { background: var(--bms-divider); box-shadow: none; }
+
+.bms-scene {
+  display: grid;
+  gap: 8px;
+  min-width: 200px;
+  cursor: pointer;
+  transition: transform var(--bms-fast) var(--bms-ease);
+}
+.bms-scene:hover { transform: translateY(-2px); }
+.bms-scene-preview {
+  position: relative;
+  height: 88px;
+  border-radius: var(--bms-radius-sm);
+  overflow: hidden;
+  background: var(--bms-surface-2);
+}
+.bms-scene-preview::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(50% 60% at 30% 40%, rgb(var(--lr) var(--lg) var(--lb) / 0.7) 0%, transparent 60%),
+    radial-gradient(40% 50% at 75% 70%, rgb(var(--cr) var(--cg) var(--cb) / 0.7) 0%, transparent 60%),
+    linear-gradient(135deg, rgb(var(--dr) var(--dg) var(--db) / 0.6) 0%, rgb(var(--cr) var(--cg) var(--cb) / 0.3) 100%);
+}
+.bms-scene-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+.bms-scene-caption {
+  font-size: 11px;
+  color: var(--bms-text-muted);
+  font-family: var(--bms-font-mono);
+}
+
+.bms-rgb {
+  display: grid;
+  gap: 12px;
+  min-width: 280px;
+}
+.bms-rgb-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.bms-rgb-cell {
+  height: 56px;
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--bms-fast) var(--bms-ease),
+              border-color var(--bms-norm) var(--bms-ease),
+              box-shadow var(--bms-norm) var(--bms-ease);
+}
+.bms-rgb-cell:hover { transform: scale(1.04); }
+.bms-rgb-cell.is-active {
+  border-color: var(--bms-text);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+.bms-rgb-cell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(50% 100% at 50% 50%,
+    rgb(var(--cr) var(--cg) var(--cb)) 0%,
+    rgb(var(--dr) var(--dg) var(--db)) 100%);
+}
+.bms-rgb-cell .name {
+  position: absolute;
+  bottom: 4px;
+  left: 6px;
+  z-index: 1;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  font-family: var(--bms-font-mono);
+}
+
+.bms-schedule {
+  display: grid;
+  gap: 8px;
+  min-width: 360px;
+}
+.bms-schedule-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--bms-text-muted);
+  font-family: var(--bms-font-mono);
+}
+.bms-schedule-row {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 2px;
+  height: 28px;
+}
+.bms-schedule-cell {
+  border-radius: 2px;
+  background: rgb(var(--cr) var(--cg) var(--cb) / 0.18);
+}

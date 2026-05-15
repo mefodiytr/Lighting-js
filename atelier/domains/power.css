@@ -1,0 +1,116 @@
+/* Power L1 widgets */
+
+.bms-load {
+  display: grid;
+  gap: 12px;
+  min-width: 280px;
+}
+.bms-load-bar {
+  position: relative;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--bms-surface-2);
+  border: 1px solid var(--bms-border);
+  overflow: hidden;
+}
+.bms-load-bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg,
+    rgb(var(--dr) var(--dg) var(--db)),
+    rgb(var(--cr) var(--cg) var(--cb)));
+  box-shadow: 0 0 16px rgb(var(--cr) var(--cg) var(--cb) / 0.5);
+  width: 0%;
+  transition: width var(--bms-norm) var(--bms-ease);
+}
+.bms-load-bar-threshold {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--bms-text-faint);
+}
+.bms-load-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-family: var(--bms-font-mono);
+}
+
+.bms-battery {
+  display: grid;
+  gap: 14px;
+  min-width: 240px;
+}
+.bms-battery-shape {
+  position: relative;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.bms-battery-body {
+  flex: 1;
+  height: 100%;
+  border: 2px solid var(--bms-text);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.bms-battery-tip {
+  width: 6px;
+  height: 24px;
+  background: var(--bms-text);
+  border-radius: 0 3px 3px 0;
+}
+.bms-battery-level {
+  position: absolute;
+  inset: 4px;
+  width: 0%;
+  background: linear-gradient(90deg,
+    rgb(var(--dr) var(--dg) var(--db)),
+    rgb(var(--cr) var(--cg) var(--cb)));
+  border-radius: 4px;
+  box-shadow: inset 0 0 8px rgb(var(--lr) var(--lg) var(--lb) / 0.3),
+              0 0 16px rgb(var(--cr) var(--cg) var(--cb) / 0.5);
+  transition: width var(--bms-norm) var(--bms-ease);
+}
+.bms-battery-level::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(var(--lr) var(--lg) var(--lb) / 0.3), transparent);
+  animation: bms-charge-shine 2s linear infinite;
+  opacity: 0;
+}
+.bms-battery.is-charging .bms-battery-level::after { opacity: 1; }
+@keyframes bms-charge-shine {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.bms-flow {
+  display: grid;
+  gap: 14px;
+  min-width: 360px;
+}
+.bms-flow-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.bms-flow-node {
+  padding: 12px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+  border: 1px solid var(--bms-border);
+  display: grid;
+  gap: 4px;
+}
+.bms-flow-node .icon { font-size: 24px; }
+.bms-flow-node .num {
+  font-family: var(--bms-font-mono);
+  font-size: 18px;
+  font-weight: 600;
+}
+.bms-flow-node .lbl { font-size: 11px; color: var(--bms-text-muted); }

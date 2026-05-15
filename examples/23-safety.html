@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Safety</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; display: flex; gap: 16px; align-items: center; font-size: 13px; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; }
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bms-text-muted); margin-bottom: 12px; }
+    .stack { display: grid; gap: 8px; }
+    .grid-leaks { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Safety & Access — L1 widgets</h1>
+    <div class="controls">
+      <label>Theme <select id="theme"></select></label>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Alarms — click "Подтвердить" to ack</div>
+    <div class="stack">
+      <bms-alarm-row severity="critical" time="14:23:08" location="ИТП-1 / Насос Р-2"
+        message="Авария насоса горячего водоснабжения — нет потока"></bms-alarm-row>
+      <bms-alarm-row severity="alarm" time="14:21:55" location="АХУ-3 / Фильтр приточный"
+        message="Перепад давления выше уставки 250 Pa — требуется замена фильтра"></bms-alarm-row>
+      <bms-alarm-row severity="warning" time="14:18:12" location="Чиллер-2 / Контур охлаждения"
+        message="Высокая температура конденсации (45.2°C)"></bms-alarm-row>
+      <bms-alarm-row severity="info" time="14:15:00" location="Этаж 4 / Кабинет 412"
+        message="Превышение CO₂: 1240 ppm — рекомендуется проветривание"></bms-alarm-row>
+      <bms-alarm-row severity="warning" time="13:58:44" location="Освещение / Зона B-7"
+        message="Драйвер DALI не отвечает (адрес 0x14)" ack></bms-alarm-row>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Access events</div>
+    <div class="stack">
+      <bms-access-event kind="entry" who="Иванов И.А."     where="Главный вход" card-id="0x4F2A8B" time="14:22:01"></bms-access-event>
+      <bms-access-event kind="entry" who="Петрова М.С."    where="Серверная (3-Б)" card-id="0x4F2A1C" time="14:18:32"></bms-access-event>
+      <bms-access-event kind="denied" who="неизвестная карта" where="Серверная (3-Б)" card-id="0xFFFFFF" time="14:15:08"></bms-access-event>
+      <bms-access-event kind="exit"   who="Сидоров А.К."    where="Главный вход" card-id="0x4F2B17" time="14:08:55"></bms-access-event>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Leak indicators</div>
+    <div class="grid-leaks">
+      <bms-leak-indicator label="Серверная (под полом)" state="dry"></bms-leak-indicator>
+      <bms-leak-indicator label="ИТП — поддон насосов"   state="damp"></bms-leak-indicator>
+      <bms-leak-indicator label="Этаж −1 архив"           state="wet"></bms-leak-indicator>
+      <bms-leak-indicator label="Технический этаж"        state="fault"></bms-leak-indicator>
+    </div>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>

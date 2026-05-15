@@ -1,0 +1,116 @@
+/* HVAC L1 widgets — light DOM styles */
+
+.bms-fcu {
+  display: grid;
+  gap: 12px;
+  min-width: 260px;
+}
+.bms-fcu-temp {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.bms-fcu-temp .actual {
+  font-family: var(--bms-font-mono);
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.bms-fcu-temp .setpoint {
+  font-size: 12px;
+  color: var(--bms-text-muted);
+}
+.bms-fcu-temp .setpoint span {
+  color: rgb(var(--cr) var(--cg) var(--cb));
+  font-family: var(--bms-font-mono);
+}
+
+.bms-ahu {
+  display: grid;
+  gap: 14px;
+  min-width: 280px;
+}
+.bms-ahu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.bms-ahu-stat .num {
+  font-family: var(--bms-font-mono);
+  font-size: 22px;
+  font-weight: 600;
+}
+.bms-ahu-stat .lbl {
+  font-size: 11px;
+  color: var(--bms-text-muted);
+}
+
+.bms-chiller {
+  display: grid;
+  gap: 12px;
+  min-width: 280px;
+}
+.bms-chiller-main {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+.bms-chiller-load {
+  font-family: var(--bms-font-mono);
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: rgb(var(--cr) var(--cg) var(--cb));
+}
+.bms-chiller-cop {
+  font-size: 12px;
+  color: var(--bms-text-muted);
+}
+.bms-chiller-cop span { font-family: var(--bms-font-mono); font-weight: 600; color: var(--bms-text); }
+
+.bms-itp {
+  display: grid;
+  gap: 12px;
+  min-width: 280px;
+}
+.bms-itp-flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background: var(--bms-surface-2);
+  border-radius: var(--bms-radius-sm);
+}
+.bms-itp-flow .pipe {
+  text-align: center;
+}
+.bms-itp-flow .num {
+  font-family: var(--bms-font-mono);
+  font-size: 20px;
+  font-weight: 600;
+}
+.bms-itp-flow .arrow {
+  font-size: 18px;
+  color: rgb(var(--cr) var(--cg) var(--cb));
+  text-shadow: 0 0 12px rgb(var(--cr) var(--cg) var(--cb) / 0.6);
+}
+
+.bms-valve {
+  display: grid;
+  gap: 10px;
+  min-width: 240px;
+}
+.bms-valve-svg {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+.bms-valve-state {
+  text-align: center;
+  font-family: var(--bms-font-mono);
+  font-size: 13px;
+}

@@ -1,0 +1,102 @@
+/**
+ * Shared layout/typography utilities for L1 light-DOM widgets.
+ * L0 primitives use Shadow DOM and are isolated; these classes are global.
+ */
+
+.bms-card {
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-md);
+  padding: var(--bms-pad-lg);
+  box-shadow: var(--bms-shadow-1);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+  display: block;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--bms-norm) var(--bms-ease),
+              box-shadow var(--bms-norm) var(--bms-ease);
+}
+.bms-card.is-active {
+  border-color: rgb(var(--cr) var(--cg) var(--cb) / 0.45);
+  box-shadow:
+    var(--bms-shadow-1),
+    0 16px 40px rgb(var(--cr) var(--cg) var(--cb) / 0.16);
+}
+.bms-card.is-active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 70% at 50% 0%,
+    rgb(var(--cr) var(--cg) var(--cb) / 0.14) 0%,
+    transparent 70%);
+  pointer-events: none;
+}
+.bms-card > * { position: relative; }
+
+.bms-row    { display: flex; align-items: center; gap: 12px; }
+.bms-col    { display: flex; flex-direction: column; gap: 8px; }
+.bms-between{ justify-content: space-between; }
+.bms-grow   { flex: 1; }
+.bms-stack  { display: grid; gap: 12px; }
+
+.bms-h1     { font-family: var(--bms-font-display); font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+.bms-h2     { font-size: 14px; font-weight: 600; margin: 0; }
+.bms-caption{ font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bms-text-muted); }
+.bms-muted  { color: var(--bms-text-muted); }
+.bms-faint  { color: var(--bms-text-faint); }
+.bms-mono   { font-family: var(--bms-font-mono); font-variant-numeric: tabular-nums; }
+
+.bms-meter {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bms-divider);
+  overflow: hidden;
+}
+.bms-meter-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg,
+    rgb(var(--dr) var(--dg) var(--db)),
+    rgb(var(--cr) var(--cg) var(--cb)));
+  box-shadow: 0 0 12px rgb(var(--cr) var(--cg) var(--cb) / 0.45);
+  transition: width var(--bms-norm) var(--bms-ease);
+}
+.bms-meter-tick {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--bms-border);
+}
+
+.bms-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  border: 1px solid var(--bms-border);
+  background: var(--bms-surface-2);
+  color: var(--bms-text-muted);
+}
+.bms-pill.is-active {
+  color: rgb(var(--lr) var(--lg) var(--lb));
+  background: rgb(var(--cr) var(--cg) var(--cb) / 0.18);
+  border-color: rgb(var(--cr) var(--cg) var(--cb) / 0.55);
+}
+
+.bms-divider {
+  height: 1px;
+  background: var(--bms-divider);
+  margin: 12px 0;
+}
+
+bms-fcu-tile, bms-ahu-card, bms-chiller-tile, bms-itp-summary, bms-valve-control,
+bms-zone-dimmer, bms-scene-card, bms-rgb-picker, bms-schedule-row,
+bms-load-bar, bms-battery-soc, bms-energy-flow,
+bms-alarm-row, bms-access-event, bms-leak-indicator {
+  display: block;
+}

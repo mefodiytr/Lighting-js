@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — HVAC</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; display: flex; gap: 16px; align-items: center; font-size: 13px; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bms-text-muted); margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HVAC — L1 domain widgets</h1>
+    <div class="controls">
+      <label>Theme <select id="theme"></select></label>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Fan coil units — interactive</div>
+    <div class="grid">
+      <bms-fcu-tile label="Кабинет 312" mode="cool" setpoint="22" actual="22.4" fan="3" status="ok" accent="hvac-temperature"></bms-fcu-tile>
+      <bms-fcu-tile label="Переговорная А" mode="heat" setpoint="24" actual="23.6" fan="2" status="ok" accent="hvac-temperature"></bms-fcu-tile>
+      <bms-fcu-tile label="Open space" mode="auto" setpoint="23" actual="22.8" fan="auto" status="ok" accent="hvac-temperature"></bms-fcu-tile>
+      <bms-fcu-tile label="Серверная" mode="cool" setpoint="18" actual="21.5" fan="5" status="warning" accent="hvac-temperature"></bms-fcu-tile>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Air handling units (приточки)</div>
+    <div class="grid">
+      <bms-ahu-card label="АХУ-1" supply="22.0" return="24.5" flow="3200" co2="650" filter="ok" status="ok"></bms-ahu-card>
+      <bms-ahu-card label="АХУ-2" supply="21.0" return="25.2" flow="4100" co2="850" filter="warning" status="ok"></bms-ahu-card>
+      <bms-ahu-card label="АХУ-3 (запад)" supply="19.5" return="26.8" flow="2400" co2="1150" filter="replace" status="warning"></bms-ahu-card>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Chillers</div>
+    <div class="grid">
+      <bms-chiller-tile label="Чиллер №1" load="68" cop="4.2" mode="cooling" in-temp="14.0" out-temp="7.5" accent="power-load"></bms-chiller-tile>
+      <bms-chiller-tile label="Чиллер №2" load="42" cop="3.8" mode="cooling" in-temp="13.2" out-temp="8.1" accent="power-load"></bms-chiller-tile>
+      <bms-chiller-tile label="Чиллер №3" load="0" cop="—" mode="standby" in-temp="—" out-temp="—" accent="power-load"></bms-chiller-tile>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">ИТП — heat substations</div>
+    <div class="grid">
+      <bms-itp-summary label="ИТП главный" supply-temp="68" return-temp="42" delta-p="320" pump-state="on" status="ok"></bms-itp-summary>
+      <bms-itp-summary label="ИТП северное крыло" supply-temp="65" return-temp="44" delta-p="280" pump-state="on" status="ok"></bms-itp-summary>
+      <bms-itp-summary label="ИТП резервный" supply-temp="—" return-temp="—" delta-p="0" pump-state="off" status="ok"></bms-itp-summary>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Valves</div>
+    <div class="grid">
+      <bms-valve-control label="V-101 Подача ГВС" position="78" state="open" accent="hvac-temperature"></bms-valve-control>
+      <bms-valve-control label="V-202 Байпас" position="30" state="transit" accent="hvac-temperature"></bms-valve-control>
+      <bms-valve-control label="V-303 Аварийный" position="0" state="closed" accent="hvac-temperature"></bms-valve-control>
+    </div>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>

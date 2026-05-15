@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Lighting</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; display: flex; gap: 16px; align-items: center; font-size: 13px; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bms-text-muted); margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Lighting — L1 domain widgets</h1>
+    <div class="controls">
+      <label>Theme <select id="theme"></select></label>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Zone dimmers — interactive</div>
+    <div class="grid">
+      <bms-zone-dimmer label="Спальня" brightness="65" cct="2700" on></bms-zone-dimmer>
+      <bms-zone-dimmer label="Гостиная" brightness="85" cct="3200" on></bms-zone-dimmer>
+      <bms-zone-dimmer label="Кухня"   brightness="100" cct="4000" on></bms-zone-dimmer>
+      <bms-zone-dimmer label="Кабинет" brightness="0" cct="5000"></bms-zone-dimmer>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Scenes — click to activate</div>
+    <div class="scenes">
+      <bms-scene-card name="Утро"    brightness="80" cct="4000"></bms-scene-card>
+      <bms-scene-card name="День"    brightness="100" cct="5000" active></bms-scene-card>
+      <bms-scene-card name="Вечер"   brightness="60" cct="2700"></bms-scene-card>
+      <bms-scene-card name="Кино"    brightness="20" cct="2200"></bms-scene-card>
+      <bms-scene-card name="Ночник"  brightness="5"  cct="1800"></bms-scene-card>
+      <bms-scene-card name="Тренировка" brightness="100" cct="6500"></bms-scene-card>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">RGB picker</div>
+    <bms-rgb-picker label="Подсветка" value="3"></bms-rgb-picker>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Schedule</div>
+    <bms-schedule-row label="Будний день — общий свет"
+      hours='[0,0,0,0,0,0,40,80,90,100,100,100,100,100,100,100,100,90,80,70,50,30,10,0]'></bms-schedule-row>
+    <div style="height: 12px;"></div>
+    <bms-schedule-row label="Выходной — общий свет"
+      hours='[0,0,0,0,0,0,0,0,30,60,80,90,90,90,90,90,90,80,70,60,40,20,5,0]'></bms-schedule-row>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>

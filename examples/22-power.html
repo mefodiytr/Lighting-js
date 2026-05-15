@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Power</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; display: flex; gap: 16px; align-items: center; font-size: 13px; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bms-text-muted); margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Power — L1 domain widgets</h1>
+    <div class="controls">
+      <label>Theme <select id="theme"></select></label>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Load bars</div>
+    <div class="grid">
+      <bms-load-bar label="Ввод A"   value="68" threshold-warn="80" threshold-alarm="95" nominal="120"></bms-load-bar>
+      <bms-load-bar label="Ввод B"   value="42" threshold-warn="80" threshold-alarm="95" nominal="120"></bms-load-bar>
+      <bms-load-bar label="Резерв ДГУ" value="0"  threshold-warn="80" threshold-alarm="95" nominal="200"></bms-load-bar>
+      <bms-load-bar label="Серверная" value="88" threshold-warn="80" threshold-alarm="95" nominal="80"></bms-load-bar>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Battery banks</div>
+    <div class="grid">
+      <bms-battery-soc label="Главный ИБП"   level="78" charging="in"   power="12.4" eta="45"></bms-battery-soc>
+      <bms-battery-soc label="ИТ-ИБП"        level="92" charging="idle" power="0"     eta="0"></bms-battery-soc>
+      <bms-battery-soc label="Аварийный"     level="34" charging="out"  power="4.8"  eta="120"></bms-battery-soc>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Energy flow</div>
+    <bms-energy-flow grid="12.6" load="48.2" pv="38.4" battery="-2.8"></bms-energy-flow>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>
