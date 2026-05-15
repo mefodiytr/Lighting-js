@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — More mnemonics (Phase 8)</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <link rel="stylesheet" href="../atelier/mnemonics/mnemonics.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    .theme-bar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .stack { display: grid; gap: 24px; }
+  </style>
+</head>
+<body>
+  <div class="theme-bar"><label>Theme <select id="theme"></select></label></div>
+
+  <div class="stack">
+    <bms-boiler-room-mnemonic
+      name="Котельная Б-1"
+      tag="центральный тепловой узел"
+      boiler-1-load="78" boiler-1-supply="82" boiler-1-return="62"
+      boiler-2-load="42" boiler-2-supply="80" boiler-2-return="64"
+      pump-1-speed="90" pump-2-speed="0"
+      tank-level="72" total-heat="14285"></bms-boiler-room-mnemonic>
+
+    <bms-pump-room-mnemonic
+      name="Насосная станция"
+      tag="холодоснабжение"
+      lead-id="p1"
+      header-pressure="4.20"
+      header-flow="142"
+      tank-pressure="2.45"
+      pumps='[
+        {"id":"p1","label":"ЦН-1 (lead)","speed":80,"hours":18342,"state":"running"},
+        {"id":"p2","label":"ЦН-2 (lag)","speed":60,"hours":17890,"state":"running"},
+        {"id":"p3","label":"ЦН-3 (standby)","speed":0,"hours":16245,"state":"standby"}
+      ]'></bms-pump-room-mnemonic>
+
+    <bms-ventilation-tree
+      name="АХУ-1 распределение"
+      tag="северное крыло · 4 этаж"
+      ahu-flow="6400"
+      supply-temp="22"
+      zones='[
+        {"id":"z1","label":"Open space N","flow":1800,"damper":85,"temp":22.4},
+        {"id":"z2","label":"Каб. 401-410","flow":1200,"damper":60,"temp":22.8},
+        {"id":"z3","label":"Переговорки","flow":900,"damper":75,"temp":22.1},
+        {"id":"z4","label":"Кухня","flow":1200,"damper":100,"temp":23.5},
+        {"id":"z5","label":"Серверная","flow":1300,"damper":40,"temp":18.4}
+      ]'></bms-ventilation-tree>
+
+    <bms-fire-suppression-mnemonic
+      name="АУПТ здания"
+      tag="спринклерная установка"
+      tank-level="92" jockey-running main-running="false" system-pressure="6.2"
+      zones='[
+        {"id":"z1","label":"Этаж 1","state":"armed"},
+        {"id":"z2","label":"Этаж 2","state":"armed"},
+        {"id":"z3","label":"Этаж 3","state":"armed"},
+        {"id":"z4","label":"Этаж 4","state":"armed"},
+        {"id":"z5","label":"Архив","state":"active"},
+        {"id":"z6","label":"Серверная","state":"armed"},
+        {"id":"z7","label":"Парковка","state":"fault"}
+      ]' alarm></bms-fire-suppression-mnemonic>
+
+    <bms-power-mnemonic
+      name="Электроснабжение здания"
+      tag="ТП-101 · ГРЩ"
+      main-volt="10000"
+      ats-source="main"
+      tp-load="62"
+      gen-running="false"
+      panels='[
+        {"id":"p1","label":"ЩС-1 общедомовое","load":68,"state":"closed"},
+        {"id":"p2","label":"ЩС-2 этаж 1-2","load":42,"state":"closed"},
+        {"id":"p3","label":"ЩС-3 этаж 3-4","load":58,"state":"closed"},
+        {"id":"p4","label":"ЩС-4 IT-нагрузка","load":78,"state":"closed"},
+        {"id":"p5","label":"ЩС-5 HVAC","load":52,"state":"closed"}
+      ]'></bms-power-mnemonic>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>
