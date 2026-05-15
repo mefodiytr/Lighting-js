@@ -42,6 +42,16 @@ import './lighting/bms-cct-curve.js';
 import './power/bms-load-bar.js';
 import './power/bms-battery-soc.js';
 import './power/bms-energy-flow.js';
+import './power/bms-ups-tile.js';
+import './power/bms-ats-tile.js';
+import './power/bms-generator-tile.js';
+import './power/bms-transformer-tile.js';
+import './power/bms-switchgear-row.js';
+import './power/bms-breaker-tile.js';
+import './power/bms-meter-3phase.js';
+import './power/bms-energy-meter.js';
+import './power/bms-pv-array.js';
+import './power/bms-power-quality.js';
 
 import './safety/bms-alarm-row.js';
 import './safety/bms-access-event.js';

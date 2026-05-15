@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Power expansion (Phase 7)</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    .controls { margin-left: auto; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .section { margin-bottom: 36px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bms-text-muted); margin-bottom: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Power expansion — 10 виджетов Phase 7</h1>
+    <div class="controls"><label>Theme <select id="theme"></select></label></div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Source equipment</div>
+    <div class="grid-3">
+      <bms-ups-tile label="ИБП-1 серверная" mode="online" load-percent="42" battery-soc="98" autonomy-min="62" input-volt="230" output-volt="230" temp="34"></bms-ups-tile>
+      <bms-ups-tile label="ИБП-2 ИТ-этаж" mode="battery" load-percent="78" battery-soc="72" autonomy-min="18" input-volt="0" output-volt="231" temp="38"></bms-ups-tile>
+      <bms-ats-tile label="АВР главный" active="main" main-volt="230" reserve-volt="232" main-status="ok" reserve-status="ok" last-switch="вчера 22:14" mode="auto"></bms-ats-tile>
+      <bms-ats-tile label="АВР резерв" active="reserve" main-volt="0" reserve-volt="228" main-status="missing" reserve-status="ok" last-switch="14:08" mode="auto"></bms-ats-tile>
+      <bms-generator-tile label="ДГУ-1" mode="auto" fuel-level="78" oil-pressure="4.20" water-temp="78" battery-volt="13.8" power-out="0" frequency="0" runtime-h="412"></bms-generator-tile>
+      <bms-generator-tile label="ДГУ-2" mode="running" fuel-level="65" oil-pressure="4.15" water-temp="82" battery-volt="14.2" power-out="142.6" frequency="50.0" runtime-h="2104"></bms-generator-tile>
+      <bms-transformer-tile label="ТП-101 силовой" primary-kv="10" secondary-kv="0.4" primary-current="48" load-percent="68" oil-temp="62" winding-temp="74" tap-position="-2"></bms-transformer-tile>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Switchgear &amp; breakers</div>
+    <bms-switchgear-row label="РУ-1 секция А" bus-voltage="400" bus-current="320"
+      breakers='[
+        {"id":"q1","label":"Ввод 1","state":"closed","current":180,"rating":250},
+        {"id":"q2","label":"Ввод 2","state":"open","current":0,"rating":250},
+        {"id":"q3","label":"Секционный","state":"open","current":0,"rating":400},
+        {"id":"q4","label":"Освещение этаж 4","state":"closed","current":42,"rating":100},
+        {"id":"q5","label":"Розетки этаж 4","state":"closed","current":98,"rating":160},
+        {"id":"q6","label":"HVAC АХУ-1","state":"closed","current":48,"rating":80},
+        {"id":"q7","label":"Серверная","state":"tripped","current":0,"rating":63}
+      ]'></bms-switchgear-row>
+    <div class="grid-3" style="margin-top: 16px;">
+      <bms-breaker-tile label="Q-401 ввод" state="closed" current="180" rating="250" phase="3φ" position="connected"></bms-breaker-tile>
+      <bms-breaker-tile label="Q-407 серверная" state="tripped" current="0" rating="63" trip-reason="overload" phase="3φ" position="test"></bms-breaker-tile>
+      <bms-breaker-tile label="Q-412 кондиц" state="open" current="0" rating="40" phase="3φ" position="disconnected"></bms-breaker-tile>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Metering</div>
+    <div class="grid-3">
+      <bms-meter-3phase label="Счётчик A ввод"
+        voltage-l1="230.4" voltage-l2="231.1" voltage-l3="229.8"
+        current-l1="42.1" current-l2="48.4" current-l3="38.2"
+        pf-l1="0.92" pf-l2="0.94" pf-l3="0.89"
+        frequency="50.01" power-total="29.6"></bms-meter-3phase>
+      <bms-energy-meter label="Учёт общий" total-kwh="142850" day-kwh="98420" peak-kwh="12440" night-kwh="31990"
+        tariff="day" instant-kw="48.6" cost-rub="892544.20"></bms-energy-meter>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">PV array</div>
+    <bms-pv-array label="Солнечная установка на крыше"
+      peak-kw="56" current-kw="38.4" irradiance="720" inverter-temp="48" daily-kwh="184"
+      strings='[
+        {"id":"S1","status":"good","power":2.1},{"id":"S2","status":"good","power":2.2},
+        {"id":"S3","status":"good","power":2.0},{"id":"S4","status":"good","power":2.1},
+        {"id":"S5","status":"low","power":1.3},{"id":"S6","status":"good","power":2.0},
+        {"id":"S7","status":"good","power":2.2},{"id":"S8","status":"good","power":2.1},
+        {"id":"S9","status":"fault","power":0},{"id":"SA","status":"good","power":2.1},
+        {"id":"SB","status":"good","power":2.0},{"id":"SC","status":"good","power":2.1},
+        {"id":"SD","status":"good","power":2.2},{"id":"SE","status":"low","power":1.4},
+        {"id":"SF","status":"good","power":2.1},{"id":"SG","status":"good","power":2.0}
+      ]'></bms-pv-array>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Power quality</div>
+    <bms-power-quality label="Анализатор PQ ввод A"
+      voltage-thd="3.2" current-thd="8.4" power-factor="0.91" frequency="50.02"
+      dips="2" sags="0"
+      harmonics='[100, 0, 38, 0, 22, 0, 14, 0, 9, 0, 6, 0]'></bms-power-quality>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+  </script>
+</body>
+</html>
