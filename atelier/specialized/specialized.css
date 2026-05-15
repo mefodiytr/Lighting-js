@@ -1,0 +1,300 @@
+/* Specialized analytics widgets — Phase 4 */
+
+bms-trend-chart, bms-schedule-grid, bms-log-viewer,
+bms-equipment-table, bms-psychrometric-chart { display: block; }
+
+/* ── Trend chart ──────────────────────────────────────────────────── */
+.bms-trend {
+  display: grid;
+  gap: 12px;
+  padding: var(--bms-pad-lg);
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-md);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-trend-svg { width: 100%; display: block; }
+.bms-trend-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--bms-text-muted);
+}
+.bms-trend-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.bms-trend-legend .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.bms-trend-axis text {
+  font-family: var(--bms-font-mono);
+  font-size: 10px;
+  fill: var(--bms-text-muted);
+}
+.bms-trend-grid line {
+  stroke: var(--bms-divider);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+/* ── Schedule grid 7×24 ───────────────────────────────────────────── */
+.bms-sched-grid {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 6px;
+  padding: var(--bms-pad-lg);
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-md);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-sched-head {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 2px;
+  font-family: var(--bms-font-mono);
+  font-size: 10px;
+  color: var(--bms-text-muted);
+  text-align: center;
+}
+.bms-sched-rows {
+  grid-column: 1 / span 2;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 4px;
+}
+.bms-sched-day {
+  font-family: var(--bms-font-mono);
+  font-size: 11px;
+  color: var(--bms-text-muted);
+  display: grid;
+  place-items: center;
+}
+.bms-sched-row {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 2px;
+}
+.bms-sched-cell {
+  height: 22px;
+  border-radius: 2px;
+  background: var(--bms-divider);
+  position: relative;
+  cursor: pointer;
+  transition: transform var(--bms-fast) var(--bms-ease);
+}
+.bms-sched-cell:hover { transform: scale(1.1); z-index: 2; }
+.bms-sched-cell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: rgb(var(--cr) var(--cg) var(--cb));
+  opacity: var(--cell-op, 0);
+  pointer-events: none;
+}
+
+/* ── Log viewer ──────────────────────────────────────────────────── */
+.bms-log {
+  display: grid;
+  gap: 12px;
+  padding: var(--bms-pad-lg);
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-md);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-log-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.bms-log-search {
+  flex: 1;
+  min-width: 160px;
+  padding: 6px 12px;
+  background: var(--bms-surface-2);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-sm);
+  color: var(--bms-text);
+  font: inherit;
+  font-size: 13px;
+}
+.bms-log-level {
+  padding: 4px 10px;
+  background: var(--bms-surface-2);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-pill);
+  color: var(--bms-text-muted);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.bms-log-level.is-active {
+  background: var(--bms-text);
+  color: var(--bms-text-inverse);
+  border-color: var(--bms-text);
+}
+.bms-log-list {
+  display: grid;
+  gap: 2px;
+  max-height: 480px;
+  overflow-y: auto;
+  font-family: var(--bms-font-mono);
+  font-size: 12px;
+}
+.bms-log-row {
+  display: grid;
+  grid-template-columns: 70px 64px 1fr;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 2px;
+  border-left: 3px solid transparent;
+}
+.bms-log-row.lvl-debug   { color: var(--bms-text-faint); }
+.bms-log-row.lvl-info    { color: var(--bms-text-muted); border-left-color: rgb(120, 180, 220); }
+.bms-log-row.lvl-warning { color: var(--bms-text); border-left-color: rgb(255, 200, 110); background: rgb(255, 200, 110 / 0.05); }
+.bms-log-row.lvl-error   { color: rgb(255, 130, 70); border-left-color: rgb(240, 70, 60); background: rgb(240, 70, 60 / 0.08); }
+.bms-log-row .time   { color: var(--bms-text-faint); }
+.bms-log-row .src    { color: var(--bms-text-muted); }
+.bms-log-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--bms-text-muted);
+}
+.bms-log-pagination button {
+  padding: 4px 10px;
+  background: var(--bms-surface-2);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-sm);
+  color: var(--bms-text);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.bms-log-pagination button:disabled { opacity: 0.4; cursor: default; }
+
+/* ── Equipment table ──────────────────────────────────────────────── */
+.bms-eqtable {
+  padding: var(--bms-pad-lg);
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-md);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-eqtable-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.bms-eqtable-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.bms-eqtable-filter {
+  padding: 4px 10px;
+  background: var(--bms-surface-2);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-pill);
+  font-size: 11px;
+  color: var(--bms-text-muted);
+  cursor: pointer;
+}
+.bms-eqtable-filter.is-active {
+  background: var(--bms-text);
+  color: var(--bms-text-inverse);
+  border-color: var(--bms-text);
+}
+.bms-eqtable-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.bms-eqtable-table th {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid var(--bms-border);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--bms-text-muted);
+  cursor: pointer;
+}
+.bms-eqtable-table th.is-sorted { color: var(--bms-text); }
+.bms-eqtable-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--bms-divider);
+}
+.bms-eqtable-table tr { cursor: pointer; transition: background var(--bms-fast) var(--bms-ease); }
+.bms-eqtable-table tr:hover td { background: var(--bms-surface-2); }
+.bms-eqtable-table td.mono { font-family: var(--bms-font-mono); }
+
+/* ── Psychrometric chart ──────────────────────────────────────────── */
+.bms-psy {
+  display: grid;
+  gap: 12px;
+  padding: var(--bms-pad-lg);
+  background: var(--bms-surface);
+  border: 1px solid var(--bms-border);
+  border-radius: var(--bms-radius-md);
+  font-family: var(--bms-font);
+  color: var(--bms-text);
+}
+.bms-psy-svg { width: 100%; display: block; }
+.bms-psy-axis text {
+  font-family: var(--bms-font-mono);
+  font-size: 10px;
+  fill: var(--bms-text-muted);
+}
+.bms-psy-rh {
+  fill: none;
+  stroke: var(--bms-divider);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+.bms-psy-sat {
+  fill: none;
+  stroke: rgb(100, 200, 230);
+  stroke-width: 2;
+}
+.bms-psy-comfort {
+  fill: rgb(110, 210, 140 / 0.15);
+  stroke: rgb(110, 210, 140 / 0.55);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+.bms-psy-point {
+  filter: drop-shadow(0 0 4px currentColor);
+}
+.bms-psy-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--bms-text-muted);
+}
+.bms-psy-legend .swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+  vertical-align: middle;
+}
