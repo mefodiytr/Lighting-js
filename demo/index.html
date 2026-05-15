@@ -1,0 +1,2971 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>Atelier of Light · Widget Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* =====================================================
+       REGISTERED ACCENT CHANNELS — smooth color tweening
+       ===================================================== */
+    @property --cr { syntax: '<number>'; inherits: true; initial-value: 255; }
+    @property --cg { syntax: '<number>'; inherits: true; initial-value: 180; }
+    @property --cb { syntax: '<number>'; inherits: true; initial-value: 90; }
+    @property --dr { syntax: '<number>'; inherits: true; initial-value: 220; }
+    @property --dg { syntax: '<number>'; inherits: true; initial-value: 140; }
+    @property --db { syntax: '<number>'; inherits: true; initial-value: 60; }
+    @property --lr { syntax: '<number>'; inherits: true; initial-value: 255; }
+    @property --lg { syntax: '<number>'; inherits: true; initial-value: 220; }
+    @property --lb { syntax: '<number>'; inherits: true; initial-value: 150; }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+
+    /* =====================================================
+       THEMES
+       ===================================================== */
+    :root[data-theme='cinematic-dark'] {
+      --bg-base: #050404;
+      --bg-elev: #0a0908;
+      --bg-card-from: rgba(30, 24, 18, 0.6);
+      --bg-card-to: rgba(18, 14, 10, 0.4);
+      --border-subtle: rgba(120, 95, 65, 0.12);
+      --border-strong: rgba(212, 167, 106, 0.5);
+      --text-primary: #f5ead8;
+      --text-secondary: #e8d8bc;
+      --text-muted: #8a7a64;
+      --text-dim: #5a4a36;
+      --text-faint: #3a2e22;
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --motion-spring: cubic-bezier(0.34, 1.5, 0.64, 1);
+      --motion-ease-soft: cubic-bezier(0.65, 0.05, 0.36, 1);
+      --shadow-card: 0 2px 8px rgba(0,0,0,0.5);
+      --radius-card: 18px;
+      --radius-pill: 999px;
+      --grain-opacity: 0.4;
+      background:
+        radial-gradient(ellipse at top, #1a1614 0%, #0a0908 45%, #050404 100%);
+      color: var(--text-primary);
+    }
+
+    :root[data-theme='neo-brutalism'] {
+      --bg-base: #f4f0e6;
+      --bg-elev: #ffffff;
+      --bg-card-from: #ffffff;
+      --bg-card-to: #ffffff;
+      --border-subtle: #000000;
+      --border-strong: #000000;
+      --text-primary: #000000;
+      --text-secondary: #1a1a1a;
+      --text-muted: #4a4a4a;
+      --text-dim: #6a6a6a;
+      --text-faint: #9a9a9a;
+      --font-display: 'JetBrains Mono', monospace;
+      --font-mono: 'JetBrains Mono', monospace;
+      --motion-spring: linear;
+      --motion-ease-soft: linear;
+      --shadow-card: 6px 6px 0 0 #000;
+      --radius-card: 0;
+      --radius-pill: 0;
+      --grain-opacity: 0;
+      background: #f4f0e6;
+      color: #000;
+    }
+
+    :root[data-theme='ivory-day'] {
+      --bg-base: #faf5ec;
+      --bg-elev: #ffffff;
+      --bg-card-from: #ffffff;
+      --bg-card-to: #f8f2e4;
+      --border-subtle: rgba(120, 95, 65, 0.15);
+      --border-strong: rgba(120, 85, 50, 0.35);
+      --text-primary: #1f1a14;
+      --text-secondary: #3a2e22;
+      --text-muted: #6a5a44;
+      --text-dim: #8a7a64;
+      --text-faint: #b8a890;
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --motion-spring: cubic-bezier(0.34, 1.5, 0.64, 1);
+      --motion-ease-soft: cubic-bezier(0.65, 0.05, 0.36, 1);
+      --shadow-card: 0 2px 6px rgba(60, 40, 20, 0.08);
+      --radius-card: 18px;
+      --radius-pill: 999px;
+      --grain-opacity: 0.15;
+      background: radial-gradient(ellipse at top, #fdf8ef 0%, #f5ead4 60%, #ead8b8 100%);
+      color: var(--text-primary);
+    }
+
+    body {
+      font-family: var(--font-display);
+      transition:
+        --cr 700ms cubic-bezier(0.4, 0, 0.2, 1),
+        --cg 700ms cubic-bezier(0.4, 0, 0.2, 1),
+        --cb 700ms cubic-bezier(0.4, 0, 0.2, 1),
+        --dr 700ms cubic-bezier(0.4, 0, 0.2, 1),
+        --dg 700ms cubic-bezier(0.4, 0, 0.2, 1),
+        --db 700ms cubic-bezier(0.4, 0, 0.2, 1),
+        --lr 700ms cubic-bezier(0.4, 0, 0.2, 1),
+        --lg 700ms cubic-bezier(0.4, 0, 0.2, 1),
+        --lb 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Grain texture overlay */
+    .grain {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 5;
+      opacity: var(--grain-opacity);
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    /* =====================================================
+       SLIDE SHELL
+       ===================================================== */
+    .deck {
+      min-height: 100vh;
+      padding: 80px 24px 140px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .slide {
+      animation: slideIn 600ms var(--motion-ease-soft);
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .slide-title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px 0;
+      color: var(--text-primary);
+    }
+    .slide-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: rgb(var(--cr), var(--cg), var(--cb));
+      transition: color 700ms ease;
+    }
+    [data-theme='neo-brutalism'] .slide-title em {
+      font-style: normal;
+      background: rgb(var(--cr), var(--cg), var(--cb));
+      color: #000;
+      padding: 0 8px;
+    }
+
+    .slide-lead {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    .slide-prose {
+      font-family: var(--font-display);
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 680px;
+      margin-bottom: 24px;
+    }
+    .slide-prose em {
+      font-style: italic;
+      color: rgb(var(--cr), var(--cg), var(--cb));
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-subtle) 30%, var(--border-subtle) 70%, transparent);
+      margin: 48px 0;
+    }
+    [data-theme='neo-brutalism'] .divider {
+      background: #000;
+      height: 3px;
+    }
+
+    /* =====================================================
+       VARIANT CARD GRID
+       ===================================================== */
+    .vgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .vcard {
+      background: linear-gradient(180deg, var(--bg-card-from), var(--bg-card-to));
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      padding: 28px 20px 24px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: border-color 600ms ease;
+    }
+    [data-theme='neo-brutalism'] .vcard {
+      border-width: 3px;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: none;
+    }
+    .vcard::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(var(--cr), var(--cg), var(--cb), 0.3), transparent);
+      transition: inherit;
+    }
+    [data-theme='neo-brutalism'] .vcard::before { display: none; }
+
+    .vcard-num {
+      position: absolute;
+      top: 14px; left: 16px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+    .vcard-tag {
+      position: absolute;
+      top: 14px; right: 16px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      transition: color 400ms;
+    }
+    .vcard-tag.on { color: rgb(var(--cr), var(--cg), var(--cb)); }
+
+    .vcard-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: 12px 0;
+      min-height: 140px;
+    }
+
+    .vcard-name {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+      text-align: center;
+    }
+    .vcard-name em {
+      font-style: italic;
+      color: rgb(var(--cr), var(--cg), var(--cb));
+    }
+    [data-theme='neo-brutalism'] .vcard-name em {
+      font-style: normal;
+      text-decoration: underline;
+      text-decoration-thickness: 3px;
+    }
+    .vcard-desc {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      text-align: center;
+      letter-spacing: 0.04em;
+      max-width: 220px;
+    }
+
+    /* =====================================================
+       BOTTOM CONTROL BAR
+       ===================================================== */
+    .ctrlbar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 30;
+      background: rgba(10, 8, 6, 0.85);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+      border-top: 1px solid var(--border-subtle);
+      padding: 14px 20px 14px;
+      padding-bottom: calc(14px + env(safe-area-inset-bottom));
+    }
+    [data-theme='neo-brutalism'] .ctrlbar {
+      background: #fff;
+      border-top: 3px solid #000;
+      backdrop-filter: none;
+    }
+    [data-theme='ivory-day'] .ctrlbar {
+      background: rgba(250, 245, 236, 0.85);
+    }
+
+    .ctrlinner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+    @media (max-width: 720px) {
+      .ctrlinner { grid-template-columns: 1fr; }
+    }
+
+    .ctrlsection { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .ctrlsection.right { justify-content: flex-end; }
+    .ctrlsection.center { justify-content: center; }
+
+    .navbtn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms;
+    }
+    [data-theme='neo-brutalism'] .navbtn { border-radius: 0; border-width: 3px; }
+    .navbtn:hover { color: rgb(var(--cr), var(--cg), var(--cb)); border-color: rgb(var(--cr), var(--cg), var(--cb)); }
+    .navbtn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--text-faint);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: all 300ms;
+    }
+    .dot.active {
+      background: rgb(var(--cr), var(--cg), var(--cb));
+      width: 22px;
+      border-radius: 4px;
+      box-shadow: 0 0 12px rgba(var(--cr), var(--cg), var(--cb), 0.6);
+    }
+    [data-theme='neo-brutalism'] .dot { border-radius: 0; }
+    [data-theme='neo-brutalism'] .dot.active {
+      background: #000;
+      width: 16px;
+      box-shadow: none;
+    }
+
+    /* Theme switcher pill */
+    .themesw {
+      display: flex;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 3px;
+      background: rgba(0,0,0,0.2);
+    }
+    [data-theme='neo-brutalism'] .themesw { background: #fff; border-width: 3px; }
+    [data-theme='ivory-day'] .themesw { background: rgba(255,255,255,0.4); }
+    .themeopt {
+      padding: 6px 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: var(--radius-pill);
+      transition: all 250ms;
+    }
+    .themeopt.active {
+      background: rgb(var(--cr), var(--cg), var(--cb));
+      color: #000;
+    }
+    [data-theme='neo-brutalism'] .themeopt.active { color: #fff; background: #000; }
+
+    /* Accent picker chips */
+    .accents {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 2px;
+    }
+    .accents::-webkit-scrollbar { display: none; }
+    .achip {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      padding: 0;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 350ms var(--motion-spring);
+    }
+    [data-theme='neo-brutalism'] .achip { border-radius: 0; border-width: 2px; }
+    .achip.active {
+      transform: scale(1.18);
+      border-color: rgb(var(--cr), var(--cg), var(--cb));
+    }
+    .achip-sw { width: 18px; height: 18px; border-radius: 50%; transition: box-shadow 300ms; }
+    [data-theme='neo-brutalism'] .achip-sw { border-radius: 0; }
+    .achip.active .achip-sw { box-shadow: 0 0 10px currentColor, 0 0 18px currentColor; }
+
+    .meta {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    /* =====================================================
+       SLIDE 0 — INTRO
+       ===================================================== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(40px, 7vw, 84px);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      margin: 0 0 24px 0;
+    }
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: rgb(var(--cr), var(--cg), var(--cb));
+    }
+    [data-theme='neo-brutalism'] .hero h1 em {
+      font-style: normal;
+      background: rgb(var(--cr), var(--cg), var(--cb));
+      color: #000;
+      padding: 0 12px;
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 36px;
+      color: rgb(var(--cr), var(--cg), var(--cb));
+      line-height: 1;
+      transition: color 600ms;
+    }
+    .hero-stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hero-viz {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      background: linear-gradient(180deg, var(--bg-card-from), var(--bg-card-to));
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 14px;
+      overflow: hidden;
+    }
+    [data-theme='neo-brutalism'] .hero-viz { border-width: 3px; border-radius: 0; box-shadow: 8px 8px 0 0 #000; }
+    .hero-viz::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 100%, rgba(var(--cr), var(--cg), var(--cb), 0.25), transparent 60%);
+      pointer-events: none;
+      transition: background 700ms;
+    }
+    .hero-icon {
+      background: rgba(0,0,0,0.15);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      padding: 8px;
+      text-align: center;
+      transition: all 400ms;
+      cursor: pointer;
+    }
+    [data-theme='neo-brutalism'] .hero-icon { border-radius: 0; border-width: 2px; background: rgba(0,0,0,0.05); }
+    .hero-icon:hover, .hero-icon.active {
+      color: rgb(var(--cr), var(--cg), var(--cb));
+      border-color: rgb(var(--cr), var(--cg), var(--cb));
+      background: rgba(var(--cr), var(--cg), var(--cb), 0.1);
+    }
+    .hero-icon-svg { width: 28px; height: 28px; margin-bottom: 4px; }
+
+    /* =====================================================
+       TOGGLE VARIANTS (slide 1)
+       ===================================================== */
+
+    /* V1 Glass Switch */
+    .v-glass-track {
+      width: 88px; height: 48px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, #0a0806 0%, #1c1612 100%);
+      border: 1px solid rgba(80, 65, 48, 0.5);
+      position: relative;
+      cursor: pointer;
+      transition: all 700ms var(--motion-spring);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+    }
+    .v-glass-track.on {
+      background: linear-gradient(180deg, #1a1410 0%, rgba(var(--dr), var(--dg), var(--db), 0.5) 100%);
+      border-color: rgba(var(--cr), var(--cg), var(--cb), 0.6);
+      box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.4),
+        0 0 32px rgba(var(--cr), var(--cg), var(--cb), 0.35);
+    }
+    [data-theme='neo-brutalism'] .v-glass-track {
+      background: #fff; border: 3px solid #000; border-radius: 0; box-shadow: 4px 4px 0 0 #000;
+    }
+    [data-theme='neo-brutalism'] .v-glass-track.on {
+      background: rgb(var(--cr), var(--cg), var(--cb));
+      box-shadow: 4px 4px 0 0 #000;
+    }
+    [data-theme='ivory-day'] .v-glass-track {
+      background: #e8d8c4;
+      border-color: rgba(120, 85, 50, 0.4);
+    }
+    [data-theme='ivory-day'] .v-glass-track.on {
+      background: linear-gradient(180deg, rgba(var(--cr), var(--cg), var(--cb), 0.4), rgba(var(--dr), var(--dg), var(--db), 0.7));
+    }
+    .v-glass-thumb {
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.4) 0%, transparent 50%),
+        linear-gradient(135deg, #e8d8bc 0%, #b89868 100%);
+      border: 1px solid rgba(255, 220, 180, 0.3);
+      transition: transform 700ms var(--motion-spring), background 500ms ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    [data-theme='neo-brutalism'] .v-glass-thumb { border-radius: 0; background: #000; border: none; }
+    .v-glass-track.on .v-glass-thumb {
+      transform: translateX(40px);
+      background:
+        radial-gradient(circle at 30% 25%, rgb(var(--lr), var(--lg), var(--lb)) 0%, transparent 55%),
+        linear-gradient(135deg, rgb(var(--lr), var(--lg), var(--lb)) 0%, rgb(var(--dr), var(--dg), var(--db)) 100%);
+    }
+    [data-theme='neo-brutalism'] .v-glass-track.on .v-glass-thumb { background: #000; }
+
+    /* V2 Card Toggle (liquid fill) */
+    .v-cardt {
+      width: 170px; height: 170px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #15110d, #0a0806);
+      border: 1px solid rgba(80, 65, 48, 0.5);
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      transition: border-color 600ms;
+    }
+    [data-theme='neo-brutalism'] .v-cardt {
+      background: #fff; border: 3px solid #000; border-radius: 0; box-shadow: 6px 6px 0 0 #000;
+    }
+    [data-theme='ivory-day'] .v-cardt {
+      background: linear-gradient(180deg, #f8f0e0, #e8d8c0);
+      border-color: rgba(120, 85, 50, 0.3);
+    }
+    .v-cardt.on { border-color: rgba(var(--cr), var(--cg), var(--cb), 0.6); }
+    .v-cardt-liquid {
+      position: absolute;
+      inset: 0;
+      transform: translateY(100%);
+      transition: transform 1100ms var(--motion-ease-soft), background 700ms;
+      background: linear-gradient(180deg,
+        rgba(var(--cr), var(--cg), var(--cb), 0.95) 0%,
+        rgba(var(--dr), var(--dg), var(--db), 0.85) 100%);
+    }
+    .v-cardt.on .v-cardt-liquid { transform: translateY(0); }
+    .v-cardt-icon {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-faint);
+      transition: color 800ms ease 400ms;
+      z-index: 2;
+    }
+    .v-cardt.on .v-cardt-icon { color: rgb(var(--lr), var(--lg), var(--lb)); }
+    [data-theme='neo-brutalism'] .v-cardt.on .v-cardt-icon { color: #000; }
+    .v-cardt-label {
+      position: absolute;
+      bottom: 12px; left: 14px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      color: var(--text-dim);
+      transition: color 800ms ease 400ms;
+      z-index: 2;
+    }
+    .v-cardt.on .v-cardt-label { color: #2a1a0a; }
+    [data-theme='neo-brutalism'] .v-cardt-label { font-family: var(--font-mono); }
+
+    /* V3 Lamp Button */
+    .v-lamp { width: 120px; height: 140px; position: relative; cursor: pointer; user-select: none; }
+    .v-lamp-glow {
+      position: absolute;
+      width: 280px; height: 280px;
+      top: -80px; left: -80px;
+      background: radial-gradient(circle,
+        rgba(var(--cr), var(--cg), var(--cb), 0.6) 0%,
+        rgba(var(--dr), var(--dg), var(--db), 0.2) 30%,
+        transparent 65%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 800ms, background 700ms;
+      pointer-events: none;
+      filter: blur(20px);
+    }
+    .v-lamp-glow.on { opacity: 1; animation: breathe 4s ease-in-out infinite; }
+    @keyframes breathe {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.05); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .v-lamp-glow.on { animation: none; }
+    }
+    [data-theme='neo-brutalism'] .v-lamp-glow { display: none; }
+    .v-lamp-filament-on {
+      filter:
+        drop-shadow(0 0 4px rgb(var(--cr), var(--cg), var(--cb)))
+        drop-shadow(0 0 8px rgb(var(--dr), var(--dg), var(--db)));
+    }
+    .v-lamp-filament-off { filter: none; opacity: 0.45; }
+
+    /* V4 Long-press Ring */
+    .v-lpr-wrap { width: 120px; height: 120px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; user-select: none; }
+    .v-lpr-ring { position: absolute; inset: 0; transform: rotate(-90deg); }
+    .v-lpr-core {
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a1410, #0a0806);
+      border: 1px solid rgba(80, 65, 48, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      transition: all 500ms;
+      position: relative;
+      z-index: 2;
+    }
+    [data-theme='neo-brutalism'] .v-lpr-core {
+      background: #fff; border: 3px solid #000; border-radius: 0; box-shadow: 4px 4px 0 0 #000; color: #000;
+    }
+    [data-theme='ivory-day'] .v-lpr-core { background: linear-gradient(135deg, #f8f0e0, #e8d8c0); color: var(--text-muted); }
+    .v-lpr-core.on {
+      background: radial-gradient(circle at 30% 30%, rgba(var(--dr), var(--dg), var(--db), 0.35), #1a1410 90%);
+      color: rgb(var(--lr), var(--lg), var(--lb));
+      border-color: rgba(var(--cr), var(--cg), var(--cb), 0.5);
+      box-shadow: 0 0 24px rgba(var(--cr), var(--cg), var(--cb), 0.4);
+    }
+    [data-theme='neo-brutalism'] .v-lpr-core.on { background: rgb(var(--cr), var(--cg), var(--cb)); color: #000; box-shadow: 4px 4px 0 0 #000; }
+    [data-theme='ivory-day'] .v-lpr-core.on { background: rgba(var(--cr), var(--cg), var(--cb), 0.3); color: var(--text-primary); }
+    .v-lpr-core.pressing { transform: scale(0.94); }
+    .v-lpr-hint {
+      position: absolute;
+      bottom: -22px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    /* =====================================================
+       DIMMER VARIANTS (slide 2)
+       ===================================================== */
+    .v-hslider {
+      width: 200px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .v-hslider-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(80, 65, 48, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    [data-theme='neo-brutalism'] .v-hslider-track { border-radius: 0; background: #fff; border: 2px solid #000; height: 14px; }
+    [data-theme='ivory-day'] .v-hslider-track { background: rgba(120, 85, 50, 0.2); }
+    .v-hslider-fill {
+      position: absolute; top: 0; left: 0; bottom: 0;
+      background: linear-gradient(90deg, rgba(var(--cr), var(--cg), var(--cb), 0.95), rgba(var(--dr), var(--dg), var(--db), 0.85));
+      transition: width 250ms ease, background 700ms;
+    }
+    [data-theme='neo-brutalism'] .v-hslider-fill { background: rgb(var(--cr), var(--cg), var(--cb)); }
+    .v-hslider-thumb {
+      position: absolute;
+      top: 50%; transform: translate(-50%, -50%);
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e8d8bc, #b89868);
+      border: 1px solid rgba(255,220,180,0.3);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5), 0 0 12px rgba(var(--cr), var(--cg), var(--cb), 0.5);
+      transition: left 250ms ease, box-shadow 700ms;
+    }
+    [data-theme='neo-brutalism'] .v-hslider-thumb { border-radius: 0; background: #000; border: none; box-shadow: 3px 3px 0 0 #ffd400; width: 18px; height: 18px; }
+    .v-hslider-value {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-top: 12px;
+      text-align: center;
+    }
+    .v-hslider-value .num { color: rgb(var(--cr), var(--cg), var(--cb)); font-size: 16px; font-family: var(--font-display); transition: color 700ms; }
+
+    /* Vertical slider */
+    .v-vslider {
+      width: 56px;
+      height: 200px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+    .v-vslider-track {
+      width: 100%; height: 100%;
+      border-radius: 28px;
+      background: linear-gradient(180deg, #0a0806, #1c1612);
+      border: 1px solid rgba(80, 65, 48, 0.5);
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
+    }
+    [data-theme='neo-brutalism'] .v-vslider-track { border-radius: 0; background: #fff; border: 3px solid #000; box-shadow: 4px 4px 0 0 #000; }
+    [data-theme='ivory-day'] .v-vslider-track { background: linear-gradient(180deg, #e8d8c0, #d4c0a0); border-color: rgba(120, 85, 50, 0.3); }
+    .v-vslider-fill {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(var(--dr), var(--dg), var(--db), 0.95), rgba(var(--cr), var(--cg), var(--cb), 0.95));
+      transition: height 250ms ease, background 700ms;
+    }
+    [data-theme='neo-brutalism'] .v-vslider-fill { background: rgb(var(--cr), var(--cg), var(--cb)); }
+    .v-vslider-pct {
+      position: absolute; left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: 14px;
+      color: rgb(var(--lr), var(--lg), var(--lb));
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+      pointer-events: none;
+      transition: bottom 250ms;
+    }
+    [data-theme='neo-brutalism'] .v-vslider-pct { color: #000; text-shadow: none; font-family: var(--font-mono); }
+    [data-theme='ivory-day'] .v-vslider-pct { color: var(--text-primary); text-shadow: 0 1px 1px rgba(255,255,255,0.7); }
+
+    /* Drag-by-card */
+    .v-dbc {
+      width: 170px; height: 170px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #15110d, #0a0806);
+      border: 1px solid rgba(80, 65, 48, 0.5);
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      transition: border-color 600ms;
+      user-select: none;
+      touch-action: none;
+    }
+    [data-theme='neo-brutalism'] .v-dbc { background: #fff; border: 3px solid #000; border-radius: 0; box-shadow: 6px 6px 0 0 #000; }
+    [data-theme='ivory-day'] .v-dbc { background: linear-gradient(180deg, #f8f0e0, #e8d8c0); border-color: rgba(120, 85, 50, 0.3); }
+    .v-dbc-fill {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(var(--dr), var(--dg), var(--db), 0.95), rgba(var(--cr), var(--cg), var(--cb), 0.95));
+      transition: height 200ms ease, background 700ms;
+    }
+    [data-theme='neo-brutalism'] .v-dbc-fill { background: rgb(var(--cr), var(--cg), var(--cb)); }
+    .v-dbc-label {
+      position: absolute; bottom: 12px; left: 14px;
+      font-family: var(--font-display);
+      font-size: 13px;
+      color: var(--text-dim);
+      transition: color 500ms;
+    }
+    [data-theme='neo-brutalism'] .v-dbc-label { font-family: var(--font-mono); }
+    .v-dbc.has-fill .v-dbc-label { color: rgb(var(--lr), var(--lg), var(--lb)); }
+    [data-theme='neo-brutalism'] .v-dbc.has-fill .v-dbc-label { color: #000; }
+    .v-dbc-pct {
+      position: absolute;
+      top: 14px; right: 14px;
+      font-family: var(--font-display);
+      font-size: 28px;
+      color: var(--text-muted);
+      transition: color 500ms;
+    }
+    .v-dbc.has-fill .v-dbc-pct { color: rgb(var(--lr), var(--lg), var(--lb)); }
+    [data-theme='neo-brutalism'] .v-dbc-pct { font-family: var(--font-mono); }
+    [data-theme='neo-brutalism'] .v-dbc.has-fill .v-dbc-pct { color: #000; }
+
+    /* Radial Knob */
+    .v-knob-base {
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, #0a0806 0%, #1a1410 80%);
+      box-shadow: inset 0 4px 10px rgba(0,0,0,0.7), 0 2px 4px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      position: relative;
+      user-select: none;
+      touch-action: none;
+    }
+    [data-theme='neo-brutalism'] .v-knob-base { background: #fff; border-radius: 0; box-shadow: 6px 6px 0 0 #000; border: 3px solid #000; }
+    [data-theme='ivory-day'] .v-knob-base { background: radial-gradient(circle at 50% 50%, #e8d8c0 0%, #d4c0a0 80%); box-shadow: inset 0 4px 10px rgba(60,40,20,0.2), 0 2px 4px rgba(60,40,20,0.1); }
+    .v-knob {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255, 240, 200, 0.5) 0%, transparent 40%),
+        conic-gradient(from 45deg, #8a6d3f 0deg, #d4a76a 90deg, #b8895a 180deg, #5e4528 270deg, #8a6d3f 360deg);
+      position: relative;
+      transition: transform 200ms ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+    [data-theme='neo-brutalism'] .v-knob { background: #000; border-radius: 0; box-shadow: none; }
+    .v-knob-indicator {
+      position: absolute;
+      top: 8px; left: 50%;
+      transform: translateX(-50%);
+      width: 3px; height: 14px;
+      border-radius: 2px;
+      background: #2a1a0a;
+    }
+    [data-theme='neo-brutalism'] .v-knob-indicator { background: rgb(var(--cr), var(--cg), var(--cb)); border-radius: 0; width: 4px; }
+    .v-knob-glow {
+      position: absolute; inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--cr), var(--cg), var(--cb), 0.3) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 500ms;
+      pointer-events: none;
+    }
+    [data-theme='neo-brutalism'] .v-knob-glow { display: none; }
+    .v-knob-base.active .v-knob-glow { opacity: 1; }
+    .v-knob-val {
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* =====================================================
+       COLOR PICKER (slide 3)
+       ===================================================== */
+    .v-wheel { position: relative; width: 200px; height: 200px; cursor: pointer; user-select: none; touch-action: none; }
+    .v-wheel-disk {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, #fff 0%, transparent 60%),
+        conic-gradient(from 90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+      border: 1px solid var(--border-strong);
+    }
+    [data-theme='neo-brutalism'] .v-wheel-disk { border: 3px solid #000; border-radius: 0; box-shadow: 6px 6px 0 0 #000; }
+    .v-wheel-cursor {
+      position: absolute;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 0 8px rgba(0,0,0,0.6), 0 0 16px currentColor;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+    [data-theme='neo-brutalism'] .v-wheel-cursor { border-radius: 0; border-color: #000; box-shadow: 3px 3px 0 0 #000; }
+
+    /* Linear hue */
+    .v-hue-strip {
+      width: 220px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      touch-action: none;
+      border: 1px solid var(--border-subtle);
+    }
+    [data-theme='neo-brutalism'] .v-hue-strip { border-radius: 0; border: 3px solid #000; box-shadow: 4px 4px 0 0 #000; }
+    .v-hue-thumb {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid rgba(0,0,0,0.6);
+      box-shadow: 0 0 10px currentColor;
+      pointer-events: none;
+    }
+    [data-theme='neo-brutalism'] .v-hue-thumb { border-radius: 0; box-shadow: 3px 3px 0 0 #000; }
+
+    /* Swatch palette */
+    .v-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .v-swatch-chip {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      padding: 4px;
+      background: transparent;
+      transition: all 350ms var(--motion-spring);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    [data-theme='neo-brutalism'] .v-swatch-chip { border-radius: 0; }
+    .v-swatch-chip.on {
+      transform: scale(1.15);
+      border-color: var(--text-secondary);
+    }
+    [data-theme='neo-brutalism'] .v-swatch-chip.on { border-color: #000; }
+    .v-swatch-sw { width: 100%; height: 100%; border-radius: 50%; transition: box-shadow 300ms; }
+    [data-theme='neo-brutalism'] .v-swatch-sw { border-radius: 0; }
+    .v-swatch-chip.on .v-swatch-sw { box-shadow: 0 0 12px currentColor, 0 0 24px currentColor; }
+    [data-theme='neo-brutalism'] .v-swatch-chip.on .v-swatch-sw { box-shadow: 3px 3px 0 0 #000; }
+
+    /* =====================================================
+       CCT (slide 4)
+       ===================================================== */
+    .v-cct-strip {
+      width: 240px;
+      height: 36px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ffb04a 0%, #ffc88a 25%, #ffe6c8 50%, #e6f0ff 75%, #b4c8ff 100%);
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      touch-action: none;
+      border: 1px solid var(--border-subtle);
+    }
+    [data-theme='neo-brutalism'] .v-cct-strip { border-radius: 0; border: 3px solid #000; box-shadow: 4px 4px 0 0 #000; }
+    .v-cct-thumb {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 0 12px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    [data-theme='neo-brutalism'] .v-cct-thumb { border-radius: 0; border-color: #000; box-shadow: 3px 3px 0 0 #000; }
+    .v-cct-label {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--text-primary);
+      text-align: center;
+      margin-top: 16px;
+    }
+    .v-cct-label .unit { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-left: 4px; }
+
+    /* Arc Sun/Moon */
+    .v-cct-arc { width: 220px; height: 130px; position: relative; cursor: pointer; user-select: none; }
+
+    .v-cct-presets {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .v-cct-preset {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 300ms;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    [data-theme='neo-brutalism'] .v-cct-preset { border-radius: 0; border-width: 2px; }
+    .v-cct-preset.on {
+      border-color: rgb(var(--cr), var(--cg), var(--cb));
+      color: var(--text-primary);
+      background: rgba(var(--cr), var(--cg), var(--cb), 0.1);
+    }
+    .v-cct-preset-dot { width: 8px; height: 8px; border-radius: 50%; }
+    [data-theme='neo-brutalism'] .v-cct-preset-dot { border-radius: 0; }
+
+    /* =====================================================
+       SCENE (slide 5)
+       ===================================================== */
+    .v-scene-tile {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      transition: transform 300ms, border-color 300ms;
+    }
+    [data-theme='neo-brutalism'] .v-scene-tile { border-radius: 0; border-width: 3px; }
+    .v-scene-tile.on {
+      border-color: rgb(var(--cr), var(--cg), var(--cb));
+      transform: translateY(-3px);
+    }
+    [data-theme='neo-brutalism'] .v-scene-tile.on { box-shadow: 4px 4px 0 0 #000; }
+    .v-scene-name {
+      position: absolute;
+      bottom: 14px; left: 16px;
+      font-family: var(--font-display);
+      font-size: 15px;
+      color: #fff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+      z-index: 2;
+    }
+    .v-scene-sub {
+      position: absolute;
+      top: 14px; left: 16px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .v-scene-check {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 300ms;
+      z-index: 2;
+    }
+    [data-theme='neo-brutalism'] .v-scene-check { border-radius: 0; background: #000; backdrop-filter: none; }
+    .v-scene-tile.on .v-scene-check { opacity: 1; }
+
+    .v-scene-iconlabel {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      background: linear-gradient(180deg, var(--bg-card-from), var(--bg-card-to));
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 300ms;
+    }
+    [data-theme='neo-brutalism'] .v-scene-iconlabel { border-radius: 0; border-width: 3px; box-shadow: 4px 4px 0 0 #000; }
+    .v-scene-iconlabel.on {
+      background: linear-gradient(180deg, rgba(var(--cr), var(--cg), var(--cb), 0.15), rgba(var(--dr), var(--dg), var(--db), 0.1));
+      border-color: rgb(var(--cr), var(--cg), var(--cb));
+    }
+    [data-theme='neo-brutalism'] .v-scene-iconlabel.on { background: rgb(var(--cr), var(--cg), var(--cb)); }
+    .v-scene-iconlabel-dot {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+    [data-theme='neo-brutalism'] .v-scene-iconlabel-dot { border-radius: 0; }
+    .v-scene-iconlabel-icon { color: var(--text-secondary); transition: color 300ms; }
+    .v-scene-iconlabel.on .v-scene-iconlabel-icon { color: rgb(var(--cr), var(--cg), var(--cb)); }
+    [data-theme='neo-brutalism'] .v-scene-iconlabel.on .v-scene-iconlabel-icon { color: #000; }
+    .v-scene-iconlabel-name {
+      font-family: var(--font-display);
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+    [data-theme='neo-brutalism'] .v-scene-iconlabel-name { font-family: var(--font-mono); }
+
+    /* =====================================================
+       NAVIGATION DEMO (slide 6)
+       ===================================================== */
+    .v-nav-frame {
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 9 / 16;
+      max-height: 380px;
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      background: var(--bg-elev);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    [data-theme='neo-brutalism'] .v-nav-frame { border-radius: 0; border-width: 3px; box-shadow: 6px 6px 0 0 #000; }
+    .v-nav-content {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+    .v-nav-tabs {
+      display: flex;
+      border-top: 1px solid var(--border-subtle);
+      padding: 8px 12px;
+      gap: 4px;
+      background: rgba(0,0,0,0.2);
+    }
+    [data-theme='neo-brutalism'] .v-nav-tabs { background: #fff; border-top: 3px solid #000; }
+    [data-theme='ivory-day'] .v-nav-tabs { background: rgba(255,255,255,0.5); }
+    .v-nav-tab {
+      flex: 1;
+      padding: 8px 4px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 250ms;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    [data-theme='neo-brutalism'] .v-nav-tab { border-radius: 0; }
+    .v-nav-tab.on { color: rgb(var(--cr), var(--cg), var(--cb)); background: rgba(var(--cr), var(--cg), var(--cb), 0.1); }
+    [data-theme='neo-brutalism'] .v-nav-tab.on { background: rgb(var(--cr), var(--cg), var(--cb)); color: #000; }
+
+    .v-nav-pills {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .v-nav-pills::-webkit-scrollbar { display: none; }
+    .v-nav-pill {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 250ms;
+    }
+    [data-theme='neo-brutalism'] .v-nav-pill { border-radius: 0; border-width: 2px; }
+    .v-nav-pill.on {
+      background: rgb(var(--cr), var(--cg), var(--cb));
+      color: #000;
+      border-color: rgb(var(--cr), var(--cg), var(--cb));
+    }
+
+    /* Drawer */
+    .v-drawer-frame {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 9 / 16;
+      max-height: 380px;
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      background: var(--bg-elev);
+      overflow: hidden;
+    }
+    [data-theme='neo-brutalism'] .v-drawer-frame { border-radius: 0; border-width: 3px; box-shadow: 6px 6px 0 0 #000; }
+    .v-drawer {
+      position: absolute;
+      top: 0; bottom: 0; left: 0;
+      width: 70%;
+      background: var(--bg-card-from);
+      border-right: 1px solid var(--border-strong);
+      padding: 24px 16px;
+      transform: translateX(-100%);
+      transition: transform 400ms var(--motion-ease-soft);
+      z-index: 2;
+    }
+    .v-drawer.open { transform: translateX(0); }
+    .v-drawer-scrim {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 400ms;
+    }
+    .v-drawer-scrim.open { opacity: 1; pointer-events: auto; }
+    .v-drawer-item {
+      padding: 10px 8px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 200ms;
+      margin-bottom: 4px;
+    }
+    [data-theme='neo-brutalism'] .v-drawer-item { border-radius: 0; font-family: var(--font-mono); }
+    .v-drawer-item.on {
+      background: rgba(var(--cr), var(--cg), var(--cb), 0.15);
+      color: rgb(var(--cr), var(--cg), var(--cb));
+    }
+    [data-theme='neo-brutalism'] .v-drawer-item.on { background: rgb(var(--cr), var(--cg), var(--cb)); color: #000; }
+    .v-drawer-btn {
+      position: absolute;
+      top: 14px; left: 14px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elev);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      z-index: 3;
+    }
+    [data-theme='neo-brutalism'] .v-drawer-btn { border-radius: 0; border-width: 2px; }
+
+    /* =====================================================
+       SCHEDULE (slide 7)
+       ===================================================== */
+    .v-timeline {
+      width: 100%;
+      max-width: 540px;
+      height: 80px;
+      position: relative;
+      background: linear-gradient(180deg, rgba(30, 24, 18, 0.6), rgba(18, 14, 10, 0.4));
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 8px 12px;
+    }
+    [data-theme='neo-brutalism'] .v-timeline { background: #fff; border-width: 3px; border-radius: 0; box-shadow: 4px 4px 0 0 #000; }
+    [data-theme='ivory-day'] .v-timeline { background: linear-gradient(180deg, #f8f0e0, #e8d8c0); }
+    .v-timeline-ticks {
+      position: absolute;
+      bottom: 12px; left: 12px; right: 12px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+    .v-timeline-bar {
+      position: absolute;
+      top: 14px;
+      height: 24px;
+      background: linear-gradient(90deg, rgba(var(--cr), var(--cg), var(--cb), 0.85), rgba(var(--dr), var(--dg), var(--db), 0.75));
+      border-radius: 4px;
+      transition: background 700ms;
+    }
+    [data-theme='neo-brutalism'] .v-timeline-bar { background: rgb(var(--cr), var(--cg), var(--cb)); border-radius: 0; }
+    .v-timeline-current {
+      position: absolute;
+      top: 8px;
+      bottom: 28px;
+      width: 2px;
+      background: var(--text-secondary);
+      box-shadow: 0 0 6px rgba(var(--cr), var(--cg), var(--cb), 0.6);
+    }
+    [data-theme='neo-brutalism'] .v-timeline-current { background: #000; width: 3px; box-shadow: none; }
+
+    /* Day chips */
+    .v-daychips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .v-daychip {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 250ms;
+    }
+    [data-theme='neo-brutalism'] .v-daychip { border-radius: 0; border-width: 2px; }
+    .v-daychip.on {
+      background: rgb(var(--cr), var(--cg), var(--cb));
+      color: #000;
+      border-color: rgb(var(--cr), var(--cg), var(--cb));
+    }
+
+    /* Astro toggle row */
+    .v-astro-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, var(--bg-card-from), var(--bg-card-to));
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 360px;
+      gap: 12px;
+    }
+    [data-theme='neo-brutalism'] .v-astro-row { border-radius: 0; border-width: 3px; box-shadow: 4px 4px 0 0 #000; }
+    .v-astro-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .v-astro-meta {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* =====================================================
+       STATUS (slide 8)
+       ===================================================== */
+    .v-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    [data-theme='neo-brutalism'] .v-dot { border-radius: 0; }
+    .v-dot.green { background: #6a9a5a; box-shadow: 0 0 8px rgba(106, 154, 90, 0.6); }
+    .v-dot.amber { background: #c4a04a; box-shadow: 0 0 8px rgba(196, 160, 74, 0.6); animation: pulse-dot 2.5s ease-in-out infinite; }
+    .v-dot.red { background: #c4543a; box-shadow: 0 0 8px rgba(196, 84, 58, 0.6); animation: pulse-dot 2s ease-in-out infinite; }
+    .v-dot.grey { background: var(--text-dim); }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .v-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid;
+    }
+    [data-theme='neo-brutalism'] .v-badge { border-radius: 0; border-width: 2px; }
+    .v-badge.success { color: #6a9a5a; border-color: #6a9a5a; background: rgba(106, 154, 90, 0.1); }
+    .v-badge.warning { color: #c4a04a; border-color: #c4a04a; background: rgba(196, 160, 74, 0.1); }
+    .v-badge.danger { color: #c4543a; border-color: #c4543a; background: rgba(196, 84, 58, 0.1); }
+    .v-badge.info { color: rgb(var(--cr), var(--cg), var(--cb)); border-color: rgb(var(--cr), var(--cg), var(--cb)); background: rgba(var(--cr), var(--cg), var(--cb), 0.1); }
+
+    /* Toast */
+    .v-toast-btn {
+      padding: 10px 18px;
+      border: 1px solid var(--border-strong);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 200ms;
+    }
+    [data-theme='neo-brutalism'] .v-toast-btn { border-radius: 0; border-width: 3px; box-shadow: 4px 4px 0 0 #000; }
+    .v-toast-btn:hover { color: rgb(var(--cr), var(--cg), var(--cb)); border-color: rgb(var(--cr), var(--cg), var(--cb)); }
+
+    .v-toast {
+      position: fixed;
+      bottom: 120px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(20, 16, 12, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(var(--cr), var(--cg), var(--cb), 0.4);
+      border-radius: 14px;
+      padding: 12px 20px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      color: var(--text-primary);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 400ms var(--motion-spring);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    [data-theme='neo-brutalism'] .v-toast { background: #fff; color: #000; border: 3px solid #000; border-radius: 0; box-shadow: 6px 6px 0 0 #000; }
+    [data-theme='ivory-day'] .v-toast { background: rgba(255,255,255,0.95); color: var(--text-primary); }
+    .v-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+
+    /* Skeleton */
+    .v-skel {
+      background: linear-gradient(90deg,
+        rgba(80, 65, 48, 0.3) 0%,
+        rgba(120, 95, 65, 0.15) 50%,
+        rgba(80, 65, 48, 0.3) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s linear infinite;
+      border-radius: 8px;
+    }
+    [data-theme='neo-brutalism'] .v-skel { background: #000; animation: none; border-radius: 0; }
+    [data-theme='ivory-day'] .v-skel { background: linear-gradient(90deg, rgba(184, 160, 130, 0.25), rgba(220, 200, 170, 0.4), rgba(184, 160, 130, 0.25)); background-size: 200% 100%; animation: shimmer 1.5s linear infinite; }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .v-skel { animation: none; }
+    }
+
+    /* =====================================================
+       ANALYTICS (slide 9)
+       ===================================================== */
+    .v-spark {
+      width: 100%;
+      max-width: 200px;
+    }
+    .v-gauge { width: 200px; height: 130px; position: relative; }
+    .v-gauge-val {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--text-primary);
+      text-align: center;
+    }
+    .v-gauge-val .unit { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.15em; }
+
+    .v-rcmp { width: 100%; max-width: 380px; }
+    .v-rcmp-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 60px;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+      font-family: var(--font-display);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .v-rcmp-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(80, 65, 48, 0.25);
+      overflow: hidden;
+    }
+    [data-theme='neo-brutalism'] .v-rcmp-bar { border-radius: 0; background: #fff; border: 1px solid #000; height: 14px; }
+    .v-rcmp-fill {
+      height: 100%;
+      background: linear-gradient(90deg, rgba(var(--dr), var(--dg), var(--db), 1), rgba(var(--cr), var(--cg), var(--cb), 1));
+      transition: width 800ms var(--motion-ease-soft);
+    }
+    [data-theme='neo-brutalism'] .v-rcmp-fill { background: rgb(var(--cr), var(--cg), var(--cb)); }
+    .v-rcmp-val { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); text-align: right; letter-spacing: 0.05em; }
+
+    /* Footer credit line */
+    .credits {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    [data-theme='neo-brutalism'] .credits { border-top-width: 3px; }
+  </style>
+</head>
+<body data-theme="cinematic-dark">
+  <div class="grain"></div>
+  <div id="root"></div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useRef, useEffect, useCallback, useMemo } = React;
+
+    /* =====================================================
+       DATA
+       ===================================================== */
+    const ACCENT_PRESETS = [
+      { id: 'candle',  name: 'Candle',  sub: '2200K', glow: [255, 150,  70], deep: [200,  95,  35], light: [255, 200, 130] },
+      { id: 'amber',   name: 'Amber',   sub: '2700K', glow: [255, 180,  90], deep: [220, 140,  60], light: [255, 220, 150] },
+      { id: 'warm',    name: 'Warm',    sub: '3000K', glow: [255, 205, 140], deep: [230, 175, 110], light: [255, 230, 195] },
+      { id: 'day',     name: 'Day',     sub: '5500K', glow: [235, 240, 250], deep: [180, 200, 230], light: [250, 250, 255] },
+      { id: 'crimson', name: 'Crimson', sub: 'Drama', glow: [255,  75,  75], deep: [200,  30,  30], light: [255, 150, 150] },
+      { id: 'magenta', name: 'Magenta', sub: 'Lounge',glow: [230,  80, 180], deep: [180,  40, 140], light: [255, 160, 220] },
+      { id: 'cyan',    name: 'Cyan',    sub: 'Lagoon',glow: [ 90, 200, 230], deep: [ 40, 160, 200], light: [160, 230, 250] },
+      { id: 'violet',  name: 'Violet',  sub: 'Royal', glow: [150, 100, 240], deep: [100,  50, 200], light: [200, 170, 255] },
+    ];
+
+    const THEMES = [
+      { id: 'cinematic-dark', label: 'Cinema' },
+      { id: 'ivory-day',      label: 'Ivory' },
+      { id: 'neo-brutalism',  label: 'Brutal' },
+    ];
+
+    const SLIDES = [
+      { id: 'intro',      title: 'Intro',      eyebrow: 'Atelier of Light · Widget Library' },
+      { id: 'toggle',     title: 'Toggle',     eyebrow: 'Категория 01 · Toggle',     count: 6 },
+      { id: 'dimmer',     title: 'Dimmer',     eyebrow: 'Категория 02 · Dimmer',     count: 8 },
+      { id: 'colorpicker',title: 'ColorPicker',eyebrow: 'Категория 03 · ColorPicker',count: 8 },
+      { id: 'cct',        title: 'CCT',        eyebrow: 'Категория 04 · CCT',        count: 6 },
+      { id: 'scene',      title: 'Scene',      eyebrow: 'Категория 05 · Scene',      count: 8 },
+      { id: 'navigation', title: 'Navigation', eyebrow: 'Категория 06 · Navigation', count: 7 },
+      { id: 'schedule',   title: 'Schedule',   eyebrow: 'Категория 07 · Schedule',   count: 7 },
+      { id: 'status',     title: 'Status',     eyebrow: 'Категория 08 · Status',     count: 6 },
+      { id: 'analytics',  title: 'Analytics',  eyebrow: 'Категория 09 · Analytics',  count: 4 },
+      { id: 'outro',      title: 'Roadmap',    eyebrow: 'Дальше · Bootstrap & Code' },
+    ];
+
+    /* =====================================================
+       HOOKS
+       ===================================================== */
+    function useDragHorizontal(initial, opts = {}) {
+      const { min = 0, max = 100 } = opts;
+      const [value, setValue] = useState(initial);
+      const ref = useRef(null);
+      const update = useCallback((clientX) => {
+        if (!ref.current) return;
+        const r = ref.current.getBoundingClientRect();
+        const v = Math.max(min, Math.min(max, ((clientX - r.left) / r.width) * (max - min) + min));
+        setValue(v);
+      }, [min, max]);
+
+      const onPointerDown = (e) => {
+        e.target.setPointerCapture?.(e.pointerId);
+        update(e.clientX);
+      };
+      const onPointerMove = (e) => {
+        if (e.buttons !== 1 && e.pressure === 0) return;
+        update(e.clientX);
+      };
+      return { value, setValue, ref, onPointerDown, onPointerMove };
+    }
+
+    function useDragVertical(initial, opts = {}) {
+      const { min = 0, max = 100 } = opts;
+      const [value, setValue] = useState(initial);
+      const ref = useRef(null);
+      const update = useCallback((clientY) => {
+        if (!ref.current) return;
+        const r = ref.current.getBoundingClientRect();
+        const v = Math.max(min, Math.min(max, ((r.bottom - clientY) / r.height) * (max - min) + min));
+        setValue(v);
+      }, [min, max]);
+      const onPointerDown = (e) => { e.target.setPointerCapture?.(e.pointerId); update(e.clientY); };
+      const onPointerMove = (e) => { if (e.buttons !== 1 && e.pressure === 0) return; update(e.clientY); };
+      return { value, setValue, ref, onPointerDown, onPointerMove };
+    }
+
+    /* =====================================================
+       SHARED CARD SHELL
+       ===================================================== */
+    function VCard({ num, on, name, desc, children }) {
+      return (
+        <div className="vcard">
+          <span className="vcard-num">№ {num}</span>
+          <span className={'vcard-tag' + (on ? ' on' : '')}>{on === undefined ? '' : on ? '● ON' : '○ OFF'}</span>
+          <div className="vcard-body">{children}</div>
+          <div className="vcard-name" dangerouslySetInnerHTML={{ __html: name }} />
+          <div className="vcard-desc">{desc}</div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       INTRO SLIDE
+       ===================================================== */
+    function SlideIntro() {
+      const [pulseCell, setPulseCell] = useState(0);
+      useEffect(() => {
+        const t = setInterval(() => setPulseCell((p) => (p + 1) % 9), 1200);
+        return () => clearInterval(t);
+      }, []);
+
+      const cells = [
+        { label: 'Toggle', icon: <ToggleIcon /> },
+        { label: 'Dimmer', icon: <DimmerIcon /> },
+        { label: 'Color', icon: <ColorIcon /> },
+        { label: 'CCT', icon: <CctIcon /> },
+        { label: 'Scene', icon: <SceneIcon /> },
+        { label: 'Nav', icon: <NavIcon /> },
+        { label: 'Schedule', icon: <ScheduleIcon /> },
+        { label: 'Status', icon: <StatusIcon /> },
+        { label: 'Analytics', icon: <AnalyticsIcon /> },
+      ];
+
+      return (
+        <div className="slide">
+          <div className="eyebrow">∙ Atelier of Light · Widget Library</div>
+          <div className="hero">
+            <div>
+              <h1>Девять способов <em>«управлять светом»</em></h1>
+              <div className="slide-prose">
+                Библиотека UI-виджетов для мобильной панели управления освещением.
+                Шестьдесят реализационных вариантов разбиты по девяти семантическим
+                категориям — от <em>Toggle</em> и <em>Dimmer</em> до <em>Scene</em>,
+                <em> Schedule</em> и <em>Analytics</em>.
+              </div>
+              <div className="slide-prose">
+                Дизайн строится на трёх независимых осях: <em>вариант</em> (UX-метафора),
+                <em> тема</em> (визуальный язык: cinematic-dark, neo-brutalism, ivory-day),
+                и <em>accent</em> (цвет света сейчас — от Candle 2200K до Royal Violet).
+                Переключатели снизу — переключайте и смотрите, как 30 интерактивных
+                виджетов перекрашиваются плавно через registered CSS properties.
+              </div>
+              <div className="hero-meta">
+                <div className="hero-stat">
+                  <div className="hero-stat-num">9</div>
+                  <div className="hero-stat-label">Категорий</div>
+                </div>
+                <div className="hero-stat">
+                  <div className="hero-stat-num">60</div>
+                  <div className="hero-stat-label">Вариантов</div>
+                </div>
+                <div className="hero-stat">
+                  <div className="hero-stat-num">6</div>
+                  <div className="hero-stat-label">Тем</div>
+                </div>
+              </div>
+            </div>
+            <div className="hero-viz">
+              {cells.map((c, i) => (
+                <div key={i} className={'hero-icon' + (i === pulseCell ? ' active' : '')}>
+                  {React.cloneElement(c.icon, { className: 'hero-icon-svg' })}
+                  <span>{c.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="credits">
+            <span>© Atelier · Lighting UI · 2026</span>
+            <span>React 18 · @property color tweening · zero deps</span>
+            <span>↓ листайте дальше</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* Icon set used in hero and elsewhere */
+    function ToggleIcon(p) { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="7" width="20" height="10" rx="5"/><circle cx="8" cy="12" r="3" fill="currentColor"/></svg>; }
+    function DimmerIcon(p) { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 12h18"/><circle cx="14" cy="12" r="3" fill="currentColor"/></svg>; }
+    function ColorIcon(p)  { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18"/><path d="M3 12a9 9 0 0 1 18 0"/></svg>; }
+    function CctIcon(p)    { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/><path d="M3 12h18"/></svg>; }
+    function SceneIcon(p)  { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="5" width="8" height="6" rx="1"/><rect x="13" y="5" width="8" height="6" rx="1"/><rect x="3" y="13" width="8" height="6" rx="1"/><rect x="13" y="13" width="8" height="6" rx="1"/></svg>; }
+    function NavIcon(p)    { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="4" width="18" height="3"/><rect x="3" y="11" width="18" height="3"/><rect x="3" y="18" width="18" height="3"/></svg>; }
+    function ScheduleIcon(p){ return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>; }
+    function StatusIcon(p) { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="8"/></svg>; }
+    function AnalyticsIcon(p){return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 17l5-6 4 3 7-9"/><circle cx="3" cy="17" r="1.5" fill="currentColor"/><circle cx="8" cy="11" r="1.5" fill="currentColor"/><circle cx="12" cy="14" r="1.5" fill="currentColor"/><circle cx="19" cy="5" r="1.5" fill="currentColor"/></svg>; }
+    function LampIcon(p)   { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2v.3h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg>; }
+    function PowerIcon(p)  { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64M12 2v10"/></svg>; }
+    function SunIcon(p)    { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>; }
+    function MoonIcon(p)   { return <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>; }
+
+    /* =====================================================
+       SLIDE: TOGGLE
+       ===================================================== */
+    function GlassSwitch() {
+      const [on, setOn] = useState(false);
+      return (
+        <VCard num="01" on={on} name='Glass <em>Switch</em>' desc="Классика, премиум-материал. Frosted thumb, внутренняя подсветка трека.">
+          <div className={'v-glass-track' + (on ? ' on' : '')} onClick={() => setOn(!on)} role="switch" aria-checked={on}>
+            <div className="v-glass-thumb" />
+          </div>
+        </VCard>
+      );
+    }
+
+    function CardToggle() {
+      const [on, setOn] = useState(false);
+      return (
+        <VCard num="02" on={on} name='Card <em>Toggle</em>' desc="Вся карточка кликабельна. Заливка снизу — тактильнее, чем переключатель.">
+          <div className={'v-cardt' + (on ? ' on' : '')} onClick={() => setOn(!on)} role="switch" aria-checked={on}>
+            <div className="v-cardt-liquid" />
+            <div className="v-cardt-icon"><LampIcon width="40" height="40" /></div>
+            <div className="v-cardt-label">LIVING ROOM</div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function LampButton() {
+      const [on, setOn] = useState(false);
+      return (
+        <VCard num="03" on={on} name='Lamp <em>Button</em>' desc="Иконично, мгновенно узнаваемо. Filament разгорается, halo дышит.">
+          <div className="v-lamp" onClick={() => setOn(!on)} role="switch" aria-checked={on}>
+            <div className={'v-lamp-glow' + (on ? ' on' : '')} />
+            <svg width="120" height="140" viewBox="0 0 120 140" style={{ position: 'relative', zIndex: 2 }}>
+              <defs>
+                <radialGradient id="lamp-glass" cx="40%" cy="35%">
+                  <stop offset="0%" stopColor={on ? `rgb(var(--lr), var(--lg), var(--lb))` : '#3a2e22'} stopOpacity={on ? 0.9 : 0.4} />
+                  <stop offset="50%" stopColor={on ? `rgb(var(--cr), var(--cg), var(--cb))` : '#2a2018'} stopOpacity={0.5} />
+                  <stop offset="100%" stopColor={on ? `rgb(var(--dr), var(--dg), var(--db))` : '#1a1410'} stopOpacity={0.8} />
+                </radialGradient>
+                <linearGradient id="lamp-fil" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor={on ? `rgb(var(--lr), var(--lg), var(--lb))` : '#3a2e22'} />
+                  <stop offset="100%" stopColor={on ? `rgb(var(--cr), var(--cg), var(--cb))` : '#2a2018'} />
+                </linearGradient>
+                <linearGradient id="lamp-base" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#8a6d3f" />
+                  <stop offset="100%" stopColor="#3a2814" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M 60 18 Q 30 18 26 50 Q 24 70 36 86 L 36 96 L 84 96 L 84 86 Q 96 70 94 50 Q 90 18 60 18 Z"
+                fill="url(#lamp-glass)"
+                stroke={on ? `rgb(var(--cr), var(--cg), var(--cb))` : 'rgba(80, 65, 48, 0.5)'}
+                strokeWidth="1"
+                style={{ transition: 'all 700ms ease' }}
+              />
+              <ellipse cx="44" cy="40" rx="8" ry="16" fill="rgba(255, 255, 255, 0.15)" />
+              <g className={on ? 'v-lamp-filament-on' : 'v-lamp-filament-off'}>
+                <path
+                  d="M 50 92 L 50 70 Q 52 60 55 62 Q 58 64 56 70 Q 54 76 58 78 Q 62 80 60 74 Q 58 68 62 66 Q 66 64 64 70 Q 62 76 66 78 Q 70 80 70 70 L 70 92"
+                  fill="none" stroke="url(#lamp-fil)" strokeWidth="1.5" strokeLinecap="round"
+                />
+              </g>
+              <rect x="36" y="96" width="48" height="8" fill="url(#lamp-base)" />
+              <rect x="38" y="106" width="44" height="3" fill="#3a2814" />
+              <rect x="40" y="112" width="40" height="3" fill="#3a2814" />
+              <rect x="42" y="118" width="36" height="3" fill="#3a2814" />
+              <path d="M 44 124 L 76 124 L 72 132 L 48 132 Z" fill="#1a1410" />
+            </svg>
+          </div>
+        </VCard>
+      );
+    }
+
+    function LongPressRing() {
+      const [on, setOn] = useState(false);
+      const [progress, setProgress] = useState(0);
+      const [pressing, setPressing] = useState(false);
+      const rafRef = useRef(null);
+      const startRef = useRef(0);
+      const HOLD_MS = 700;
+
+      const cancel = useCallback(() => {
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+        setPressing(false);
+        setProgress(0);
+      }, []);
+
+      const start = useCallback(() => {
+        setPressing(true);
+        startRef.current = performance.now();
+        const tick = (now) => {
+          const p = Math.min(1, (now - startRef.current) / HOLD_MS);
+          setProgress(p);
+          if (p >= 1) {
+            setOn((o) => !o);
+            cancel();
+          } else {
+            rafRef.current = requestAnimationFrame(tick);
+          }
+        };
+        rafRef.current = requestAnimationFrame(tick);
+      }, [cancel]);
+
+      useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); }, []);
+
+      const radius = 54;
+      const circ = 2 * Math.PI * radius;
+
+      return (
+        <VCard num="04" on={on} name='Hold to <em>Confirm</em>' desc="Long-press с ring-fill. Защита от случайных переключений критических нагрузок.">
+          <div
+            className="v-lpr-wrap"
+            onPointerDown={start} onPointerUp={cancel} onPointerLeave={cancel} onPointerCancel={cancel}
+            role="switch" aria-checked={on}
+          >
+            <svg className="v-lpr-ring" width="120" height="120" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r={radius} fill="none" stroke="rgba(80, 65, 48, 0.3)" strokeWidth="2" />
+              <circle
+                cx="60" cy="60" r={radius} fill="none"
+                stroke="rgb(var(--cr), var(--cg), var(--cb))"
+                strokeWidth="2.5" strokeLinecap="round"
+                strokeDasharray={circ}
+                strokeDashoffset={circ * (1 - progress)}
+                style={{
+                  filter: 'drop-shadow(0 0 4px rgb(var(--cr), var(--cg), var(--cb)))',
+                  transition: pressing ? 'none' : 'stroke-dashoffset 250ms ease, stroke 700ms ease',
+                }}
+              />
+            </svg>
+            <div className={'v-lpr-core' + (on ? ' on' : '') + (pressing ? ' pressing' : '')}>
+              <PowerIcon width="28" height="28" />
+            </div>
+            <div className="v-lpr-hint">HOLD 0.7s</div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function SlideToggle() {
+      return (
+        <div className="slide">
+          <div className="eyebrow">Категория 01 · Toggle · 6 вариантов</div>
+          <h2 className="slide-title">Шесть способов <em>«вкл/выкл»</em></h2>
+          <div className="slide-lead">
+            Бинарный переключатель — самый частый виджет. Семантика одна, метафор много:
+            стекло и латунь, лампа Эдисона, жидкая заливка, hold-to-confirm для критики.
+          </div>
+          <div className="vgrid">
+            <GlassSwitch />
+            <CardToggle />
+            <LampButton />
+            <LongPressRing />
+          </div>
+          <div className="credits">
+            <span>Полный набор: IosSwitch · MaterialSwitch · CardToggle · LampButton · TapZones · SvgFixture</span>
+            <span>Spec: src/components/Toggle/variants/*/spec.md</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       SLIDE: DIMMER
+       ===================================================== */
+    function HorizontalSlider() {
+      const { value, ref, onPointerDown, onPointerMove } = useDragHorizontal(45);
+      return (
+        <VCard num="01" name='Horizontal <em>Slider</em>' desc="Привычно, компактно. Заливка accent-цветом + bronze thumb с glow.">
+          <div className="v-hslider" ref={ref} onPointerDown={onPointerDown} onPointerMove={onPointerMove}>
+            <div className="v-hslider-track">
+              <div className="v-hslider-fill" style={{ width: `${value}%` }} />
+            </div>
+            <div className="v-hslider-thumb" style={{ left: `${value}%`, top: 4 }} />
+            <div className="v-hslider-value"><span className="num">{Math.round(value)}</span>%</div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function VerticalSlider() {
+      const { value, ref, onPointerDown, onPointerMove } = useDragVertical(60);
+      return (
+        <VCard num="02" name='Vertical <em>Slider</em>' desc="Длинный жест по высоте — удобно большим пальцем. Hero-control канала.">
+          <div className="v-vslider" ref={ref} onPointerDown={onPointerDown} onPointerMove={onPointerMove}>
+            <div className="v-vslider-track">
+              <div className="v-vslider-fill" style={{ height: `${value}%` }} />
+              <div className="v-vslider-pct" style={{ bottom: `${value}%`, transform: `translate(-50%, ${value > 90 ? '4px' : '-22px'})` }}>
+                {Math.round(value)}%
+              </div>
+            </div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function DragByCard() {
+      const cardRef = useRef(null);
+      const [value, setValue] = useState(0);
+      const [on, setOn] = useState(false);
+      const dragRef = useRef({ down: 0, startY: 0, startVal: 0, moved: false });
+
+      const onDown = (e) => {
+        e.target.setPointerCapture?.(e.pointerId);
+        dragRef.current = { down: performance.now(), startY: e.clientY, startVal: value, moved: false };
+      };
+      const onMove = (e) => {
+        if (e.buttons !== 1 && e.pressure === 0) return;
+        const d = dragRef.current;
+        const dy = d.startY - e.clientY;
+        if (Math.abs(dy) > 8) {
+          d.moved = true;
+          if (!on) setOn(true);
+          const rect = cardRef.current.getBoundingClientRect();
+          const next = Math.max(0, Math.min(100, d.startVal + (dy / rect.height) * 120));
+          setValue(next);
+        }
+      };
+      const onUp = () => {
+        const d = dragRef.current;
+        if (!d.moved && performance.now() - d.down < 300) {
+          if (on) { setOn(false); setValue(0); }
+          else { setOn(true); setValue(Math.max(value, 50)); }
+        }
+      };
+
+      const hasFill = value > 8;
+      return (
+        <VCard num="03" name='Drag by <em>Card</em>' desc="Тап = on/off. Тянешь вверх — карточка заполняется. Apple Home iOS 16+.">
+          <div
+            ref={cardRef}
+            className={'v-dbc' + (hasFill ? ' has-fill' : '')}
+            onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
+            role="switch" aria-checked={on}
+          >
+            <div className="v-dbc-fill" style={{ height: `${value}%` }} />
+            <div className="v-dbc-label">KITCHEN</div>
+            <div className="v-dbc-pct">{Math.round(value)}<span style={{ fontSize: 12 }}>%</span></div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function RadialKnob() {
+      const knobRef = useRef(null);
+      const [value, setValue] = useState(30);
+      const [active, setActive] = useState(false);
+      const dragRef = useRef({ cx: 0, cy: 0, lastAngle: null });
+
+      const onDown = (e) => {
+        e.target.setPointerCapture?.(e.pointerId);
+        const r = knobRef.current.getBoundingClientRect();
+        dragRef.current = { cx: r.left + r.width / 2, cy: r.top + r.height / 2, lastAngle: null };
+        setActive(true);
+      };
+      const onMove = (e) => {
+        if (e.buttons !== 1 && e.pressure === 0) return;
+        const { cx, cy, lastAngle } = dragRef.current;
+        const angle = (Math.atan2(e.clientY - cy, e.clientX - cx) * 180) / Math.PI;
+        if (lastAngle !== null) {
+          let delta = angle - lastAngle;
+          if (delta > 180) delta -= 360;
+          if (delta < -180) delta += 360;
+          setValue((v) => Math.max(0, Math.min(100, v + delta * 0.4)));
+        }
+        dragRef.current.lastAngle = angle;
+      };
+      const onUp = () => setActive(false);
+
+      const rotation = (value / 100) * 270 - 135;
+
+      return (
+        <VCard num="04" name='Radial <em>Knob</em>' desc="Аналоговый knob. Knurled rim, conic-латунь, indicator поворачивается.">
+          <div
+            ref={knobRef}
+            className={'v-knob-base' + (active ? ' active' : '')}
+            onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
+          >
+            <div className="v-knob-glow" />
+            <div className="v-knob" style={{ transform: `rotate(${rotation}deg)`, transition: active ? 'none' : 'transform 400ms cubic-bezier(0.34, 1.4, 0.64, 1)' }}>
+              <div className="v-knob-indicator" />
+            </div>
+            <div className="v-knob-val">{Math.round(value)}%</div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function SlideDimmer() {
+      return (
+        <div className="slide">
+          <div className="eyebrow">Категория 02 · Dimmer · 8 вариантов</div>
+          <h2 className="slide-title">Восемь способов <em>«регулировать яркость»</em></h2>
+          <div className="slide-lead">
+            Непрерывное значение 0–100%. Жест зависит от варианта:
+            drag, rotate, long-press, аппаратные кнопки громкости.
+          </div>
+          <div className="vgrid">
+            <HorizontalSlider />
+            <VerticalSlider />
+            <DragByCard />
+            <RadialKnob />
+          </div>
+          <div className="credits">
+            <span>Также: ArcSlider · StepButtons · LongPressDrag · VolumeKeys</span>
+            <span>Spec: src/components/Dimmer/variants/*/spec.md</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       SLIDE: COLOR PICKER
+       ===================================================== */
+    function HsvWheel() {
+      const ref = useRef(null);
+      const [pt, setPt] = useState({ x: 0.7, y: 0.3 });
+
+      const onPointerMove = (e) => {
+        if (e.buttons !== 1 && e.pressure === 0) return;
+        if (!ref.current) return;
+        const r = ref.current.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.hypot(dx, dy);
+        const maxR = r.width / 2;
+        const clamped = Math.min(dist, maxR);
+        const ratio = clamped / maxR;
+        const angle = Math.atan2(dy, dx);
+        setPt({
+          x: 0.5 + (Math.cos(angle) * ratio) / 2,
+          y: 0.5 + (Math.sin(angle) * ratio) / 2,
+        });
+      };
+
+      const angle = Math.atan2(pt.y - 0.5, pt.x - 0.5);
+      const hue = (((angle * 180) / Math.PI) + 360 + 90) % 360;
+      const sat = Math.min(1, Math.hypot(pt.x - 0.5, pt.y - 0.5) * 2) * 100;
+      const cursorColor = `hsl(${hue}, ${sat}%, 50%)`;
+
+      return (
+        <VCard num="01" name='HSV <em>Wheel</em>' desc="Круг hue × насыщенность. Канонический паттерн RGB-ламп (Hue, LIFX).">
+          <div className="v-wheel" ref={ref}
+            onPointerDown={(e) => { e.target.setPointerCapture?.(e.pointerId); onPointerMove(e); }}
+            onPointerMove={onPointerMove}
+          >
+            <div className="v-wheel-disk" />
+            <div className="v-wheel-cursor" style={{ left: `${pt.x * 100}%`, top: `${pt.y * 100}%`, color: cursorColor, background: cursorColor }} />
+          </div>
+        </VCard>
+      );
+    }
+
+    function LinearHue() {
+      const { value, ref, onPointerDown, onPointerMove } = useDragHorizontal(220, { min: 0, max: 360 });
+      return (
+        <VCard num="02" name='Linear <em>Hue</em>' desc="Простая радуга для быстрого выбора цвета. Inline, без насыщенности.">
+          <div className="v-hue-strip" ref={ref} onPointerDown={onPointerDown} onPointerMove={onPointerMove}>
+            <div className="v-hue-thumb" style={{ left: `${(value / 360) * 100}%`, color: `hsl(${value}, 100%, 50%)` }} />
+          </div>
+          <div className="v-hslider-value" style={{ marginTop: 18 }}>
+            <span className="num" style={{ color: `hsl(${value}, 100%, 50%)` }}>{Math.round(value)}°</span>
+          </div>
+        </VCard>
+      );
+    }
+
+    function SwatchPalette() {
+      const [idx, setIdx] = useState(0);
+      return (
+        <VCard num="03" name='Swatch <em>Palette</em>' desc="Пресеты вместо свободного выбора. Идеально для семейного жилья.">
+          <div className="v-swatch-grid">
+            {ACCENT_PRESETS.map((p, i) => (
+              <button key={p.id} className={'v-swatch-chip' + (i === idx ? ' on' : '')}
+                onClick={() => setIdx(i)}
+                style={{ color: `rgb(${p.glow.join(',')})` }}
+                aria-label={p.name}
+              >
+                <span className="v-swatch-sw" style={{ background: `rgb(${p.glow.join(',')})` }} />
+              </button>
+            ))}
+          </div>
+        </VCard>
+      );
+    }
+
+    function SlideColorPicker() {
+      return (
+        <div className="slide">
+          <div className="eyebrow">Категория 03 · ColorPicker · 8 вариантов</div>
+          <h2 className="slide-title">Восемь способов <em>«выбрать цвет»</em></h2>
+          <div className="slide-lead">
+            Произвольный цвет RGB-лампы. От круга hue × насыщенности до photo-eyedropper.
+          </div>
+          <div className="vgrid">
+            <HsvWheel />
+            <LinearHue />
+            <SwatchPalette />
+          </div>
+          <div className="credits">
+            <span>Также: HslSquare · Touchpad2D · PhotoDropper · SceneGradient · RgbSliders</span>
+            <span>Spec: src/components/ColorPicker/variants/*/spec.md</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       SLIDE: CCT
+       ===================================================== */
+    function kelvinToRgb(k) {
+      const t = Math.max(1000, Math.min(40000, k)) / 100;
+      let r, g, b;
+      if (t <= 66) {
+        r = 255;
+        g = 99.4708025861 * Math.log(t) - 161.1195681661;
+        b = t <= 19 ? 0 : 138.5177312231 * Math.log(t - 10) - 305.0447927307;
+      } else {
+        r = 329.698727446 * Math.pow(t - 60, -0.1332047592);
+        g = 288.1221695283 * Math.pow(t - 60, -0.0755148492);
+        b = 255;
+      }
+      const c = (v) => Math.max(0, Math.min(255, Math.round(v)));
+      return [c(r), c(g), c(b)];
+    }
+
+    function LinearKelvin() {
+      const { value, ref, onPointerDown, onPointerMove } = useDragHorizontal(3200, { min: 2200, max: 6500 });
+      const [r, g, b] = kelvinToRgb(value);
+      const pct = ((value - 2200) / (6500 - 2200)) * 100;
+      return (
+        <VCard num="01" name='Linear <em>Kelvin</em>' desc="Slider с реальным Planckian-locus градиентом 2200 → 6500K.">
+          <div className="v-cct-strip" ref={ref} onPointerDown={onPointerDown} onPointerMove={onPointerMove}>
+            <div className="v-cct-thumb" style={{ left: `${pct}%`, background: `rgb(${r}, ${g}, ${b})` }} />
+          </div>
+          <div className="v-cct-label">{Math.round(value / 50) * 50}<span className="unit">K</span></div>
+        </VCard>
+      );
+    }
+
+    function ArcSunMoon() {
+      const ref = useRef(null);
+      const [value, setValue] = useState(0.45); // 0..1 over arc
+      const onMove = (e) => {
+        if (e.buttons !== 1 && e.pressure === 0) return;
+        if (!ref.current) return;
+        const r = ref.current.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.bottom - 10;
+        let angle = Math.atan2(cy - e.clientY, e.clientX - cx);
+        if (angle < 0) angle = 0;
+        if (angle > Math.PI) angle = Math.PI;
+        setValue(angle / Math.PI);
+      };
+
+      const k = 2200 + (1 - value) * (6500 - 2200);
+      const [r, g, b] = kelvinToRgb(k);
+      const angle = Math.PI - value * Math.PI;
+      const cx = 110, cy = 120, rr = 90;
+      const tx = cx + rr * Math.cos(angle);
+      const ty = cy - rr * Math.sin(angle);
+
+      return (
+        <VCard num="02" name='Arc <em>Sun ↔ Moon</em>' desc="Полукруг от солнца к луне. Естественная метафора времени суток.">
+          <div className="v-cct-arc" ref={ref}
+            onPointerDown={(e) => { e.target.setPointerCapture?.(e.pointerId); onMove(e); }}
+            onPointerMove={onMove}
+          >
+            <svg width="220" height="130" viewBox="0 0 220 130">
+              <defs>
+                <linearGradient id="cct-arc-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgb(255, 180, 90)" />
+                  <stop offset="50%" stopColor="rgb(255, 230, 200)" />
+                  <stop offset="100%" stopColor="rgb(180, 200, 255)" />
+                </linearGradient>
+              </defs>
+              <path d="M 20 120 A 90 90 0 0 1 200 120" fill="none" stroke="url(#cct-arc-grad)" strokeWidth="8" strokeLinecap="round" />
+              <circle cx="20" cy="120" r="3" fill="rgba(255, 180, 90, 0.8)" />
+              <circle cx="200" cy="120" r="3" fill="rgba(180, 200, 255, 0.8)" />
+              {/* sun icon as inline SVG paths so it scales reliably inside parent svg */}
+              <g transform="translate(13, 92)" stroke="rgba(255, 180, 90, 0.85)" strokeWidth="1.3" strokeLinecap="round" fill="none">
+                <circle cx="7" cy="7" r="2.4" />
+                <line x1="7" y1="0.5" x2="7" y2="2" />
+                <line x1="7" y1="12" x2="7" y2="13.5" />
+                <line x1="0.5" y1="7" x2="2" y2="7" />
+                <line x1="12" y1="7" x2="13.5" y2="7" />
+                <line x1="2.5" y1="2.5" x2="3.5" y2="3.5" />
+                <line x1="10.5" y1="10.5" x2="11.5" y2="11.5" />
+                <line x1="2.5" y1="11.5" x2="3.5" y2="10.5" />
+                <line x1="10.5" y1="3.5" x2="11.5" y2="2.5" />
+              </g>
+              <g transform="translate(193, 92)" stroke="rgba(180, 200, 255, 0.85)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                <path d="M 13 7.5 A 5.5 5.5 0 1 1 6.5 1 A 4 4 0 0 0 13 7.5 Z" />
+              </g>
+              <circle cx={tx} cy={ty} r="10" fill={`rgb(${r}, ${g}, ${b})`} stroke="#fff" strokeWidth="2" style={{ filter: `drop-shadow(0 0 6px rgb(${r}, ${g}, ${b}))` }} />
+            </svg>
+          </div>
+          <div className="v-cct-label">{Math.round(k / 50) * 50}<span className="unit">K</span></div>
+        </VCard>
+      );
+    }
+
+    function CctPresetChips() {
+      const presets = [
+        { id: 'candle',  label: 'Свеча',       k: 2200 },
+        { id: 'warm',    label: 'Тёплый',      k: 2700 },
+        { id: 'neutral', label: 'Нейтральный', k: 4000 },
+        { id: 'day',     label: 'Дневной',     k: 5500 },
+        { id: 'cool',    label: 'Холодный',    k: 6500 },
+      ];
+      const [id, setId] = useState('warm');
+      return (
+        <VCard num="03" name='Preset <em>Chips</em>' desc="Чипсы с осмысленными CCT. Самый доступный CCT-виджет.">
+          <div className="v-cct-presets">
+            {presets.map((p) => {
+              const [r, g, b] = kelvinToRgb(p.k);
+              return (
+                <button key={p.id} className={'v-cct-preset' + (id === p.id ? ' on' : '')} onClick={() => setId(p.id)}>
+                  <span className="v-cct-preset-dot" style={{ background: `rgb(${r}, ${g}, ${b})` }} />
+                  {p.label}
+                </button>
+              );
+            })}
+          </div>
+        </VCard>
+      );
+    }
+
+    function SlideCCT() {
+      return (
+        <div className="slide">
+          <div className="eyebrow">Категория 04 · CCT · 6 вариантов</div>
+          <h2 className="slide-title">Шесть способов <em>«тёплый ↔ холодный»</em></h2>
+          <div className="slide-lead">
+            Color Temperature: 2200K candle до 6500K дневной. Реальные RGB
+            из Planckian locus, не выдуманные.
+          </div>
+          <div className="vgrid">
+            <LinearKelvin />
+            <ArcSunMoon />
+            <CctPresetChips />
+          </div>
+          <div className="credits">
+            <span>Также: DoubleTapNeutral · NumericKelvin · CircadianCurve</span>
+            <span>Spec: src/components/CCT/variants/*/spec.md</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       SLIDE: SCENE
+       ===================================================== */
+    function SceneGradientTile({ name, sub, colors, active, onClick }) {
+      const grad = `conic-gradient(from 0deg, ${colors.map((c, i) => `rgb(${c.join(',')}) ${(i * 360) / colors.length}deg`).join(', ')}, rgb(${colors[0].join(',')}) 360deg)`;
+      return (
+        <button className={'v-scene-tile' + (active ? ' on' : '')} onClick={onClick} style={{ background: grad, border: 'none' }}>
+          <div className="v-scene-sub">{sub}</div>
+          <div className="v-scene-name">{name}</div>
+          <div className="v-scene-check">✓</div>
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg, rgba(0,0,0,0.55), transparent 60%)', pointerEvents: 'none' }} />
+        </button>
+      );
+    }
+
+    function SceneIconLabelTile({ name, color, icon, active, onClick }) {
+      return (
+        <button className={'v-scene-iconlabel' + (active ? ' on' : '')} onClick={onClick}>
+          <div className="v-scene-iconlabel-dot" style={{ background: `rgb(${color.join(',')})` }} />
+          <div className="v-scene-iconlabel-icon">{icon}</div>
+          <div className="v-scene-iconlabel-name">{name}</div>
+        </button>
+      );
+    }
+
+    function SlideScene() {
+      const [active, setActive] = useState('sunset');
+      const gradScenes = [
+        { id: 'sunset', name: 'Sunset', sub: '4 LIGHTS', colors: [[255, 120, 60], [255, 80, 100], [180, 60, 140]] },
+        { id: 'forest', name: 'Forest', sub: '3 LIGHTS', colors: [[60, 140, 90], [180, 200, 100], [220, 230, 150]] },
+        { id: 'ocean',  name: 'Ocean',  sub: '6 LIGHTS', colors: [[60, 120, 200], [100, 200, 220], [180, 240, 240]] },
+        { id: 'cinema', name: 'Cinema', sub: '2 LIGHTS', colors: [[40, 30, 60], [100, 50, 200], [60, 30, 100]] },
+      ];
+      const iconScenes = [
+        { id: 'morning', name: 'Утро',   icon: <SunIcon width="32" height="32"/>, color: [255, 205, 140] },
+        { id: 'work',    name: 'Работа', icon: <CctIcon width="32" height="32"/>, color: [235, 240, 250] },
+        { id: 'evening', name: 'Вечер',  icon: <LampIcon width="32" height="32"/>, color: [255, 150, 70] },
+        { id: 'sleep',   name: 'Сон',    icon: <MoonIcon width="32" height="32"/>, color: [80, 50, 120] },
+      ];
+
+      return (
+        <div className="slide">
+          <div className="eyebrow">Категория 05 · Scene · 8 вариантов</div>
+          <h2 className="slide-title">Восемь способов <em>«сцена одним тапом»</em></h2>
+          <div className="slide-lead">
+            Preset освещения — фото комнаты, gradient-swatch, icon + label,
+            animated preview, carousel/grid/list.
+          </div>
+
+          <div style={{ marginBottom: 32 }}>
+            <div className="eyebrow" style={{ marginBottom: 14 }}>Gradient Swatch</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 14 }}>
+              {gradScenes.map((s) => (
+                <SceneGradientTile key={s.id} {...s} active={active === s.id} onClick={() => setActive(s.id)} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="eyebrow" style={{ marginBottom: 14 }}>Icon + Label</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 14 }}>
+              {iconScenes.map((s) => (
+                <SceneIconLabelTile key={s.id} {...s} active={active === s.id} onClick={() => setActive(s.id)} />
+              ))}
+            </div>
+          </div>
+
+          <div className="credits">
+            <span>Также: PhotoCard · AnimatedPreview · Carousel · List · LongPressEdit</span>
+            <span>Spec: src/components/Scene/variants/*/spec.md</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       SLIDE: NAVIGATION
+       ===================================================== */
+    function BottomTabsDemo() {
+      const [tab, setTab] = useState(0);
+      const tabs = [
+        { name: 'Home',   icon: <NavIcon width="18" height="18"/> },
+        { name: 'Rooms',  icon: <SceneIcon width="18" height="18"/> },
+        { name: 'Scenes', icon: <LampIcon width="18" height="18"/> },
+        { name: 'Set',    icon: <CctIcon width="18" height="18"/> },
+      ];
+      return (
+        <VCard num="01" name='Bottom <em>Tabs</em>' desc="Tab-bar под пальцем. Стандарт mobile-приложений.">
+          <div className="v-nav-frame">
+            <div className="v-nav-content">{tabs[tab].name}</div>
+            <div className="v-nav-tabs">
+              {tabs.map((t, i) => (
+                <button key={t.name} className={'v-nav-tab' + (tab === i ? ' on' : '')} onClick={() => setTab(i)}>
+                  {t.icon}
+                  {t.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function PillCarouselDemo() {
+      const [active, setActive] = useState(0);
+      const rooms = ['Гостиная', 'Кухня', 'Спальня', 'Ванная', 'Кабинет', 'Холл', 'Терраса'];
+      return (
+        <VCard num="02" name='Pill <em>Carousel</em>' desc="Скроллящиеся pills. Промежуточный между tab-bar и drawer.">
+          <div className="v-nav-frame">
+            <div className="v-nav-pills">
+              {rooms.map((r, i) => (
+                <button key={r} className={'v-nav-pill' + (active === i ? ' on' : '')} onClick={() => setActive(i)}>
+                  {r}
+                </button>
+              ))}
+            </div>
+            <div className="v-nav-content" style={{ flex: 1 }}>{rooms[active]}</div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function DrawerDemo() {
+      const [open, setOpen] = useState(false);
+      const [active, setActive] = useState('living');
+      const items = [
+        { id: 'living',  name: 'Гостиная' },
+        { id: 'kitchen', name: 'Кухня' },
+        { id: 'bedroom', name: 'Спальня' },
+        { id: 'bath',    name: 'Ванная' },
+        { id: 'office',  name: 'Кабинет' },
+      ];
+      return (
+        <VCard num="03" name='Drawer <em>Sidebar</em>' desc="Боковая шторка. Скрывает структуру, экономит экран.">
+          <div className="v-drawer-frame">
+            <button className="v-drawer-btn" onClick={() => setOpen(!open)}>☰</button>
+            <div className="v-nav-content" style={{ marginLeft: 0 }}>{items.find((i) => i.id === active).name}</div>
+            <div className={'v-drawer-scrim' + (open ? ' open' : '')} onClick={() => setOpen(false)} />
+            <div className={'v-drawer' + (open ? ' open' : '')}>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Помещения</div>
+              {items.map((it) => (
+                <div key={it.id} className={'v-drawer-item' + (active === it.id ? ' on' : '')}
+                  onClick={() => { setActive(it.id); setOpen(false); }}
+                >
+                  {it.name}
+                </div>
+              ))}
+            </div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function SlideNavigation() {
+      return (
+        <div className="slide">
+          <div className="eyebrow">Категория 06 · Navigation · 7 вариантов</div>
+          <h2 className="slide-title">Семь способов <em>«сменить комнату»</em></h2>
+          <div className="slide-lead">
+            Переключение между комнатами, этажами, группами.
+            От плоских табов до floor-plan-карты.
+          </div>
+          <div className="vgrid">
+            <BottomTabsDemo />
+            <PillCarouselDemo />
+            <DrawerDemo />
+          </div>
+          <div className="credits">
+            <span>Также: TopTabs · TreeView · FloorPlan · SwipeBetween</span>
+            <span>Spec: src/components/Navigation/variants/*/spec.md</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       SLIDE: SCHEDULE
+       ===================================================== */
+    function Timeline24h() {
+      const events = [
+        { start: 6, end: 9 },
+        { start: 18, end: 23.5 },
+      ];
+      const currentHour = 19.5;
+      return (
+        <VCard num="01" name='Timeline <em>24h</em>' desc="Горизонтальная полоса суток с маркерами event'ов.">
+          <div className="v-timeline">
+            {events.map((e, i) => (
+              <div key={i} className="v-timeline-bar"
+                style={{ left: `calc(12px + ${(e.start / 24) * 100}%)`, width: `calc(${((e.end - e.start) / 24) * 100}%)` }}
+              />
+            ))}
+            <div className="v-timeline-current" style={{ left: `calc(12px + ${(currentHour / 24) * 100}%)` }} />
+            <div className="v-timeline-ticks">
+              <span>00</span><span>06</span><span>12</span><span>18</span><span>24</span>
+            </div>
+          </div>
+          <div className="v-hslider-value" style={{ marginTop: 12 }}>
+            <span className="num">19:30</span><span className="unit"> · сейчас</span>
+          </div>
+        </VCard>
+      );
+    }
+
+    function DayChips() {
+      const [days, setDays] = useState([1, 2, 3, 4, 5]);
+      const labels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+      const toggle = (i) => {
+        setDays((d) => d.includes(i) ? d.filter((x) => x !== i) : [...d, i]);
+      };
+      return (
+        <VCard num="02" name='Day <em>Chips</em>' desc="Семь chip'ов «Пн–Вс» с multi-select. Google Calendar стиль.">
+          <div className="v-daychips">
+            {labels.map((l, i) => (
+              <button key={i} className={'v-daychip' + (days.includes(i + 1) ? ' on' : '')} onClick={() => toggle(i + 1)}>{l}</button>
+            ))}
+          </div>
+          <div className="v-hslider-value" style={{ marginTop: 18 }}>
+            <span className="num">с 18:00</span><span className="unit"> до 23:00</span>
+          </div>
+        </VCard>
+      );
+    }
+
+    function AstroTogglesDemo() {
+      const [sunset, setSunset] = useState(true);
+      const [sunrise, setSunrise] = useState(true);
+      return (
+        <VCard num="03" name='Astro <em>Toggles</em>' desc="«Включить на закате», «Выключить на рассвете». Для outdoor lighting.">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
+            <div className="v-astro-row">
+              <div>
+                <div className="v-astro-name"><SunIcon width="14" height="14"/> На закате</div>
+                <div className="v-astro-meta">сегодня в 18:42</div>
+              </div>
+              <div className={'v-glass-track' + (sunset ? ' on' : '')} onClick={() => setSunset(!sunset)} style={{ width: 60, height: 32 }}>
+                <div className="v-glass-thumb" style={{ width: 26, height: 26, top: 2, left: 2 }} />
+              </div>
+            </div>
+            <div className="v-astro-row">
+              <div>
+                <div className="v-astro-name"><MoonIcon width="14" height="14"/> На рассвете</div>
+                <div className="v-astro-meta">завтра в 05:24</div>
+              </div>
+              <div className={'v-glass-track' + (sunrise ? ' on' : '')} onClick={() => setSunrise(!sunrise)} style={{ width: 60, height: 32 }}>
+                <div className="v-glass-thumb" style={{ width: 26, height: 26, top: 2, left: 2 }} />
+              </div>
+            </div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function SlideSchedule() {
+      return (
+        <div className="slide">
+          <div className="eyebrow">Категория 07 · Schedule · 7 вариантов</div>
+          <h2 className="slide-title">Семь способов <em>«запланировать»</em></h2>
+          <div className="slide-lead">
+            Расписания и таймеры: от плоских chip'ов «Пн-Вс» до cron-выражений
+            для инсталляторов и vacation-mode с рандомизацией.
+          </div>
+          <div className="vgrid">
+            <Timeline24h />
+            <DayChips />
+            <AstroTogglesDemo />
+          </div>
+          <div className="credits">
+            <span>Также: WeekGrid · PresetChips · CronAdvanced · VacationMode</span>
+            <span>Spec: src/components/Schedule/variants/*/spec.md</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       SLIDE: STATUS
+       ===================================================== */
+    function DotIndicatorDemo() {
+      return (
+        <VCard num="01" name='Dot <em>Indicator</em>' desc="Цветная точка. Самый компактный индикатор state'а.">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-secondary)' }}>
+            <div><span className="v-dot green" /> &nbsp; Гостиная — Online</div>
+            <div><span className="v-dot amber" /> &nbsp; Кухня — Update available</div>
+            <div><span className="v-dot red" /> &nbsp; Спальня — Lamp fault</div>
+            <div><span className="v-dot grey" /> &nbsp; Терраса — Offline</div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function BadgesDemo() {
+      return (
+        <VCard num="02" name='Inline <em>Badges</em>' desc="Текстовые бейджи: «Offline», «Update», «Fault». В rotation rows.">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center' }}>
+            <span className="v-badge success">● Online</span>
+            <span className="v-badge info">▼ Update v2.1</span>
+            <span className="v-badge warning">⚠ High load</span>
+            <span className="v-badge danger">✕ Fault detected</span>
+          </div>
+        </VCard>
+      );
+    }
+
+    function ToastDemo() {
+      const [showing, setShowing] = useState(false);
+      const [mounted, setMounted] = useState(false);
+      const trigger = () => {
+        setMounted(true);
+        requestAnimationFrame(() => setShowing(true));
+        setTimeout(() => setShowing(false), 2400);
+        setTimeout(() => setMounted(false), 2900);
+      };
+      return (
+        <VCard num="03" name='Toast <em>Snackbar</em>' desc="Кратковременное уведомление снизу. Подтверждение команды.">
+          <button className="v-toast-btn" onClick={trigger}>Trigger toast</button>
+          {mounted && (
+            <div className={'v-toast' + (showing ? ' show' : '')}>
+              <span className="v-dot green" />
+              Сцена «Закат» активирована
+            </div>
+          )}
+        </VCard>
+      );
+    }
+
+    function SkeletonDemo() {
+      return (
+        <VCard num="04" name='Skeleton <em>Loader</em>' desc="Shimmer-плейсхолдеры вместо спиннеров. Premium-loading state.">
+          <div style={{ width: '100%', maxWidth: 220, display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div className="v-skel" style={{ height: 60 }} />
+            <div className="v-skel" style={{ height: 14, width: '70%' }} />
+            <div className="v-skel" style={{ height: 12, width: '45%' }} />
+            <div className="v-skel" style={{ height: 12, width: '85%' }} />
+          </div>
+        </VCard>
+      );
+    }
+
+    function SlideStatus() {
+      return (
+        <div className="slide">
+          <div className="eyebrow">Категория 08 · Status · 6 вариантов</div>
+          <h2 className="slide-title">Шесть способов <em>«сообщить о состоянии»</em></h2>
+          <div className="slide-lead">
+            От точки в углу карточки до полноэкранного banner'а. Toast,
+            skeleton-loader, glow-effect — всё для feedback'а.
+          </div>
+          <div className="vgrid">
+            <DotIndicatorDemo />
+            <BadgesDemo />
+            <ToastDemo />
+            <SkeletonDemo />
+          </div>
+          <div className="credits">
+            <span>Также: PersistentBanner · GlowEffect</span>
+            <span>Spec: src/components/Status/variants/*/spec.md</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       SLIDE: ANALYTICS
+       ===================================================== */
+    function Sparkline() {
+      const data = [12, 18, 14, 22, 30, 28, 36, 32, 42, 38, 45, 50, 48, 55, 60, 58];
+      const max = Math.max(...data);
+      const min = Math.min(...data);
+      const pts = data.map((v, i) => {
+        const x = (i / (data.length - 1)) * 180 + 10;
+        const y = 40 - ((v - min) / (max - min)) * 32;
+        return `${x},${y}`;
+      }).join(' ');
+
+      return (
+        <VCard num="01" name='Mini <em>Sparkline</em>' desc="Тренд за 24h inline в карточке. Без осей, без подписей.">
+          <div className="v-spark">
+            <svg width="200" height="50" viewBox="0 0 200 50">
+              <polyline fill="none" stroke="rgb(var(--cr), var(--cg), var(--cb))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" points={pts} />
+              <circle cx={(data.length - 1) / (data.length - 1) * 180 + 10} cy={40 - ((data[data.length - 1] - min) / (max - min)) * 32} r="3" fill="rgb(var(--cr), var(--cg), var(--cb))" />
+            </svg>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-muted)', marginTop: 6 }}>
+              <span>24h</span>
+              <span style={{ color: 'rgb(var(--cr), var(--cg), var(--cb))', fontFamily: 'var(--font-display)', fontSize: 14 }}>{data[data.length - 1]}W</span>
+            </div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function LiveGauge() {
+      const [value, setValue] = useState(1200);
+      useEffect(() => {
+        const t = setInterval(() => setValue((v) => Math.max(400, Math.min(3500, v + (Math.random() - 0.5) * 600))), 1800);
+        return () => clearInterval(t);
+      }, []);
+
+      const min = 0, max = 4000;
+      const ratio = (value - min) / (max - min);
+      const angle = -120 + ratio * 240; // -120 to 120 deg
+
+      return (
+        <VCard num="02" name='Live <em>Gauge</em>' desc="Аналоговая стрелка мгновенной мощности. Realtime monitoring.">
+          <div className="v-gauge">
+            <svg width="200" height="120" viewBox="0 0 200 120">
+              <defs>
+                <linearGradient id="gauge-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgba(80, 65, 48, 0.3)" />
+                  <stop offset="50%" stopColor="rgba(var(--cr), var(--cg), var(--cb), 0.6)" />
+                  <stop offset="100%" stopColor="rgb(var(--cr), var(--cg), var(--cb))" />
+                </linearGradient>
+              </defs>
+              <path d="M 30 110 A 80 80 0 0 1 170 110" fill="none" stroke="rgba(80, 65, 48, 0.3)" strokeWidth="6" strokeLinecap="round" />
+              <path d="M 30 110 A 80 80 0 0 1 170 110" fill="none" stroke="url(#gauge-grad)" strokeWidth="6" strokeLinecap="round"
+                strokeDasharray="250" strokeDashoffset={250 - 250 * ratio}
+                style={{ transition: 'stroke-dashoffset 800ms cubic-bezier(0.34, 1.4, 0.64, 1)' }}
+              />
+              <g transform={`translate(100, 110) rotate(${angle})`} style={{ transition: 'transform 800ms cubic-bezier(0.34, 1.4, 0.64, 1)' }}>
+                <line x1="0" y1="0" x2="0" y2="-70" stroke="rgb(var(--cr), var(--cg), var(--cb))" strokeWidth="3" strokeLinecap="round" />
+                <circle cx="0" cy="0" r="6" fill="rgb(var(--cr), var(--cg), var(--cb))" />
+              </g>
+            </svg>
+            <div className="v-gauge-val">{Math.round(value)}<span className="unit">W</span></div>
+          </div>
+        </VCard>
+      );
+    }
+
+    function RoomComparison() {
+      const rooms = [
+        { name: 'Гостиная',  v: 12.4 },
+        { name: 'Кухня',     v: 8.7 },
+        { name: 'Спальня',   v: 5.2 },
+        { name: 'Кабинет',   v: 3.1 },
+        { name: 'Терраса',   v: 1.8 },
+      ];
+      const max = Math.max(...rooms.map((r) => r.v));
+      return (
+        <VCard num="03" name='Room <em>Comparison</em>' desc="Топ-прожор: рейтинг комнат по потреблению. Insight-page.">
+          <div className="v-rcmp">
+            {rooms.map((r) => (
+              <div key={r.name} className="v-rcmp-row">
+                <span>{r.name}</span>
+                <div className="v-rcmp-bar"><div className="v-rcmp-fill" style={{ width: `${(r.v / max) * 100}%` }} /></div>
+                <span className="v-rcmp-val">{r.v} kWh</span>
+              </div>
+            ))}
+          </div>
+        </VCard>
+      );
+    }
+
+    function SlideAnalytics() {
+      return (
+        <div className="slide">
+          <div className="eyebrow">Категория 09 · Analytics · 4 варианта</div>
+          <h2 className="slide-title">Четыре способа <em>«посмотреть данные»</em></h2>
+          <div className="slide-lead">
+            От inline-sparkline до live-gauge с движущейся стрелкой и сравнения комнат.
+          </div>
+          <div className="vgrid">
+            <Sparkline />
+            <LiveGauge />
+            <RoomComparison />
+          </div>
+          <div className="credits">
+            <span>Также: FullscreenChart</span>
+            <span>Spec: src/components/Analytics/variants/*/spec.md</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       SLIDE: OUTRO
+       ===================================================== */
+    function SlideOutro() {
+      return (
+        <div className="slide">
+          <div className="eyebrow">Дальше · Roadmap</div>
+          <h2 className="slide-title">Что <em>дальше</em></h2>
+          <div className="slide-prose">
+            Архитектура зафиксирована, 60 spec'ов написаны, 6 тем готовы как
+            CSS custom properties, accent-слой работает через registered
+            `@property` — тур интерактивен и плавно перекрашивается.
+          </div>
+
+          <div className="vgrid" style={{ marginTop: 32 }}>
+            <div className="vcard" style={{ minHeight: 200, justifyContent: 'flex-start', alignItems: 'flex-start', paddingTop: 36 }}>
+              <span className="vcard-num">S1</span>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, margin: '12px 0 8px', color: 'var(--text-primary)' }}>Bootstrap</h3>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.6, letterSpacing: '0.05em' }}>
+                Vite + TS + Storybook + ThemeProvider + AccentProvider.
+                Repo wired, CI green.
+              </div>
+            </div>
+            <div className="vcard" style={{ minHeight: 200, justifyContent: 'flex-start', alignItems: 'flex-start', paddingTop: 36 }}>
+              <span className="vcard-num">S2-S6</span>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, margin: '12px 0 8px', color: 'var(--text-primary)' }}>Implementation</h3>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.6, letterSpacing: '0.05em' }}>
+                Категория за категорией: Toggle → Dimmer → ColorPicker → CCT →
+                Scene → Navigation → Schedule → Status → Analytics.
+              </div>
+            </div>
+            <div className="vcard" style={{ minHeight: 200, justifyContent: 'flex-start', alignItems: 'flex-start', paddingTop: 36 }}>
+              <span className="vcard-num">S7</span>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, margin: '12px 0 8px', color: 'var(--text-primary)' }}>Polish & Release</h3>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.6, letterSpacing: '0.05em' }}>
+                A11y-аудит (axe + screen readers), perf budget (16ms/render),
+                visual regression. v1.0.0.
+              </div>
+            </div>
+          </div>
+
+          <div className="credits" style={{ marginTop: 64 }}>
+            <span>© Atelier · Lighting UI · 2026</span>
+            <span>← / → клавиши для навигации</span>
+            <span>60 specs · 6 themes · 8 accents · 3 axes</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* =====================================================
+       APP
+       ===================================================== */
+    function App() {
+      const [slide, setSlide] = useState(0);
+      const [theme, setTheme] = useState('cinematic-dark');
+      const [accentIdx, setAccentIdx] = useState(1);
+      const accent = ACCENT_PRESETS[accentIdx];
+
+      useEffect(() => {
+        document.body.setAttribute('data-theme', theme);
+      }, [theme]);
+
+      useEffect(() => {
+        const s = document.body.style;
+        s.setProperty('--cr', accent.glow[0]);
+        s.setProperty('--cg', accent.glow[1]);
+        s.setProperty('--cb', accent.glow[2]);
+        s.setProperty('--dr', accent.deep[0]);
+        s.setProperty('--dg', accent.deep[1]);
+        s.setProperty('--db', accent.deep[2]);
+        s.setProperty('--lr', accent.light[0]);
+        s.setProperty('--lg', accent.light[1]);
+        s.setProperty('--lb', accent.light[2]);
+      }, [accent]);
+
+      useEffect(() => {
+        const onKey = (e) => {
+          if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+            setSlide((s) => Math.min(SLIDES.length - 1, s + 1));
+          } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+            setSlide((s) => Math.max(0, s - 1));
+          } else if (e.key === 'Home') setSlide(0);
+          else if (e.key === 'End') setSlide(SLIDES.length - 1);
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, []);
+
+      useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, [slide]);
+
+      const currentSlide = SLIDES[slide];
+
+      let body;
+      switch (currentSlide.id) {
+        case 'intro':       body = <SlideIntro />; break;
+        case 'toggle':      body = <SlideToggle />; break;
+        case 'dimmer':      body = <SlideDimmer />; break;
+        case 'colorpicker': body = <SlideColorPicker />; break;
+        case 'cct':         body = <SlideCCT />; break;
+        case 'scene':       body = <SlideScene />; break;
+        case 'navigation':  body = <SlideNavigation />; break;
+        case 'schedule':    body = <SlideSchedule />; break;
+        case 'status':      body = <SlideStatus />; break;
+        case 'analytics':   body = <SlideAnalytics />; break;
+        case 'outro':       body = <SlideOutro />; break;
+        default:            body = <SlideIntro />;
+      }
+
+      return (
+        <>
+          <div className="deck">{body}</div>
+
+          <div className="ctrlbar">
+            <div className="ctrlinner">
+              <div className="ctrlsection">
+                <div className="themesw">
+                  {THEMES.map((t) => (
+                    <button key={t.id} className={'themeopt' + (theme === t.id ? ' active' : '')} onClick={() => setTheme(t.id)}>
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+                <span className="meta" style={{ marginLeft: 8 }}>
+                  {accent.name} · {accent.sub}
+                </span>
+              </div>
+
+              <div className="ctrlsection center">
+                <button className="navbtn" onClick={() => setSlide((s) => Math.max(0, s - 1))} disabled={slide === 0} aria-label="Previous">‹</button>
+                <div className="dots">
+                  {SLIDES.map((s, i) => (
+                    <button key={s.id} className={'dot' + (i === slide ? ' active' : '')} onClick={() => setSlide(i)} aria-label={s.title} />
+                  ))}
+                </div>
+                <button className="navbtn" onClick={() => setSlide((s) => Math.min(SLIDES.length - 1, s + 1))} disabled={slide === SLIDES.length - 1} aria-label="Next">›</button>
+              </div>
+
+              <div className="ctrlsection right">
+                <div className="accents">
+                  {ACCENT_PRESETS.map((p, i) => (
+                    <button key={p.id} className={'achip' + (i === accentIdx ? ' active' : '')}
+                      onClick={() => setAccentIdx(i)}
+                      style={{ color: `rgb(${p.glow.join(',')})` }}
+                      aria-label={`${p.name} ${p.sub}`}
+                      title={`${p.name} · ${p.sub}`}
+                    >
+                      <span className="achip-sw" style={{ background: `rgb(${p.glow.join(',')})` }} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
