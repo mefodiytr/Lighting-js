@@ -12,6 +12,7 @@ import './domains/index.js';
 import './composers/index.js';
 import './mnemonics/index.js';
 import './specialized/index.js';
+import './pads/index.js';
 
 export { BmsElement } from './core/bms-element.js';
 export { defineWidget, registerAccent, resolveAccent, listWidgets, listAccents } from './core/registry.js';

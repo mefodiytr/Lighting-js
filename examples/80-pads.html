@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ru" data-theme="boudoir">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier BMS — Multifunctional pads</title>
+  <link rel="stylesheet" href="../atelier/chrome/index.css" />
+  <link rel="stylesheet" href="../atelier/accents/core.css" />
+  <link rel="stylesheet" href="../atelier/domains/index.css" />
+  <link rel="stylesheet" href="../atelier/pads/pads.css" />
+  <style>
+    body { margin: 0; padding: 32px; min-height: 100vh; }
+    header { display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: var(--bms-font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+    p.lead { margin: 4px 0 0; color: var(--bms-text-muted); font-size: 14px; }
+    .controls { margin-left: auto; }
+    select { padding: 6px 10px; border-radius: var(--bms-radius-sm); border: 1px solid var(--bms-border); background: var(--bms-surface); color: var(--bms-text); font: inherit; font-size: 13px; }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, max-content));
+      gap: 32px;
+      justify-content: center;
+      align-items: start;
+    }
+    .pad-wrap {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+    }
+    .pad-name {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--bms-text-muted);
+      font-family: var(--bms-font-mono);
+    }
+    .event-log {
+      margin-top: 48px;
+      padding: 16px;
+      background: var(--bms-surface);
+      border: 1px solid var(--bms-border);
+      border-radius: var(--bms-radius-md);
+      font-family: var(--bms-font-mono);
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .event { padding: 2px 0; color: var(--bms-text-muted); }
+    .event b { color: var(--bms-text); }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Multifunctional control pads</h1>
+      <p class="lead">6 пультов: один и тот же набор функций — свет, климат, сцены — в шести разных эстетиках.</p>
+    </div>
+    <div class="controls"><label>Theme <select id="theme"></select></label></div>
+  </header>
+
+  <div class="gallery">
+    <div class="pad-wrap">
+      <bms-pad-cinema room="Спальня" power brightness="65" cct="2700" active-scene="evening"></bms-pad-cinema>
+      <div class="pad-name">bms-pad-cinema · cinematic glass</div>
+    </div>
+
+    <div class="pad-wrap">
+      <bms-pad-industrial room="ROOM 412" power brightness="78" cct="4000" active-scene="day"></bms-pad-industrial>
+      <div class="pad-name">bms-pad-industrial · brutalist grid</div>
+    </div>
+
+    <div class="pad-wrap">
+      <bms-pad-wellness room="Гостиная" power brightness="50" cct="2700" active-scene="evening"></bms-pad-wellness>
+      <div class="pad-name">bms-pad-wellness · hospitality</div>
+    </div>
+
+    <div class="pad-wrap">
+      <bms-pad-clinical room="Серверная 3-Б" tab="climate" power brightness="80" cct="5000"
+        setpoint="20" climate-mode="cool" shades-position="0"></bms-pad-clinical>
+      <div class="pad-name">bms-pad-clinical · medical tablet</div>
+    </div>
+
+    <div class="pad-wrap">
+      <bms-pad-hud room="Кабинет 401" power brightness="42" cct="3500" active-scene="day"></bms-pad-hud>
+      <div class="pad-name">bms-pad-hud · aviation/sci-fi</div>
+    </div>
+
+    <div class="pad-wrap">
+      <bms-pad-mobile room="Кухня" power brightness="85" cct="3200" active-scene="morning"></bms-pad-mobile>
+      <div class="pad-name">bms-pad-mobile · SmartThings card</div>
+    </div>
+  </div>
+
+  <div class="event-log" id="log">
+    <div class="event">→ Кликайте по пультам — события появятся здесь</div>
+  </div>
+
+  <script type="module">
+    import { listThemes, setTheme, getTheme } from '../atelier/index.js';
+    const sel = document.getElementById('theme');
+    for (const t of listThemes()) sel.append(new Option(t, t));
+    sel.value = getTheme();
+    sel.addEventListener('change', () => setTheme(sel.value));
+
+    const log = document.getElementById('log');
+    const logEvent = (pad, type, detail) => {
+      const row = document.createElement('div');
+      row.className = 'event';
+      const tagName = pad.tagName.toLowerCase();
+      row.innerHTML = `<b>${tagName}</b> · ${type} · ${JSON.stringify(detail)}`;
+      log.prepend(row);
+      while (log.children.length > 30) log.lastChild.remove();
+    };
+    const eventTypes = ['power-toggle', 'brightness-change', 'cct-change',
+      'setpoint-change', 'climate-mode-change', 'scene-activate', 'shades-change'];
+    for (const tag of ['bms-pad-cinema', 'bms-pad-industrial', 'bms-pad-wellness',
+                       'bms-pad-clinical', 'bms-pad-hud', 'bms-pad-mobile']) {
+      for (const el of document.querySelectorAll(tag)) {
+        for (const t of eventTypes) {
+          el.addEventListener(t, (e) => logEvent(el, t, e.detail));
+        }
+      }
+    }
+  </script>
+</body>
+</html>
